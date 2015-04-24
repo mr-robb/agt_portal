@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+    <classPathEntry location="C:\Users\robb\Documents\apps\ebs\proyectos\libs\ojdbc14_ora10.2.jar" />
+  <context id="ctx-facturador" >
+    <jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="${db.portal.url}" userId="${db.portal.user}" password="${db.portal.pass}" />
+    <javaModelGenerator targetPackage="mx.com.ebs.inter.data.model" targetProject="${mbg.generated.sources}" />
+    <sqlMapGenerator targetPackage="mx.com.ebs.inter.data.xml" targetProject="${mbg.generated.resources}" />
+    <javaClientGenerator targetPackage="mx.com.ebs.inter.data.dao" targetProject="${mbg.generated.sources}" type="XMLMAPPER" />
+    <table schema="${db.portal.schemaName}" tableName="REC_ACCESO" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	<table schema="${db.portal.schemaName}" tableName="REC_FELOGGER" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	<table schema="${db.portal.schemaName}" tableName="REC_FELOGGER_AGT" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	<table schema="${db.portal.schemaName}" tableName="REC_INVOICE" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	<table schema="${db.portal.schemaName}" tableName="REC_INVOICE_AGT" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	<table schema="${db.portal.schemaName}" tableName="REC_PERFILES" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+  </context>
+  <context id="ctx-proceso" >
+    <jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="${db.process.url}" userId="${db.process.user}" password="${db.process.pass}" />
+    <javaModelGenerator targetPackage="mx.com.ebs.inter.data.model.proc" targetProject="${mbg.generated.sources}" />
+    <sqlMapGenerator targetPackage="mx.com.ebs.inter.data.xml.proc" targetProject="${mbg.generated.resources}" />
+    <javaClientGenerator targetPackage="mx.com.ebs.inter.data.dao.proc" targetProject="${mbg.generated.sources}" type="XMLMAPPER" />
+    
+	<table schema="${db.process.schemaName}" tableName="AGT_FEL_ENVIO" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	<table schema="${db.process.schemaName}" tableName="REC_FELOGGER" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	<table schema="${db.process.schemaName}" tableName="REC_INVOICE" >
+      <property name="useActualColumnNames" value="true"/>
+    </table>
+	
+  </context>
+</generatorConfiguration>
