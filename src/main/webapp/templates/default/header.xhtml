@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="./resources/img/logo-interacciones.png" alt="" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Facturas <b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li id="li_index">
+                                <h:link outcome="index" value="facturas recibidas" rendered="#{userMenuBean.showOption('index')}"/>
+                            </li>
+                            <li>
+                                <h:link outcome="facturasAutomaticas" value="facturas automáticas" rendered="#{userMenuBean.showOption('facturasAutomaticas')}"/>
+                            </li>
+                            <li>
+                                <h:link outcome="cargarFactura" value="carga de facturas" rendered="#{userMenuBean.showOption('cargarFactura')}"/>
+                            </li>
+                            <li>
+                                <h:link outcome="facturasError" value="facturas con error" rendered="#{userMenuBean.showOption('facturasError')}"/>
+                            </li>
+                            <li>
+                                <h:link outcome="facturasAutomaticasError" value="facturas automáticas con error" rendered="#{userMenuBean.showOption('facturasAutomaticasError')}"/>
+                            </li>
+                            <li>
+                                <h:link outcome="documentosEnviados" value="enviados" rendered="#{userMenuBean.showOption('documentosEnviados')}"/>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Facturas Clientes <b class="caret" ></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="facturasAgtCfd" value="facturas" rendered="#{userMenuBean.showOption('facturasAgtCfd')}"/>
+                            </li>
+                            <li>
+                                <h:link outcome="facturasAgtCfdi" value="facturas CFDI" rendered="#{userMenuBean.showOption('facturasAgtCfdi')}"/>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Usuarios Internos</li>
+                            <li>
+                                <h:link outcome="adminRecAcceso" value="usuarios" rendered="#{userMenuBean.showOption('adminRecAcceso')}"/>
+                            </li>
+                            <li>
+                                <h:link outcome="adminPerfiles" value="perfiles" rendered="#{userMenuBean.showOption('adminPerfiles')}"/>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Usuarios Externos</li>
+                            <li>
+                                <h:link outcome="adminRecAccesoClientes" value="proveedores y agentes" rendered="#{userMenuBean.showOption('adminRecAccesoClientes')}" />
+                            </li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Procesos</li>
+                            <li>
+                                <h:link outcome="adminProcesos" value="administrar procesos" rendered="#{userMenuBean.showOption('adminProcesos')}"/>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Mi cuenta <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="changePassword" value="Cambiar contraseña" rendered="#{userMenuBean.showOption('changePassword')}"/>
+                            </li>
+                            <li>
+                                <a href="logout">Salir</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div>
+        <ol id="breadcrumb" class="breadcrumb">
+        </ol>
+    </div>
+</ui:composition>
+

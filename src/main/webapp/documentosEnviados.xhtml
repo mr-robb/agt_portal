@@ -1,0 +1,165 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/templates/default/main.xhtml">
+    <ui:param name="menu" value="'facturas,enviados,index'" />
+    <ui:define name="menu">
+        <p:accordionPanel activeIndex="0" >
+            <p:tab title="Opciones de búsqueda" >
+                <h:form id="frmSearch">
+                    <h:panelGrid columns="9" id="panel">
+
+                        <h:outputLabel for="numAgente" value="No. de agente:" />
+                        <p:inputText id="numAgente"
+                                     maxlength="#{procAgtFelEnvioBean.defaultInputMaxSize}"
+                                     value="#{procAgtFelEnvioBean.procAgtFelEnvioSearchBo.numAgt}"
+                                     disabled="#{not procAgtFelEnvioBean.numAgenteEnabled}"
+                                     required="false"
+                                     title="debe ser exactamente el número de agente" >
+                            <pe:keyFilter regEx="/[0-9\/]/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipAgente" for="numAgente" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="anioMes" value="Año - Mes:" />
+                        <p:inputText id="anioMes"
+                                     maxlength="6"
+                                     converter="javax.faces.Integer"
+                                     value="#{procAgtFelEnvioBean.procAgtFelEnvioSearchBo.anioMes}"
+                                     required="false"
+                                     title="debe conincidir exactamente con el año y mes sin espacio">
+                        <pe:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipPoliza" for="anioMes" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="rfc" value="RFC:" />
+                        <p:inputText id="rfc"
+                                     maxlength="13"
+                                     value="#{procAgtFelEnvioBean.procAgtFelEnvioSearchBo.rfc}" required="false"
+                                     title="debe ser de 12 ó 13 caracteres y debe ser exacto">
+                        <pe:keyFilter regEx="/[a-zÑ&amp;0-9]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipRfc" for="rfc" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="fecha1" value="Fecha desde:" />
+                        <p:calendar id="fecha1"
+                                    pattern="dd/MM/yyyy"
+                                    navigator="true"
+                                    readonlyInput="true"
+                                    effect="explode" value="#{procAgtFelEnvioBean.procAgtFelEnvioSearchBo.fechaCarga1}" title="debe ser menor que la fecha hasta"/>
+                        <p:tooltip id="ttipFecha1" for="fecha1" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="fecha2" value="Fecha hasta:" />
+                        <p:calendar id="fecha2"
+                                    pattern="dd/MM/yyyy"
+                                    navigator="true"
+                                    readonlyInput="true"
+                                    effect="explode" value="#{procAgtFelEnvioBean.procAgtFelEnvioSearchBo.fechaCarga2}" title="debe ser mayor que la fecha desde"/>
+                        <p:tooltip id="ttipFecha2" for="fecha2" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="enviado" value="Enviado:" />
+                        <p:selectOneMenu id="enviado" value="#{procAgtFelEnvioBean.procAgtFelEnvioSearchBo.enviada}" >
+                            <f:selectItem itemLabel="Todos" itemValue="#{null}" />
+                            <f:selectItem itemLabel="Enviado" itemValue="yes" />
+                            <f:selectItem itemLabel="Sin enviar" itemValue="no" />
+                        </p:selectOneMenu>
+                        <p:tooltip id="ttipEnviada" for="enviado" />
+
+                        <h:outputLabel for="recibido" value="Recibido:" />
+                        <p:selectOneMenu id="recibido" value="#{procAgtFelEnvioBean.procAgtFelEnvioSearchBo.recibida}" >
+                            <f:selectItem itemLabel="Todos" itemValue="#{null}" />
+                            <f:selectItem itemLabel="Con respuesta" itemValue="yes" />
+                            <f:selectItem itemLabel="Sin respuesta" itemValue="no" />
+                        </p:selectOneMenu>
+                        <p:tooltip id="ttipEstatus" for="recibido" />
+
+                        <p:commandButton value="buscar"
+                                         actionListener="#{procAgtFelEnvioBean.executeSearch}"
+                                         ajax="true"
+                                         immediate="false"
+                                         update=":form:resultTable" >
+                            <p:ajax global="false" event="click" onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                                </p:commandButton>
+
+                        <p:commandButton value="limpiar campos"
+                                         actionListener="#{procAgtFelEnvioBean.cleanForm()}"
+                                         immediate="false"
+                                         ajax="false"
+                                         update="@all" />
+
+                    </h:panelGrid>
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage width="100" height="100" url="./resources/img/loading.gif" />
+                    </p:dialog>
+                </h:form>
+
+
+            </p:tab>
+        </p:accordionPanel>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+            <p:dataTable tableStyleClass="table table-condensed"
+                         editable="false"
+                         id="resultTable"
+                         widgetVar="resultTable"
+                         var="invoice"
+                         value="#{ procAgtFelEnvioBean.procAgtFelEnvioList }"
+                         emptyMessage="No se encontraron resultados con sus opciones de búsqueda"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
+                         paginator="true"
+                         paginatorAlwaysVisible="true"
+                         paginatorPosition="bottom"
+                         rows="10">
+                <f:facet name="{ExporterWidget}">
+                    <h:commandLink id="excel">
+                        <p:graphicImage url="./resources/img/excel.png" />
+                        <p:dataExporter type="xls" target="resultTable" fileName="invoices" />
+                    </h:commandLink>
+
+                    <h:commandLink id="pdf">
+                        <p:graphicImage url="/resources/img/pdf.png" />
+                        <p:dataExporter type="pdf" target="resultTable" fileName="invoices" />
+                    </h:commandLink>
+                </f:facet>
+
+                <f:facet name="header">Documentos enviados</f:facet>
+                <p:column headerText="No. Agente" sortBy="#{invoice.ID_AGENTE}">
+                    <h:outputText value="#{invoice.ID_AGENTE}" />
+                </p:column>
+                <p:column headerText="Año - Mes" sortBy="#{invoice.ANO_MES}">
+                    <h:outputText value="#{invoice.ANO_MES}" />
+                </p:column>
+                <p:column headerText="RFC" sortBy="#{invoice.RFC}">
+                    <h:outputText value="#{invoice.RFC}" />
+                </p:column>
+                <p:column headerText="Fecha de Carga" sortBy="#{invoice.FH_CARGA}">
+                    <h:outputText value="#{invoice.FH_CARGA}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.DateConverter"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Enviado por FTP" exportable="false">
+                    <p:graphicImage width="16" height="16" url="resources/img/ok-icon.png" rendered="#{ invoice.FH_ENVIO != null }" value="SI" />
+                    <p:graphicImage width="16" height="16" url="resources/img/error-icon.png" rendered="#{ invoice.FH_ENVIO == null }" value="NO" />
+                </p:column>
+                <p:column headerText="Recibido" exportable="false">
+                    <p:graphicImage width="16" height="16" url="resources/img/ok-icon.png" rendered="#{ invoice.FH_RESPUESTA != null }" />
+                    <p:graphicImage width="16" height="16" url="resources/img/error-icon.png" rendered="#{ invoice.FH_RESPUESTA == null }" />
+                </p:column>
+
+                <p:column headerText="Estatus">
+                    <h:outputText value="Generado" rendered="#{invoice.b_CORRECTO != null}" />
+                    <h:outputText value="Pendiente" rendered="#{invoice.b_CORRECTO == null}" />
+                </p:column>
+                <p:column headerText="No.Factura" sortBy="#{invoice.b_CORRECTO}">
+                    <h:outputText value="#{invoice.b_CORRECTO}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

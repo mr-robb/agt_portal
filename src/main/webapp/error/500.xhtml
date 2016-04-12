@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="../templates/default/main.xhtml">
+    <ui:param name="menu" value="'index,error 404,index'"/>
+    <ui:define name="menu">
+    </ui:define>
+    <ui:define name="content">
+        <table border='0' cellpadding='5' cellspacing='0' width='800'>
+            <tr bgcolor="#FF0000" align='center' valign='center' height='20'>
+                <td>
+                    <h3><font color='white'>Error interno.</font></h3>
+                </td>
+            </tr>
+            <tr align='right'>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+        <img src="resources/img/error_interno.png" width="579" height="309" alt="error_interno"/>
+        <p>
+            Detalles del error:<b><i>#{pageContext.exception.message}</i></b>, contacta al administrador
+        </p>
+    </ui:define>
+</ui:composition>

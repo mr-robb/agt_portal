@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.facbanco.MOtroMapper" >
+    <resultMap id="BaseResultMap" type="mx.com.ebs.inter.data.model.facbanco.MOtro" >
+        <id column="ID" property="ID" jdbcType="DECIMAL" />
+        <result column="DPARAM0" property="DPARAM0" jdbcType="FLOAT" />
+        <result column="DPARAM1" property="DPARAM1" jdbcType="FLOAT" />
+        <result column="DPARAM10" property="DPARAM10" jdbcType="FLOAT" />
+        <result column="DPARAM11" property="DPARAM11" jdbcType="FLOAT" />
+        <result column="DPARAM12" property="DPARAM12" jdbcType="FLOAT" />
+        <result column="DPARAM13" property="DPARAM13" jdbcType="FLOAT" />
+        <result column="DPARAM14" property="DPARAM14" jdbcType="FLOAT" />
+        <result column="DPARAM2" property="DPARAM2" jdbcType="FLOAT" />
+        <result column="DPARAM3" property="DPARAM3" jdbcType="FLOAT" />
+        <result column="DPARAM4" property="DPARAM4" jdbcType="FLOAT" />
+        <result column="DPARAM5" property="DPARAM5" jdbcType="FLOAT" />
+        <result column="DPARAM6" property="DPARAM6" jdbcType="FLOAT" />
+        <result column="DPARAM7" property="DPARAM7" jdbcType="FLOAT" />
+        <result column="DPARAM8" property="DPARAM8" jdbcType="FLOAT" />
+        <result column="DPARAM9" property="DPARAM9" jdbcType="FLOAT" />
+        <result column="FPARAM0" property="FPARAM0" jdbcType="TIMESTAMP" />
+        <result column="FPARAM1" property="FPARAM1" jdbcType="TIMESTAMP" />
+        <result column="FPARAM2" property="FPARAM2" jdbcType="TIMESTAMP" />
+        <result column="FPARAM3" property="FPARAM3" jdbcType="TIMESTAMP" />
+        <result column="FPARAM4" property="FPARAM4" jdbcType="TIMESTAMP" />
+        <result column="FPARAM5" property="FPARAM5" jdbcType="TIMESTAMP" />
+        <result column="FPARAM6" property="FPARAM6" jdbcType="TIMESTAMP" />
+        <result column="FPARAM7" property="FPARAM7" jdbcType="TIMESTAMP" />
+        <result column="FPARAM8" property="FPARAM8" jdbcType="TIMESTAMP" />
+        <result column="FPARAM9" property="FPARAM9" jdbcType="TIMESTAMP" />
+        <result column="PARAM0" property="PARAM0" jdbcType="VARCHAR" />
+        <result column="PARAM1" property="PARAM1" jdbcType="VARCHAR" />
+        <result column="PARAM10" property="PARAM10" jdbcType="VARCHAR" />
+        <result column="PARAM11" property="PARAM11" jdbcType="VARCHAR" />
+        <result column="PARAM12" property="PARAM12" jdbcType="VARCHAR" />
+        <result column="PARAM13" property="PARAM13" jdbcType="VARCHAR" />
+        <result column="PARAM14" property="PARAM14" jdbcType="VARCHAR" />
+        <result column="PARAM15" property="PARAM15" jdbcType="VARCHAR" />
+        <result column="PARAM16" property="PARAM16" jdbcType="VARCHAR" />
+        <result column="PARAM17" property="PARAM17" jdbcType="VARCHAR" />
+        <result column="PARAM18" property="PARAM18" jdbcType="VARCHAR" />
+        <result column="PARAM19" property="PARAM19" jdbcType="VARCHAR" />
+        <result column="PARAM2" property="PARAM2" jdbcType="VARCHAR" />
+        <result column="PARAM3" property="PARAM3" jdbcType="VARCHAR" />
+        <result column="PARAM4" property="PARAM4" jdbcType="VARCHAR" />
+        <result column="PARAM5" property="PARAM5" jdbcType="VARCHAR" />
+        <result column="PARAM6" property="PARAM6" jdbcType="VARCHAR" />
+        <result column="PARAM7" property="PARAM7" jdbcType="VARCHAR" />
+        <result column="PARAM8" property="PARAM8" jdbcType="VARCHAR" />
+        <result column="PARAM9" property="PARAM9" jdbcType="VARCHAR" />
+        <result column="CFD_ID" property="CFD_ID" jdbcType="DECIMAL" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    ROWNUM &lt;= #{criteria.resultLimitRows} and
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+                <if test="!criteria.valid" >
+                    ROWNUM &lt;= #{criteria.resultLimitRows}
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        ID, DPARAM0, DPARAM1, DPARAM10, DPARAM11, DPARAM12, DPARAM13, DPARAM14, DPARAM2,
+        DPARAM3, DPARAM4, DPARAM5, DPARAM6, DPARAM7, DPARAM8, DPARAM9, FPARAM0, FPARAM1,
+        FPARAM2, FPARAM3, FPARAM4, FPARAM5, FPARAM6, FPARAM7, FPARAM8, FPARAM9, PARAM0, PARAM1,
+        PARAM10, PARAM11, PARAM12, PARAM13, PARAM14, PARAM15, PARAM16, PARAM17, PARAM18,
+        PARAM19, PARAM2, PARAM3, PARAM4, PARAM5, PARAM6, PARAM7, PARAM8, PARAM9, CFD_ID
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtroExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from M_INTERACCIONES.M_OTRO
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="_parameter == null">
+            where ROWNUM &lt;= #{resultLimitRows}
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from M_INTERACCIONES.M_OTRO
+        where ID = #{ID,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from M_INTERACCIONES.M_OTRO
+        where ID = #{ID,jdbcType=DECIMAL}
+    </delete>
+    <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtroExample" >
+        delete from M_INTERACCIONES.M_OTRO
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
+        insert into M_INTERACCIONES.M_OTRO (ID, DPARAM0, DPARAM1,
+        DPARAM10, DPARAM11, DPARAM12,
+        DPARAM13, DPARAM14, DPARAM2,
+        DPARAM3, DPARAM4, DPARAM5,
+        DPARAM6, DPARAM7, DPARAM8,
+        DPARAM9, FPARAM0, FPARAM1,
+        FPARAM2, FPARAM3, FPARAM4,
+        FPARAM5, FPARAM6, FPARAM7,
+        FPARAM8, FPARAM9, PARAM0,
+        PARAM1, PARAM10, PARAM11,
+        PARAM12, PARAM13, PARAM14,
+        PARAM15, PARAM16, PARAM17,
+        PARAM18, PARAM19, PARAM2,
+        PARAM3, PARAM4, PARAM5,
+        PARAM6, PARAM7, PARAM8,
+        PARAM9, CFD_ID)
+        values (#{ID,jdbcType=DECIMAL}, #{DPARAM0,jdbcType=FLOAT}, #{DPARAM1,jdbcType=FLOAT},
+        #{DPARAM10,jdbcType=FLOAT}, #{DPARAM11,jdbcType=FLOAT}, #{DPARAM12,jdbcType=FLOAT},
+        #{DPARAM13,jdbcType=FLOAT}, #{DPARAM14,jdbcType=FLOAT}, #{DPARAM2,jdbcType=FLOAT},
+        #{DPARAM3,jdbcType=FLOAT}, #{DPARAM4,jdbcType=FLOAT}, #{DPARAM5,jdbcType=FLOAT},
+        #{DPARAM6,jdbcType=FLOAT}, #{DPARAM7,jdbcType=FLOAT}, #{DPARAM8,jdbcType=FLOAT},
+        #{DPARAM9,jdbcType=FLOAT}, #{FPARAM0,jdbcType=TIMESTAMP}, #{FPARAM1,jdbcType=TIMESTAMP},
+        #{FPARAM2,jdbcType=TIMESTAMP}, #{FPARAM3,jdbcType=TIMESTAMP}, #{FPARAM4,jdbcType=TIMESTAMP},
+        #{FPARAM5,jdbcType=TIMESTAMP}, #{FPARAM6,jdbcType=TIMESTAMP}, #{FPARAM7,jdbcType=TIMESTAMP},
+        #{FPARAM8,jdbcType=TIMESTAMP}, #{FPARAM9,jdbcType=TIMESTAMP}, #{PARAM0,jdbcType=VARCHAR},
+        #{PARAM1,jdbcType=VARCHAR}, #{PARAM10,jdbcType=VARCHAR}, #{PARAM11,jdbcType=VARCHAR},
+        #{PARAM12,jdbcType=VARCHAR}, #{PARAM13,jdbcType=VARCHAR}, #{PARAM14,jdbcType=VARCHAR},
+        #{PARAM15,jdbcType=VARCHAR}, #{PARAM16,jdbcType=VARCHAR}, #{PARAM17,jdbcType=VARCHAR},
+        #{PARAM18,jdbcType=VARCHAR}, #{PARAM19,jdbcType=VARCHAR}, #{PARAM2,jdbcType=VARCHAR},
+        #{PARAM3,jdbcType=VARCHAR}, #{PARAM4,jdbcType=VARCHAR}, #{PARAM5,jdbcType=VARCHAR},
+        #{PARAM6,jdbcType=VARCHAR}, #{PARAM7,jdbcType=VARCHAR}, #{PARAM8,jdbcType=VARCHAR},
+        #{PARAM9,jdbcType=VARCHAR}, #{CFD_ID,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
+        insert into M_INTERACCIONES.M_OTRO
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="ID != null" >
+                ID,
+            </if>
+            <if test="DPARAM0 != null" >
+                DPARAM0,
+            </if>
+            <if test="DPARAM1 != null" >
+                DPARAM1,
+            </if>
+            <if test="DPARAM10 != null" >
+                DPARAM10,
+            </if>
+            <if test="DPARAM11 != null" >
+                DPARAM11,
+            </if>
+            <if test="DPARAM12 != null" >
+                DPARAM12,
+            </if>
+            <if test="DPARAM13 != null" >
+                DPARAM13,
+            </if>
+            <if test="DPARAM14 != null" >
+                DPARAM14,
+            </if>
+            <if test="DPARAM2 != null" >
+                DPARAM2,
+            </if>
+            <if test="DPARAM3 != null" >
+                DPARAM3,
+            </if>
+            <if test="DPARAM4 != null" >
+                DPARAM4,
+            </if>
+            <if test="DPARAM5 != null" >
+                DPARAM5,
+            </if>
+            <if test="DPARAM6 != null" >
+                DPARAM6,
+            </if>
+            <if test="DPARAM7 != null" >
+                DPARAM7,
+            </if>
+            <if test="DPARAM8 != null" >
+                DPARAM8,
+            </if>
+            <if test="DPARAM9 != null" >
+                DPARAM9,
+            </if>
+            <if test="FPARAM0 != null" >
+                FPARAM0,
+            </if>
+            <if test="FPARAM1 != null" >
+                FPARAM1,
+            </if>
+            <if test="FPARAM2 != null" >
+                FPARAM2,
+            </if>
+            <if test="FPARAM3 != null" >
+                FPARAM3,
+            </if>
+            <if test="FPARAM4 != null" >
+                FPARAM4,
+            </if>
+            <if test="FPARAM5 != null" >
+                FPARAM5,
+            </if>
+            <if test="FPARAM6 != null" >
+                FPARAM6,
+            </if>
+            <if test="FPARAM7 != null" >
+                FPARAM7,
+            </if>
+            <if test="FPARAM8 != null" >
+                FPARAM8,
+            </if>
+            <if test="FPARAM9 != null" >
+                FPARAM9,
+            </if>
+            <if test="PARAM0 != null" >
+                PARAM0,
+            </if>
+            <if test="PARAM1 != null" >
+                PARAM1,
+            </if>
+            <if test="PARAM10 != null" >
+                PARAM10,
+            </if>
+            <if test="PARAM11 != null" >
+                PARAM11,
+            </if>
+            <if test="PARAM12 != null" >
+                PARAM12,
+            </if>
+            <if test="PARAM13 != null" >
+                PARAM13,
+            </if>
+            <if test="PARAM14 != null" >
+                PARAM14,
+            </if>
+            <if test="PARAM15 != null" >
+                PARAM15,
+            </if>
+            <if test="PARAM16 != null" >
+                PARAM16,
+            </if>
+            <if test="PARAM17 != null" >
+                PARAM17,
+            </if>
+            <if test="PARAM18 != null" >
+                PARAM18,
+            </if>
+            <if test="PARAM19 != null" >
+                PARAM19,
+            </if>
+            <if test="PARAM2 != null" >
+                PARAM2,
+            </if>
+            <if test="PARAM3 != null" >
+                PARAM3,
+            </if>
+            <if test="PARAM4 != null" >
+                PARAM4,
+            </if>
+            <if test="PARAM5 != null" >
+                PARAM5,
+            </if>
+            <if test="PARAM6 != null" >
+                PARAM6,
+            </if>
+            <if test="PARAM7 != null" >
+                PARAM7,
+            </if>
+            <if test="PARAM8 != null" >
+                PARAM8,
+            </if>
+            <if test="PARAM9 != null" >
+                PARAM9,
+            </if>
+            <if test="CFD_ID != null" >
+                CFD_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="ID != null" >
+                #{ID,jdbcType=DECIMAL},
+            </if>
+            <if test="DPARAM0 != null" >
+                #{DPARAM0,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM1 != null" >
+                #{DPARAM1,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM10 != null" >
+                #{DPARAM10,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM11 != null" >
+                #{DPARAM11,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM12 != null" >
+                #{DPARAM12,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM13 != null" >
+                #{DPARAM13,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM14 != null" >
+                #{DPARAM14,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM2 != null" >
+                #{DPARAM2,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM3 != null" >
+                #{DPARAM3,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM4 != null" >
+                #{DPARAM4,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM5 != null" >
+                #{DPARAM5,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM6 != null" >
+                #{DPARAM6,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM7 != null" >
+                #{DPARAM7,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM8 != null" >
+                #{DPARAM8,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM9 != null" >
+                #{DPARAM9,jdbcType=FLOAT},
+            </if>
+            <if test="FPARAM0 != null" >
+                #{FPARAM0,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM1 != null" >
+                #{FPARAM1,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM2 != null" >
+                #{FPARAM2,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM3 != null" >
+                #{FPARAM3,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM4 != null" >
+                #{FPARAM4,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM5 != null" >
+                #{FPARAM5,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM6 != null" >
+                #{FPARAM6,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM7 != null" >
+                #{FPARAM7,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM8 != null" >
+                #{FPARAM8,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM9 != null" >
+                #{FPARAM9,jdbcType=TIMESTAMP},
+            </if>
+            <if test="PARAM0 != null" >
+                #{PARAM0,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM1 != null" >
+                #{PARAM1,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM10 != null" >
+                #{PARAM10,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM11 != null" >
+                #{PARAM11,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM12 != null" >
+                #{PARAM12,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM13 != null" >
+                #{PARAM13,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM14 != null" >
+                #{PARAM14,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM15 != null" >
+                #{PARAM15,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM16 != null" >
+                #{PARAM16,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM17 != null" >
+                #{PARAM17,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM18 != null" >
+                #{PARAM18,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM19 != null" >
+                #{PARAM19,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM2 != null" >
+                #{PARAM2,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM3 != null" >
+                #{PARAM3,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM4 != null" >
+                #{PARAM4,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM5 != null" >
+                #{PARAM5,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM6 != null" >
+                #{PARAM6,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM7 != null" >
+                #{PARAM7,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM8 != null" >
+                #{PARAM8,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM9 != null" >
+                #{PARAM9,jdbcType=VARCHAR},
+            </if>
+            <if test="CFD_ID != null" >
+                #{CFD_ID,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtroExample" resultType="java.lang.Integer" >
+        select count(*) from M_INTERACCIONES.M_OTRO
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update M_INTERACCIONES.M_OTRO
+        <set >
+            <if test="record.ID != null" >
+                ID = #{record.ID,jdbcType=DECIMAL},
+            </if>
+            <if test="record.DPARAM0 != null" >
+                DPARAM0 = #{record.DPARAM0,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM1 != null" >
+                DPARAM1 = #{record.DPARAM1,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM10 != null" >
+                DPARAM10 = #{record.DPARAM10,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM11 != null" >
+                DPARAM11 = #{record.DPARAM11,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM12 != null" >
+                DPARAM12 = #{record.DPARAM12,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM13 != null" >
+                DPARAM13 = #{record.DPARAM13,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM14 != null" >
+                DPARAM14 = #{record.DPARAM14,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM2 != null" >
+                DPARAM2 = #{record.DPARAM2,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM3 != null" >
+                DPARAM3 = #{record.DPARAM3,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM4 != null" >
+                DPARAM4 = #{record.DPARAM4,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM5 != null" >
+                DPARAM5 = #{record.DPARAM5,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM6 != null" >
+                DPARAM6 = #{record.DPARAM6,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM7 != null" >
+                DPARAM7 = #{record.DPARAM7,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM8 != null" >
+                DPARAM8 = #{record.DPARAM8,jdbcType=FLOAT},
+            </if>
+            <if test="record.DPARAM9 != null" >
+                DPARAM9 = #{record.DPARAM9,jdbcType=FLOAT},
+            </if>
+            <if test="record.FPARAM0 != null" >
+                FPARAM0 = #{record.FPARAM0,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM1 != null" >
+                FPARAM1 = #{record.FPARAM1,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM2 != null" >
+                FPARAM2 = #{record.FPARAM2,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM3 != null" >
+                FPARAM3 = #{record.FPARAM3,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM4 != null" >
+                FPARAM4 = #{record.FPARAM4,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM5 != null" >
+                FPARAM5 = #{record.FPARAM5,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM6 != null" >
+                FPARAM6 = #{record.FPARAM6,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM7 != null" >
+                FPARAM7 = #{record.FPARAM7,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM8 != null" >
+                FPARAM8 = #{record.FPARAM8,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.FPARAM9 != null" >
+                FPARAM9 = #{record.FPARAM9,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.PARAM0 != null" >
+                PARAM0 = #{record.PARAM0,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM1 != null" >
+                PARAM1 = #{record.PARAM1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM10 != null" >
+                PARAM10 = #{record.PARAM10,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM11 != null" >
+                PARAM11 = #{record.PARAM11,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM12 != null" >
+                PARAM12 = #{record.PARAM12,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM13 != null" >
+                PARAM13 = #{record.PARAM13,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM14 != null" >
+                PARAM14 = #{record.PARAM14,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM15 != null" >
+                PARAM15 = #{record.PARAM15,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM16 != null" >
+                PARAM16 = #{record.PARAM16,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM17 != null" >
+                PARAM17 = #{record.PARAM17,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM18 != null" >
+                PARAM18 = #{record.PARAM18,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM19 != null" >
+                PARAM19 = #{record.PARAM19,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM2 != null" >
+                PARAM2 = #{record.PARAM2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM3 != null" >
+                PARAM3 = #{record.PARAM3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM4 != null" >
+                PARAM4 = #{record.PARAM4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM5 != null" >
+                PARAM5 = #{record.PARAM5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM6 != null" >
+                PARAM6 = #{record.PARAM6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM7 != null" >
+                PARAM7 = #{record.PARAM7,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM8 != null" >
+                PARAM8 = #{record.PARAM8,jdbcType=VARCHAR},
+            </if>
+            <if test="record.PARAM9 != null" >
+                PARAM9 = #{record.PARAM9,jdbcType=VARCHAR},
+            </if>
+            <if test="record.CFD_ID != null" >
+                CFD_ID = #{record.CFD_ID,jdbcType=DECIMAL},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update M_INTERACCIONES.M_OTRO
+        set ID = #{record.ID,jdbcType=DECIMAL},
+        DPARAM0 = #{record.DPARAM0,jdbcType=FLOAT},
+        DPARAM1 = #{record.DPARAM1,jdbcType=FLOAT},
+        DPARAM10 = #{record.DPARAM10,jdbcType=FLOAT},
+        DPARAM11 = #{record.DPARAM11,jdbcType=FLOAT},
+        DPARAM12 = #{record.DPARAM12,jdbcType=FLOAT},
+        DPARAM13 = #{record.DPARAM13,jdbcType=FLOAT},
+        DPARAM14 = #{record.DPARAM14,jdbcType=FLOAT},
+        DPARAM2 = #{record.DPARAM2,jdbcType=FLOAT},
+        DPARAM3 = #{record.DPARAM3,jdbcType=FLOAT},
+        DPARAM4 = #{record.DPARAM4,jdbcType=FLOAT},
+        DPARAM5 = #{record.DPARAM5,jdbcType=FLOAT},
+        DPARAM6 = #{record.DPARAM6,jdbcType=FLOAT},
+        DPARAM7 = #{record.DPARAM7,jdbcType=FLOAT},
+        DPARAM8 = #{record.DPARAM8,jdbcType=FLOAT},
+        DPARAM9 = #{record.DPARAM9,jdbcType=FLOAT},
+        FPARAM0 = #{record.FPARAM0,jdbcType=TIMESTAMP},
+        FPARAM1 = #{record.FPARAM1,jdbcType=TIMESTAMP},
+        FPARAM2 = #{record.FPARAM2,jdbcType=TIMESTAMP},
+        FPARAM3 = #{record.FPARAM3,jdbcType=TIMESTAMP},
+        FPARAM4 = #{record.FPARAM4,jdbcType=TIMESTAMP},
+        FPARAM5 = #{record.FPARAM5,jdbcType=TIMESTAMP},
+        FPARAM6 = #{record.FPARAM6,jdbcType=TIMESTAMP},
+        FPARAM7 = #{record.FPARAM7,jdbcType=TIMESTAMP},
+        FPARAM8 = #{record.FPARAM8,jdbcType=TIMESTAMP},
+        FPARAM9 = #{record.FPARAM9,jdbcType=TIMESTAMP},
+        PARAM0 = #{record.PARAM0,jdbcType=VARCHAR},
+        PARAM1 = #{record.PARAM1,jdbcType=VARCHAR},
+        PARAM10 = #{record.PARAM10,jdbcType=VARCHAR},
+        PARAM11 = #{record.PARAM11,jdbcType=VARCHAR},
+        PARAM12 = #{record.PARAM12,jdbcType=VARCHAR},
+        PARAM13 = #{record.PARAM13,jdbcType=VARCHAR},
+        PARAM14 = #{record.PARAM14,jdbcType=VARCHAR},
+        PARAM15 = #{record.PARAM15,jdbcType=VARCHAR},
+        PARAM16 = #{record.PARAM16,jdbcType=VARCHAR},
+        PARAM17 = #{record.PARAM17,jdbcType=VARCHAR},
+        PARAM18 = #{record.PARAM18,jdbcType=VARCHAR},
+        PARAM19 = #{record.PARAM19,jdbcType=VARCHAR},
+        PARAM2 = #{record.PARAM2,jdbcType=VARCHAR},
+        PARAM3 = #{record.PARAM3,jdbcType=VARCHAR},
+        PARAM4 = #{record.PARAM4,jdbcType=VARCHAR},
+        PARAM5 = #{record.PARAM5,jdbcType=VARCHAR},
+        PARAM6 = #{record.PARAM6,jdbcType=VARCHAR},
+        PARAM7 = #{record.PARAM7,jdbcType=VARCHAR},
+        PARAM8 = #{record.PARAM8,jdbcType=VARCHAR},
+        PARAM9 = #{record.PARAM9,jdbcType=VARCHAR},
+        CFD_ID = #{record.CFD_ID,jdbcType=DECIMAL}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
+        update M_INTERACCIONES.M_OTRO
+        <set >
+            <if test="DPARAM0 != null" >
+                DPARAM0 = #{DPARAM0,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM1 != null" >
+                DPARAM1 = #{DPARAM1,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM10 != null" >
+                DPARAM10 = #{DPARAM10,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM11 != null" >
+                DPARAM11 = #{DPARAM11,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM12 != null" >
+                DPARAM12 = #{DPARAM12,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM13 != null" >
+                DPARAM13 = #{DPARAM13,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM14 != null" >
+                DPARAM14 = #{DPARAM14,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM2 != null" >
+                DPARAM2 = #{DPARAM2,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM3 != null" >
+                DPARAM3 = #{DPARAM3,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM4 != null" >
+                DPARAM4 = #{DPARAM4,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM5 != null" >
+                DPARAM5 = #{DPARAM5,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM6 != null" >
+                DPARAM6 = #{DPARAM6,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM7 != null" >
+                DPARAM7 = #{DPARAM7,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM8 != null" >
+                DPARAM8 = #{DPARAM8,jdbcType=FLOAT},
+            </if>
+            <if test="DPARAM9 != null" >
+                DPARAM9 = #{DPARAM9,jdbcType=FLOAT},
+            </if>
+            <if test="FPARAM0 != null" >
+                FPARAM0 = #{FPARAM0,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM1 != null" >
+                FPARAM1 = #{FPARAM1,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM2 != null" >
+                FPARAM2 = #{FPARAM2,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM3 != null" >
+                FPARAM3 = #{FPARAM3,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM4 != null" >
+                FPARAM4 = #{FPARAM4,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM5 != null" >
+                FPARAM5 = #{FPARAM5,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM6 != null" >
+                FPARAM6 = #{FPARAM6,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM7 != null" >
+                FPARAM7 = #{FPARAM7,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM8 != null" >
+                FPARAM8 = #{FPARAM8,jdbcType=TIMESTAMP},
+            </if>
+            <if test="FPARAM9 != null" >
+                FPARAM9 = #{FPARAM9,jdbcType=TIMESTAMP},
+            </if>
+            <if test="PARAM0 != null" >
+                PARAM0 = #{PARAM0,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM1 != null" >
+                PARAM1 = #{PARAM1,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM10 != null" >
+                PARAM10 = #{PARAM10,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM11 != null" >
+                PARAM11 = #{PARAM11,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM12 != null" >
+                PARAM12 = #{PARAM12,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM13 != null" >
+                PARAM13 = #{PARAM13,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM14 != null" >
+                PARAM14 = #{PARAM14,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM15 != null" >
+                PARAM15 = #{PARAM15,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM16 != null" >
+                PARAM16 = #{PARAM16,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM17 != null" >
+                PARAM17 = #{PARAM17,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM18 != null" >
+                PARAM18 = #{PARAM18,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM19 != null" >
+                PARAM19 = #{PARAM19,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM2 != null" >
+                PARAM2 = #{PARAM2,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM3 != null" >
+                PARAM3 = #{PARAM3,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM4 != null" >
+                PARAM4 = #{PARAM4,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM5 != null" >
+                PARAM5 = #{PARAM5,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM6 != null" >
+                PARAM6 = #{PARAM6,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM7 != null" >
+                PARAM7 = #{PARAM7,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM8 != null" >
+                PARAM8 = #{PARAM8,jdbcType=VARCHAR},
+            </if>
+            <if test="PARAM9 != null" >
+                PARAM9 = #{PARAM9,jdbcType=VARCHAR},
+            </if>
+            <if test="CFD_ID != null" >
+                CFD_ID = #{CFD_ID,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{ID,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
+        update M_INTERACCIONES.M_OTRO
+        set DPARAM0 = #{DPARAM0,jdbcType=FLOAT},
+        DPARAM1 = #{DPARAM1,jdbcType=FLOAT},
+        DPARAM10 = #{DPARAM10,jdbcType=FLOAT},
+        DPARAM11 = #{DPARAM11,jdbcType=FLOAT},
+        DPARAM12 = #{DPARAM12,jdbcType=FLOAT},
+        DPARAM13 = #{DPARAM13,jdbcType=FLOAT},
+        DPARAM14 = #{DPARAM14,jdbcType=FLOAT},
+        DPARAM2 = #{DPARAM2,jdbcType=FLOAT},
+        DPARAM3 = #{DPARAM3,jdbcType=FLOAT},
+        DPARAM4 = #{DPARAM4,jdbcType=FLOAT},
+        DPARAM5 = #{DPARAM5,jdbcType=FLOAT},
+        DPARAM6 = #{DPARAM6,jdbcType=FLOAT},
+        DPARAM7 = #{DPARAM7,jdbcType=FLOAT},
+        DPARAM8 = #{DPARAM8,jdbcType=FLOAT},
+        DPARAM9 = #{DPARAM9,jdbcType=FLOAT},
+        FPARAM0 = #{FPARAM0,jdbcType=TIMESTAMP},
+        FPARAM1 = #{FPARAM1,jdbcType=TIMESTAMP},
+        FPARAM2 = #{FPARAM2,jdbcType=TIMESTAMP},
+        FPARAM3 = #{FPARAM3,jdbcType=TIMESTAMP},
+        FPARAM4 = #{FPARAM4,jdbcType=TIMESTAMP},
+        FPARAM5 = #{FPARAM5,jdbcType=TIMESTAMP},
+        FPARAM6 = #{FPARAM6,jdbcType=TIMESTAMP},
+        FPARAM7 = #{FPARAM7,jdbcType=TIMESTAMP},
+        FPARAM8 = #{FPARAM8,jdbcType=TIMESTAMP},
+        FPARAM9 = #{FPARAM9,jdbcType=TIMESTAMP},
+        PARAM0 = #{PARAM0,jdbcType=VARCHAR},
+        PARAM1 = #{PARAM1,jdbcType=VARCHAR},
+        PARAM10 = #{PARAM10,jdbcType=VARCHAR},
+        PARAM11 = #{PARAM11,jdbcType=VARCHAR},
+        PARAM12 = #{PARAM12,jdbcType=VARCHAR},
+        PARAM13 = #{PARAM13,jdbcType=VARCHAR},
+        PARAM14 = #{PARAM14,jdbcType=VARCHAR},
+        PARAM15 = #{PARAM15,jdbcType=VARCHAR},
+        PARAM16 = #{PARAM16,jdbcType=VARCHAR},
+        PARAM17 = #{PARAM17,jdbcType=VARCHAR},
+        PARAM18 = #{PARAM18,jdbcType=VARCHAR},
+        PARAM19 = #{PARAM19,jdbcType=VARCHAR},
+        PARAM2 = #{PARAM2,jdbcType=VARCHAR},
+        PARAM3 = #{PARAM3,jdbcType=VARCHAR},
+        PARAM4 = #{PARAM4,jdbcType=VARCHAR},
+        PARAM5 = #{PARAM5,jdbcType=VARCHAR},
+        PARAM6 = #{PARAM6,jdbcType=VARCHAR},
+        PARAM7 = #{PARAM7,jdbcType=VARCHAR},
+        PARAM8 = #{PARAM8,jdbcType=VARCHAR},
+        PARAM9 = #{PARAM9,jdbcType=VARCHAR},
+        CFD_ID = #{CFD_ID,jdbcType=DECIMAL}
+        where ID = #{ID,jdbcType=DECIMAL}
+    </update>
+</mapper>

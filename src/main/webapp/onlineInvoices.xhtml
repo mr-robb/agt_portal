@@ -1,0 +1,221 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/templates/default/main.xhtml">
+    <ui:param name="menu" value="'Facturas Clientes,Facturas en línea,index'" />
+    <ui:define name="menu">
+        <p:accordionPanel activeIndex="0" >
+            <p:tab title="Opciones de búsqueda" >
+                <h:form >
+                    <h:panelGrid columns="3">
+
+                        <h:outputLabel for="numPoliza" value="Póliza:" />
+                        <p:inputText id="numPoliza"
+                                     maxlength="25"
+                                     value="#{onlineInvoices.recInvoiceSearchBo.numPoliza}" required="false"
+                                     title="debe conincidir exactamente con su póliza">
+                            <pe:keyFilter regEx="/[a-z0-9_\-]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipPoliza" for="numPoliza" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="rfc" value="RFC:" />
+                        <p:inputText id="rfc"
+                                     maxlength="#{onlineInvoices.defaultInputMaxSize}"
+                                     value="#{onlineInvoices.recInvoiceSearchBo.rfc}" required="false"
+                                     title="debe ser de 12 ó 13 caracteres y debe ser exacto">
+                            <pe:keyFilter regEx="/[a-zÑ&amp;0-9]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipRfc" for="rfc" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="estatus" value="Tipo de documento:" />
+                        <p:selectOneMenu id="estatus" value="#{onlineInvoices.searchType}">
+                            <f:selectItem itemLabel="CFD" itemValue="CFD" />
+                            <f:selectItem itemLabel="CFDI" itemValue="CFDI" />
+                        </p:selectOneMenu>
+
+                        <p:tooltip id="ttipEstatus" for="estatus" showEvent="focus" hideEvent="blur" />
+                        <p:commandButton value="buscar"
+                                         actionListener="#{onlineInvoices.executeSearch}"
+                                         ajax="true"
+                                         update=":formCfdi">
+                            <p:ajax global="false" event="click" onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                                </p:commandButton>
+                        <p:commandButton
+                                value="limpiar campos"
+                                actionListener="#{onlineInvoices.clearForm()}"
+                                immediate="false"
+                                ajax="false"
+                                update="@all" />
+
+                    </h:panelGrid>
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage width="100" height="100" url="./resources/img/loading.gif" />
+                    </p:dialog>
+                </h:form>
+
+
+            </p:tab>
+        </p:accordionPanel>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="formCfdi">
+            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+            <!-- Tabla de resultados para CFDI -->
+            <p:dataTable tableStyleClass="table table-condensed"
+                         rendered="#{ not empty(onlineInvoices.mCfdList)}"
+                         editable="false"
+                         id="resultTableCfdi"
+                         widgetVar="resultTable"
+                         var="invoice"
+                         value="#{onlineInvoices.mCfdList}"
+                         emptyMessage="No se encontraron resultados"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
+                         paginator="true"
+                         paginatorAlwaysVisible="true"
+                         paginatorPosition="bottom"
+                         rows="10">
+                <f:facet name="{ExporterWidget}">
+                    <h:commandLink id="excelCfdi">
+                        <p:graphicImage url="./resources/img/excel.png" />
+                        <p:dataExporter type="xls" target="resultTableCfdi" fileName="invoices" />
+                    </h:commandLink>
+
+                    <h:commandLink id="pdfCfdi">
+                        <p:graphicImage url="/resources/img/pdf.png" />
+                        <p:dataExporter type="pdf" target="resultTable" fileName="invoices" />
+                    </h:commandLink>
+                </f:facet>
+                <f:facet name="header">
+                    Listado de facturas CFDI
+                </f:facet>
+
+                <p:column headerText="Factura" sortBy="#{invoice.NUMERO_FACTURA}">
+                    <h:commandLink action="#{servletCallerBean.downloadPdfDb}" target="_blank">
+                        <p:graphicImage url="/resources/img/pdf.png" width="16" height="16" title="descargar pdf"/>
+                    </h:commandLink>
+
+                    <h:commandLink action="#{servletCallerBean.downloadXmlDb}" target="_blank">
+                        <p:graphicImage url="/resources/img/xml.png" width="16" height="16" title="descargar xml"/>
+                    </h:commandLink>
+
+                    <h:outputText value="#{invoice.NUMERO_FACTURA}" />
+                </p:column>
+
+                <p:column headerText="No. Agente" sortBy="#{invoice.mOtro.PARAM1}">
+                    <h:outputText value="#{invoice.mOtro.PARAM1}" />
+                </p:column>
+
+                <p:column headerText="No. Póliza" sortBy="#{invoice.mOtro.PARAM2}">
+                    <h:outputText value="#{invoice.mOtro.PARAM2}" />
+                </p:column>
+
+                <p:column headerText="Razón Social" sortBy="#{invoice.RAZON_SOCIAL}">
+                    <h:outputText value="#{invoice.RAZON_SOCIAL}" />
+                </p:column>
+
+                <p:column headerText="RFC" sortBy="#{invoice.RFC}">
+                    <h:outputText value="#{invoice.RFC}" />
+                </p:column>
+
+                <p:column headerText="Fecha" sortBy="#{invoice.FECHA}">
+                    <h:outputText value="#{invoice.FECHA}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.DateConverter"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Importe" sortBy="#{invoice.TOTAL}">
+                    <h:outputText value="#{invoice.TOTAL}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.CurrencyConverter" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Estatus" sortBy="#{invoice.ESTADO_DOCUMENTO}">
+                    <h:outputText value="#{invoice.ESTADO_DOCUMENTO}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.McfdEstatusConverter" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+
+            <!-- Tabla de resultados para CFD  -->
+            <p:dataTable tableStyleClass="table table-condensed"
+                         rendered="#{ not empty (onlineInvoices.invoiceList)}"
+                         editable="false"
+                         id="resultTable"
+                         widgetVar="resultTable"
+                         var="invoice"
+                         value="#{ onlineInvoices.invoiceList }"
+                         emptyMessage="No se encontraron resultados"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
+                         paginator="true"
+                         paginatorAlwaysVisible="true"
+                         paginatorPosition="bottom"
+                         rows="10">
+                <f:facet name="{ExporterWidget}">
+                    <h:commandLink id="excel">
+                        <p:graphicImage url="./resources/img/excel.png" />
+                        <p:dataExporter type="xls" target="resultTable" fileName="invoices" />
+                    </h:commandLink>
+
+                    <h:commandLink id="pdf">
+                        <p:graphicImage url="/resources/img/pdf.png" />
+                        <p:dataExporter type="pdf" target="resultTable" fileName="invoices" />
+                    </h:commandLink>
+                </f:facet>
+                <f:facet name="header">
+                    Listado de facturas CFD
+                </f:facet>
+
+                <p:column headerText="Factura" sortBy="#{invoice.NUMERO_FACTURA}">
+                    <h:commandLink action="#{servletCallerBean.downloadPDF}" target="_blank">
+                        <p:graphicImage url="/resources/img/pdf.png" width="16" height="16" title="descargar pdf"/>
+                    </h:commandLink>
+
+                    <h:commandLink action="#{servletCallerBean.downloadXML}" target="_blank">
+                        <p:graphicImage url="/resources/img/xml.png" width="16" height="16" title="descargar xml"/>
+                    </h:commandLink>
+
+                    <h:outputText value="#{invoice.NUMERO_FACTURA}" />
+                </p:column>
+
+                <p:column headerText="No. Agente" sortBy="#{invoice.COMENTARIOS}">
+                    <h:outputText value="#{invoice.COMENTARIOS}" />
+                </p:column>
+
+                <p:column headerText="No. Póliza" sortBy="#{invoice.POLIZA}">
+                    <h:outputText value="#{invoice.POLIZA}" />
+                </p:column>
+
+                <p:column headerText="Razón Social" sortBy="#{invoice.RAZON_SOCIAL}">
+                    <h:outputText value="#{invoice.RAZON_SOCIAL}" />
+                </p:column>
+
+                <p:column headerText="RFC" sortBy="#{invoice.RFC}">
+                    <h:outputText value="#{invoice.RFC}" />
+                </p:column>
+
+                <p:column headerText="Fecha" sortBy="#{invoice.FECHA}">
+                    <h:outputText value="#{invoice.FECHA}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.DateConverter"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Importe" sortBy="#{invoice.IMPORTE_TOTAL}">
+                    <h:outputText value="#{invoice.IMPORTE_TOTAL}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.CurrencyConverter" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Estatus" sortBy="#{invoice.ESTADO_DOCUMENTO}">
+                    <h:outputText value="#{invoice.ESTADO_DOCUMENTO}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.InvoiceStatusConverter" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

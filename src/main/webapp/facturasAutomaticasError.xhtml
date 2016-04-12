@@ -1,0 +1,170 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="templates/default/main.xhtml">
+    <ui:param name="menu" value="'facturas,facturas automáticas con error,index'"/>
+    <ui:define name="menu">
+        <p:accordionPanel activeIndex="0">
+            <p:tab title="Opciones de búsqueda">
+                <h:form id="frmSearch">
+                    <h:panelGrid id="panel" columns="9">
+                        <h:outputLabel for="idError" value="Folio ERP:"/>
+                        <p:inputText id="idError"
+                                     maxlength="#{recFeloggerAgtBean.defaultInputMaxSize}"
+                                     value="#{recFeloggerAgtBean.recFeloggerSearchBo.id}"
+                                     required="false"
+                                     title="debe ser exactamente el número del folio erp">
+                            <pe:keyFilter regEx="/[a-z0-9_\-\.]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipIdErr" for="idError" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="fecha1" value="Fecha desde:"/>
+                        <p:calendar id="fecha1"
+                                    navigator="true"
+                                    pattern="dd/MM/yyyy"
+                                    readonlyInput="true"
+                                    effect="explode"
+                                    value="#{recFeloggerAgtBean.recFeloggerSearchBo.fecha1}"
+                                    title="debe ser menor que la fecha hasta"/>
+                        <p:tooltip id="ttipFecha1" for="fecha1" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="fecha2" value="Fecha hasta:"/>
+                        <p:calendar id="fecha2"
+                                    navigator="true"
+                                    pattern="dd/MM/yyyy"
+                                    readonlyInput="true"
+                                    effect="explode"
+                                    value="#{recFeloggerAgtBean.recFeloggerSearchBo.fecha2}"
+                                    title="debe ser mayor que la fecha desde"/>
+                        <p:tooltip id="ttipFecha2" for="fecha2" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="msg" value="Mensaje error:"/>
+                        <p:inputText id="msg"
+                                     maxlength="#{recFeloggerAgtBean.defaultInputMaxSize}"
+                                     value="#{recFeloggerAgtBean.recFeloggerSearchBo.msg}"
+                                     required="false"
+                                     title="se buscará el texto introducido en la descripción del error">
+                            <pe:keyFilter regEx="/[a-z0-9_\-]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipMsg" for="msg" showEvent="focus" hideEvent="blur"/>
+
+
+                        <h:outputLabel for="numAgt" value="No. Agente:"/>
+                        <p:inputText id="numAgt"
+                                     disabled="#{not recFeloggerAgtBean.numAgenteEnabled}"
+                                     maxlength="#{recFeloggerAgtBean.defaultInputMaxSize}"
+                                     value="#{recFeloggerAgtBean.recFeloggerSearchBo.numAgt}"
+                                     required="false"
+                                     title="es el número del agente">
+                            <pe:keyFilter regEx="/[0-9\/]/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipAgt" for="numAgt" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="anio" value="Año:"/>
+                        <p:inputText id="anio"
+                                     maxlength="4"
+                                     value="#{recFeloggerAgtBean.recFeloggerSearchBo.anio}"
+                                     required="false" title="corresponde al año">
+                            <pe:keyFilter regEx="/[0-9]/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipAnio" for="anio" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="mes" value="Mes:"/>
+                        <p:inputText id="mes"
+                                     maxlength="2"
+                                     value="#{recFeloggerAgtBean.recFeloggerSearchBo.mes}"
+                                     required="false" title="corresponde al mes">
+                            <pe:keyFilter regEx="/[0-9]/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipMes" for="mes" showEvent="focus" hideEvent="blur"/>
+                        <p:commandButton value="buscar"
+                                         immediate="false"
+                                         actionListener="#{recFeloggerAgtBean.executeSearch}"
+                                         ajax="true"
+                                         update=":form:resultTable">
+                            <p:ajax global="false" event="click" onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                                </p:commandButton>
+
+                        <p:commandButton value="limpiar campos"
+                                         actionListener="#{recFeloggerAgtBean.cleanForm()}"
+                                         immediate="false"
+                                         ajax="false"
+                                         update="@all" />
+
+                    </h:panelGrid>
+
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage width="100" height="100" url="./resources/img/loading.gif" />
+                    </p:dialog>
+
+                </h:form>
+
+
+            </p:tab>
+        </p:accordionPanel>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+            <p:dataTable tableStyleClass="table table-condensed"
+                         editable="false"
+                         id="resultTable"
+                         widgetVar="resultTable"
+                         var="log"
+                         value="#{recFeloggerAgtBean.recFeloggerAgtList}"
+                         emptyMessage="No se encontraron resultados con sus opciones de búsqueda"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
+                         paginator="true"
+                         paginatorAlwaysVisible="true"
+                         paginatorPosition="bottom"
+                         rows="10">
+                <f:facet name="{ExporterWidget}">
+                    <h:commandLink id="excel">
+                        <p:graphicImage url="./resources/img/excel.png"/>
+                        <p:dataExporter type="xls" target="resultTable" fileName="logList"/>
+                    </h:commandLink>
+
+                    <h:commandLink id="pdf">
+                        <p:graphicImage url="/resources/img/pdf.png"/>
+                        <p:dataExporter type="pdf" target="resultTable" fileName="logList"/>
+                    </h:commandLink>
+
+                </f:facet>
+                <f:facet name="header">
+                    Listado de errores de facturas automáticas
+                </f:facet>
+
+                <p:column headerText="Folio erp" sortBy="#{log.ID}">
+                    <h:outputText value="#{log.ID}"/>
+                </p:column>
+
+                <p:column headerText="Fecha" sortBy="#{log.FECHA}">
+                    <h:outputText value="#{log.FECHA}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.DateConverter"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Descripcion de error" sortBy="#{log.MENSAJE}">
+                    <h:outputText value="#{log.MENSAJE}"/>
+                </p:column>
+
+                <p:column headerText="No. Agente" sortBy="#{log.AGENTE}">
+                    <h:outputText value="#{log.AGENTE}" />
+                </p:column>
+
+                <p:column headerText="Año" sortBy="#{log.ANO}">
+                    <h:outputText value="#{log.ANO}" />
+                </p:column>
+
+                <p:column headerText="Mes" sortBy="#{log.MES}">
+                    <h:outputText value="#{log.MES}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

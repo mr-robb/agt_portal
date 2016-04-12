@@ -8,6 +8,103 @@
 <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 </application>
     <!--
+    <managed-bean>
+        <managed-bean-name>automaticInvoicesBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.AutomaticInvoicesBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>changePasswordBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.ChangePasswordBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>invoiceLoaderBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.InvoiceLoaderBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>invoicesBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.InvoicesBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>invoicesReceivedBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.InvoicesReceivedBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>McfdBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.McfdBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>menuManagerBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.MenuManagerBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>procAgtFelEnvioBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.ProcAgtFelEnvioBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>processManagerBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.ProcessManagerBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>recAccesoBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.RecAccesoBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>recAccesoClientesBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.RecAccesoClientesBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>recFeloggerAgtBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.RecFeloggerAgtBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>RecFeloggerBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.RecFeloggerBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>servletCallerBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.ServletCallerBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>userMenuBean</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.UserMenuBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>onlineInvoices</managed-bean-name>
+        <managed-bean-class>mx.com.ebs.inter.bean.OnlineInvoices</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    -->
+    <!--
     <lifecycle>
    <phase-listener>
     net.tecgurus.agenda.listener.LoginErrorPhaseListener</phase-listener>

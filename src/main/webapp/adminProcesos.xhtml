@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                template="templates/default/main.xhtml">
+    <ui:param name="menu" value="'Administración,administrar procesos,index'"/>
+    <ui:define name="menu">
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:commandButton
+                    id="btnShowTable"
+                    value="Mostrar procesos"
+                    actionListener="#{processManagerBean.init}"
+                    update="form"
+                    immediate="true"
+                    ajax="true">
+            </p:commandButton>
+            <p:messages id="messages" showDetail="true" autoUpdate="true"  closable="true" escape="false" />
+            <p:dataTable id="tableProcess"
+                         tableStyleClass="table table-condensed"
+                         value="#{processManagerBean.processBoList}"
+                         var="process"
+                         rendered="#{processManagerBean.operationsAvailable}"
+                         emptyMessage="No se encontraron procesos">
+                <f:facet name="header">
+                    Listado de procesos disponibles
+                </f:facet>
+                <p:column headerText="Nombre del proceso">
+                    <h:outputText value="Facturación electrónica digifact" />
+                </p:column>
+
+                <p:column headerText="Número de proceso">
+                    <h:outputText value="#{process.processNumber}"/>
+                </p:column>
+
+                <p:column headerText="Estatus">
+                    <p:graphicImage width="16" height="16" url="resources/img/green_circle.png"
+                                    rendered="#{ process.processNumber != null }" alt="#{ process.processStatus }"/>
+                    <p:graphicImage width="16" height="16" url="resources/img/red_circle.png"
+                                    rendered="#{process.processNumber == null}" alt="#{process.processStatus}"/>
+                </p:column>
+                <p:column headerText="Acciones" exportable="false">
+                    <p:commandLink id="linkProcessStart" styleClass="ui-icon ui-icon-circle-triangle-e"
+                                   action="#{processManagerBean.startProcess}"
+                                   immediate="true"
+                                   title="Iniciar Proceso"
+                                   rendered="#{process.processNumber == null}"
+                            >
+                        <p:confirm header="Confirmación" message="¿Desea iniciar el proceso?" icon="ui-icon-alert"/>
+                    </p:commandLink>
+                    <p:commandLink id="linkProcessStop" styleClass="ui-icon ui-icon-stop"
+                                   action="#{processManagerBean.stopProcess}"
+                                   immediate="true"
+                                   title="Detener Proceso"
+                                   rendered="#{process.processNumber != null}"
+                            >
+                        <p:confirm header="Confirmación" message="¿Desea detener el proceso?" icon="ui-icon-alert"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

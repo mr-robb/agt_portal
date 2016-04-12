@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.agt.InvoiceMapper" >
+  <resultMap id="BaseResultMap" type="mx.com.ebs.inter.data.model.facbanco.Invoice" >
+
+    <result column="NCLAVE_SUCURSAL" property="NCLAVE_SUCURSAL" jdbcType="DECIMAL" />
+    <result column="LUGAR_EXPEDICION" property="LUGAR_EXPEDICION" jdbcType="VARCHAR" />
+    <result column="FECHA_EMISION" property="FECHA_EMISION" jdbcType="TIMESTAMP" />
+    <result column="HORA_EMISION" property="HORA_EMISION" jdbcType="VARCHAR" />
+    <result column="IMPORTE" property="IMPORTE" jdbcType="FLOAT" />
+    <result column="IMPORTE_IVA" property="IMPORTE_IVA" jdbcType="FLOAT" />
+    <result column="IMPORTE_TOTAL" property="IMPORTE_TOTAL" jdbcType="FLOAT" />
+    <result column="BANCO1" property="BANCO1" jdbcType="VARCHAR" />
+    <result column="CUENTA1" property="CUENTA1" jdbcType="VARCHAR" />
+    <result column="REFERENCIA1" property="REFERENCIA1" jdbcType="DECIMAL" />
+    <result column="FECHA_ENTREGA" property="FECHA_ENTREGA" jdbcType="TIMESTAMP" />
+    <result column="COMENTARIOS" property="COMENTARIOS" jdbcType="VARCHAR" />
+    <result column="RAZON_SOCIAL" property="RAZON_SOCIAL" jdbcType="VARCHAR" />
+    <result column="CALLE_FISCAL" property="CALLE_FISCAL" jdbcType="VARCHAR" />
+    <result column="NUMERO_EXTERIOR_FISCAL" property="NUMERO_EXTERIOR_FISCAL" jdbcType="VARCHAR" />
+    <result column="NUMERO_INTERIOR_FISCAL" property="NUMERO_INTERIOR_FISCAL" jdbcType="VARCHAR" />
+    <result column="COLONIA_FISCAL" property="COLONIA_FISCAL" jdbcType="VARCHAR" />
+    <result column="CIUDAD_FISCAL" property="CIUDAD_FISCAL" jdbcType="VARCHAR" />
+    <result column="MUNICIPIO_FISCAL" property="MUNICIPIO_FISCAL" jdbcType="VARCHAR" />
+    <result column="ESTADO_FISCAL" property="ESTADO_FISCAL" jdbcType="VARCHAR" />
+    <result column="PAIS_FISCAL" property="PAIS_FISCAL" jdbcType="VARCHAR" />
+    <result column="CODI_POSTAL_FISCAL" property="CODI_POSTAL_FISCAL" jdbcType="VARCHAR" />
+    <result column="RESPONSABLE" property="RESPONSABLE" jdbcType="VARCHAR" />
+    <result column="CALLE_ENTREGA" property="CALLE_ENTREGA" jdbcType="VARCHAR" />
+    <result column="TELEFONO" property="TELEFONO" jdbcType="VARCHAR" />
+    <result column="ESTADO_DOCUMENTO" property="ESTADO_DOCUMENTO" jdbcType="VARCHAR" />
+    <result column="NUMERO_FACTURA" property="NUMERO_FACTURA" jdbcType="VARCHAR" />
+    <result column="FLAG" property="FLAG" jdbcType="DECIMAL" />
+    <result column="SERIE" property="SERIE" jdbcType="VARCHAR" />
+    <result column="FOLIO" property="FOLIO" jdbcType="VARCHAR" />
+    <result column="FECHA" property="FECHA" jdbcType="TIMESTAMP" />
+    <result column="NO_APROBACION" property="NO_APROBACION" jdbcType="DECIMAL" />
+    <result column="STATUS_DOC" property="STATUS_DOC" jdbcType="VARCHAR" />
+    <result column="HORA" property="HORA" jdbcType="VARCHAR" />
+    <result column="TASA_IMPUESTO" property="TASA_IMPUESTO" jdbcType="DECIMAL" />
+    <result column="APROBACION" property="APROBACION" jdbcType="DECIMAL" />
+    <result column="RFC" property="RFC" jdbcType="VARCHAR" />
+    <result column="SERIE_ERP" property="SERIE_ERP" jdbcType="VARCHAR" />
+    <result column="FOLIO_ERP" property="FOLIO_ERP" jdbcType="VARCHAR" />
+    <result column="TOTALML" property="TOTALML" jdbcType="FLOAT" />
+    <result column="TIPO_DOCUMENTO" property="TIPO_DOCUMENTO" jdbcType="VARCHAR" />
+    <result column="NUMERO_CLIENTE" property="NUMERO_CLIENTE" jdbcType="VARCHAR" />
+    <result column="MONEDA_DOC" property="MONEDA_DOC" jdbcType="VARCHAR" />
+    <result column="FECHA_CANCELACION" property="FECHA_CANCELACION" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="STATUS" jdbcType="DECIMAL" />
+    <result column="STATUS_ENVIOI" property="STATUS_ENVIOI" jdbcType="DECIMAL" />
+    <result column="STATUS_ENVIOM" property="STATUS_ENVIOM" jdbcType="DECIMAL" />
+    <result column="STATUS_ENVIOF" property="STATUS_ENVIOF" jdbcType="DECIMAL" />
+    <result column="DESCRIPCION_PRODUCTO" property="DESCRIPCION_PRODUCTO" jdbcType="VARCHAR" />
+    <result column="VTIPO_DOCUMENTO" property="VTIPO_DOCUMENTO" jdbcType="VARCHAR" />
+    <result column="NNUMERO_PEDIDO" property="NNUMERO_PEDIDO" jdbcType="DECIMAL" />
+    <result column="TIPO_CAMBIO" property="TIPO_CAMBIO" jdbcType="FLOAT" />
+    <result column="STATUS_PRINT" property="STATUS_PRINT" jdbcType="DECIMAL" />
+    <result column="ORIGEN" property="ORIGEN" jdbcType="DECIMAL" />
+    <result column="PLANTILLA" property="PLANTILLA" jdbcType="VARCHAR" />
+    <result column="POLIZA" property="POLIZA" jdbcType="VARCHAR" />
+    <result column="ID_DOCUMENTO" property="ID_DOCUMENTO" jdbcType="VARCHAR" />
+    <result column="FECHA_CONSULTA" property="FECHA_CONSULTA" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+
+    <where >
+      <if test="oredCriteria.size > 0">
+          <foreach collection="oredCriteria" item="criteria" separator="or" >
+              <if test="criteria.valid" >
+                  <trim prefix="(" suffix=")" prefixOverrides="and">
+                      and ROWNUM &lt;= #{resultLimitRows}
+                      <foreach collection="criteria.criteria" item="criterion" >
+                      <choose >
+                        <when test="criterion.noValue" >
+                          and ${criterion.condition}
+                        </when>
+                        <when test="criterion.singleValue" >
+                          and ${criterion.condition} #{criterion.value}
+                        </when>
+                        <when test="criterion.betweenValue" >
+                          and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                        </when>
+                        <when test="criterion.listValue" >
+                          and ${criterion.condition}
+                          <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                            #{listItem}
+                          </foreach>
+                        </when>
+                      </choose>
+                    </foreach>
+                  </trim>
+              </if>
+              <if test="!criteria.valid" >
+                  ROWNUM &lt;= #{resultLimitRows}
+              </if>
+          </foreach>
+        </if>
+        <if test="oredCriteria.size == 0">
+            ROWNUM &lt;= #{resultLimitRows}
+        </if>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    NCLAVE_SUCURSAL, LUGAR_EXPEDICION, FECHA_EMISION, HORA_EMISION, IMPORTE, IMPORTE_IVA,
+    IMPORTE_TOTAL, BANCO1, CUENTA1, REFERENCIA1, FECHA_ENTREGA, COMENTARIOS, RAZON_SOCIAL, 
+    CALLE_FISCAL, NUMERO_EXTERIOR_FISCAL, NUMERO_INTERIOR_FISCAL, COLONIA_FISCAL, CIUDAD_FISCAL, 
+    MUNICIPIO_FISCAL, ESTADO_FISCAL, PAIS_FISCAL, CODI_POSTAL_FISCAL, RESPONSABLE, CALLE_ENTREGA, 
+    TELEFONO, ESTADO_DOCUMENTO, NUMERO_FACTURA, FLAG, SERIE, FOLIO, FECHA, NO_APROBACION, 
+    STATUS_DOC, HORA, TASA_IMPUESTO, APROBACION, RFC, SERIE_ERP, FOLIO_ERP, TOTALML, 
+    TIPO_DOCUMENTO, NUMERO_CLIENTE, MONEDA_DOC, FECHA_CANCELACION, STATUS, STATUS_ENVIOI, 
+    STATUS_ENVIOM, STATUS_ENVIOF, DESCRIPCION_PRODUCTO, VTIPO_DOCUMENTO, NNUMERO_PEDIDO, 
+    TIPO_CAMBIO, STATUS_PRINT, ORIGEN, PLANTILLA, POLIZA, ID_DOCUMENTO, FECHA_CONSULTA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.facbanco.InvoiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from FACTURADOR.INVOICE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="_parameter == null">
+        where ROWNUM &lt;= #{resultLimitRows}
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.InvoiceExample" >
+    delete from FACTURADOR.INVOICE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.com.ebs.inter.data.model.facbanco.Invoice" >
+    insert into FACTURADOR.INVOICE (NCLAVE_SUCURSAL, LUGAR_EXPEDICION,
+      FECHA_EMISION, HORA_EMISION, IMPORTE, 
+      IMPORTE_IVA, IMPORTE_TOTAL, BANCO1, 
+      CUENTA1, REFERENCIA1, FECHA_ENTREGA, 
+      COMENTARIOS, RAZON_SOCIAL, CALLE_FISCAL, 
+      NUMERO_EXTERIOR_FISCAL, NUMERO_INTERIOR_FISCAL, 
+      COLONIA_FISCAL, CIUDAD_FISCAL, MUNICIPIO_FISCAL, 
+      ESTADO_FISCAL, PAIS_FISCAL, CODI_POSTAL_FISCAL, 
+      RESPONSABLE, CALLE_ENTREGA, TELEFONO, 
+      ESTADO_DOCUMENTO, NUMERO_FACTURA, FLAG, 
+      SERIE, FOLIO, FECHA, 
+      NO_APROBACION, STATUS_DOC, HORA, 
+      TASA_IMPUESTO, APROBACION, RFC, 
+      SERIE_ERP, FOLIO_ERP, TOTALML, 
+      TIPO_DOCUMENTO, NUMERO_CLIENTE, MONEDA_DOC, 
+      FECHA_CANCELACION, STATUS, STATUS_ENVIOI, 
+      STATUS_ENVIOM, STATUS_ENVIOF, DESCRIPCION_PRODUCTO, 
+      VTIPO_DOCUMENTO, NNUMERO_PEDIDO, TIPO_CAMBIO, 
+      STATUS_PRINT, ORIGEN, PLANTILLA, 
+      POLIZA, ID_SISTEMA, FECHA_CONSULTA
+      )
+    values (#{NCLAVE_SUCURSAL,jdbcType=DECIMAL}, #{LUGAR_EXPEDICION,jdbcType=VARCHAR}, 
+      #{FECHA_EMISION,jdbcType=TIMESTAMP}, #{HORA_EMISION,jdbcType=VARCHAR}, #{IMPORTE,jdbcType=FLOAT}, 
+      #{IMPORTE_IVA,jdbcType=FLOAT}, #{IMPORTE_TOTAL,jdbcType=FLOAT}, #{BANCO1,jdbcType=VARCHAR}, 
+      #{CUENTA1,jdbcType=VARCHAR}, #{REFERENCIA1,jdbcType=DECIMAL}, #{FECHA_ENTREGA,jdbcType=TIMESTAMP}, 
+      #{COMENTARIOS,jdbcType=VARCHAR}, #{RAZON_SOCIAL,jdbcType=VARCHAR}, #{CALLE_FISCAL,jdbcType=VARCHAR}, 
+      #{NUMERO_EXTERIOR_FISCAL,jdbcType=VARCHAR}, #{NUMERO_INTERIOR_FISCAL,jdbcType=VARCHAR}, 
+      #{COLONIA_FISCAL,jdbcType=VARCHAR}, #{CIUDAD_FISCAL,jdbcType=VARCHAR}, #{MUNICIPIO_FISCAL,jdbcType=VARCHAR}, 
+      #{ESTADO_FISCAL,jdbcType=VARCHAR}, #{PAIS_FISCAL,jdbcType=VARCHAR}, #{CODI_POSTAL_FISCAL,jdbcType=VARCHAR}, 
+      #{RESPONSABLE,jdbcType=VARCHAR}, #{CALLE_ENTREGA,jdbcType=VARCHAR}, #{TELEFONO,jdbcType=VARCHAR}, 
+      #{ESTADO_DOCUMENTO,jdbcType=VARCHAR}, #{NUMERO_FACTURA,jdbcType=VARCHAR}, #{FLAG,jdbcType=DECIMAL}, 
+      #{SERIE,jdbcType=VARCHAR}, #{FOLIO,jdbcType=VARCHAR}, #{FECHA,jdbcType=TIMESTAMP}, 
+      #{NO_APROBACION,jdbcType=DECIMAL}, #{STATUS_DOC,jdbcType=VARCHAR}, #{HORA,jdbcType=VARCHAR}, 
+      #{TASA_IMPUESTO,jdbcType=DECIMAL}, #{APROBACION,jdbcType=DECIMAL}, #{RFC,jdbcType=VARCHAR}, 
+      #{SERIE_ERP,jdbcType=VARCHAR}, #{FOLIO_ERP,jdbcType=VARCHAR}, #{TOTALML,jdbcType=FLOAT}, 
+      #{TIPO_DOCUMENTO,jdbcType=VARCHAR}, #{NUMERO_CLIENTE,jdbcType=VARCHAR}, #{MONEDA_DOC,jdbcType=VARCHAR}, 
+      #{FECHA_CANCELACION,jdbcType=TIMESTAMP}, #{STATUS,jdbcType=DECIMAL}, #{STATUS_ENVIOI,jdbcType=DECIMAL}, 
+      #{STATUS_ENVIOM,jdbcType=DECIMAL}, #{STATUS_ENVIOF,jdbcType=DECIMAL}, #{DESCRIPCION_PRODUCTO,jdbcType=VARCHAR}, 
+      #{VTIPO_DOCUMENTO,jdbcType=VARCHAR}, #{NNUMERO_PEDIDO,jdbcType=DECIMAL}, #{TIPO_CAMBIO,jdbcType=FLOAT}, 
+      #{STATUS_PRINT,jdbcType=DECIMAL}, #{ORIGEN,jdbcType=DECIMAL}, #{PLANTILLA,jdbcType=VARCHAR}, 
+      #{POLIZA,jdbcType=VARCHAR}, #{ID_SISTEMA,jdbcType=VARCHAR}, #{FECHA_CONSULTA,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.facbanco.Invoice" >
+        insert into FACTURADOR.INVOICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="NCLAVE_SUCURSAL != null" >
+        NCLAVE_SUCURSAL,
+      </if>
+      <if test="LUGAR_EXPEDICION != null" >
+        LUGAR_EXPEDICION,
+      </if>
+      <if test="FECHA_EMISION != null" >
+        FECHA_EMISION,
+      </if>
+      <if test="HORA_EMISION != null" >
+        HORA_EMISION,
+      </if>
+      <if test="IMPORTE != null" >
+        IMPORTE,
+      </if>
+      <if test="IMPORTE_IVA != null" >
+        IMPORTE_IVA,
+      </if>
+      <if test="IMPORTE_TOTAL != null" >
+        IMPORTE_TOTAL,
+      </if>
+      <if test="BANCO1 != null" >
+        BANCO1,
+      </if>
+      <if test="CUENTA1 != null" >
+        CUENTA1,
+      </if>
+      <if test="REFERENCIA1 != null" >
+        REFERENCIA1,
+      </if>
+      <if test="FECHA_ENTREGA != null" >
+        FECHA_ENTREGA,
+      </if>
+      <if test="COMENTARIOS != null" >
+        COMENTARIOS,
+      </if>
+      <if test="RAZON_SOCIAL != null" >
+        RAZON_SOCIAL,
+      </if>
+      <if test="CALLE_FISCAL != null" >
+        CALLE_FISCAL,
+      </if>
+      <if test="NUMERO_EXTERIOR_FISCAL != null" >
+        NUMERO_EXTERIOR_FISCAL,
+      </if>
+      <if test="NUMERO_INTERIOR_FISCAL != null" >
+        NUMERO_INTERIOR_FISCAL,
+      </if>
+      <if test="COLONIA_FISCAL != null" >
+        COLONIA_FISCAL,
+      </if>
+      <if test="CIUDAD_FISCAL != null" >
+        CIUDAD_FISCAL,
+      </if>
+      <if test="MUNICIPIO_FISCAL != null" >
+        MUNICIPIO_FISCAL,
+      </if>
+      <if test="ESTADO_FISCAL != null" >
+        ESTADO_FISCAL,
+      </if>
+      <if test="PAIS_FISCAL != null" >
+        PAIS_FISCAL,
+      </if>
+      <if test="CODI_POSTAL_FISCAL != null" >
+        CODI_POSTAL_FISCAL,
+      </if>
+      <if test="RESPONSABLE != null" >
+        RESPONSABLE,
+      </if>
+      <if test="CALLE_ENTREGA != null" >
+        CALLE_ENTREGA,
+      </if>
+      <if test="TELEFONO != null" >
+        TELEFONO,
+      </if>
+      <if test="ESTADO_DOCUMENTO != null" >
+        ESTADO_DOCUMENTO,
+      </if>
+      <if test="NUMERO_FACTURA != null" >
+        NUMERO_FACTURA,
+      </if>
+      <if test="FLAG != null" >
+        FLAG,
+      </if>
+      <if test="SERIE != null" >
+        SERIE,
+      </if>
+      <if test="FOLIO != null" >
+        FOLIO,
+      </if>
+      <if test="FECHA != null" >
+        FECHA,
+      </if>
+      <if test="NO_APROBACION != null" >
+        NO_APROBACION,
+      </if>
+      <if test="STATUS_DOC != null" >
+        STATUS_DOC,
+      </if>
+      <if test="HORA != null" >
+        HORA,
+      </if>
+      <if test="TASA_IMPUESTO != null" >
+        TASA_IMPUESTO,
+      </if>
+      <if test="APROBACION != null" >
+        APROBACION,
+      </if>
+      <if test="RFC != null" >
+        RFC,
+      </if>
+      <if test="SERIE_ERP != null" >
+        SERIE_ERP,
+      </if>
+      <if test="FOLIO_ERP != null" >
+        FOLIO_ERP,
+      </if>
+      <if test="TOTALML != null" >
+        TOTALML,
+      </if>
+      <if test="TIPO_DOCUMENTO != null" >
+        TIPO_DOCUMENTO,
+      </if>
+      <if test="NUMERO_CLIENTE != null" >
+        NUMERO_CLIENTE,
+      </if>
+      <if test="MONEDA_DOC != null" >
+        MONEDA_DOC,
+      </if>
+      <if test="FECHA_CANCELACION != null" >
+        FECHA_CANCELACION,
+      </if>
+      <if test="STATUS != null" >
+        STATUS,
+      </if>
+      <if test="STATUS_ENVIOI != null" >
+        STATUS_ENVIOI,
+      </if>
+      <if test="STATUS_ENVIOM != null" >
+        STATUS_ENVIOM,
+      </if>
+      <if test="STATUS_ENVIOF != null" >
+        STATUS_ENVIOF,
+      </if>
+      <if test="DESCRIPCION_PRODUCTO != null" >
+        DESCRIPCION_PRODUCTO,
+      </if>
+      <if test="VTIPO_DOCUMENTO != null" >
+        VTIPO_DOCUMENTO,
+      </if>
+      <if test="NNUMERO_PEDIDO != null" >
+        NNUMERO_PEDIDO,
+      </if>
+      <if test="TIPO_CAMBIO != null" >
+        TIPO_CAMBIO,
+      </if>
+      <if test="STATUS_PRINT != null" >
+        STATUS_PRINT,
+      </if>
+      <if test="ORIGEN != null" >
+        ORIGEN,
+      </if>
+      <if test="PLANTILLA != null" >
+        PLANTILLA,
+      </if>
+      <if test="POLIZA != null" >
+        POLIZA,
+      </if>
+      <if test="ID_DOCUMENTO != null" >
+        ID_SISTEMA,
+      </if>
+      <if test="FECHA_CONSULTA != null" >
+        FECHA_CONSULTA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="NCLAVE_SUCURSAL != null" >
+        #{NCLAVE_SUCURSAL,jdbcType=DECIMAL},
+      </if>
+      <if test="LUGAR_EXPEDICION != null" >
+        #{LUGAR_EXPEDICION,jdbcType=VARCHAR},
+      </if>
+      <if test="FECHA_EMISION != null" >
+        #{FECHA_EMISION,jdbcType=TIMESTAMP},
+      </if>
+      <if test="HORA_EMISION != null" >
+        #{HORA_EMISION,jdbcType=VARCHAR},
+      </if>
+      <if test="IMPORTE != null" >
+        #{IMPORTE,jdbcType=FLOAT},
+      </if>
+      <if test="IMPORTE_IVA != null" >
+        #{IMPORTE_IVA,jdbcType=FLOAT},
+      </if>
+      <if test="IMPORTE_TOTAL != null" >
+        #{IMPORTE_TOTAL,jdbcType=FLOAT},
+      </if>
+      <if test="BANCO1 != null" >
+        #{BANCO1,jdbcType=VARCHAR},
+      </if>
+      <if test="CUENTA1 != null" >
+        #{CUENTA1,jdbcType=VARCHAR},
+      </if>
+      <if test="REFERENCIA1 != null" >
+        #{REFERENCIA1,jdbcType=DECIMAL},
+      </if>
+      <if test="FECHA_ENTREGA != null" >
+        #{FECHA_ENTREGA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="COMENTARIOS != null" >
+        #{COMENTARIOS,jdbcType=VARCHAR},
+      </if>
+      <if test="RAZON_SOCIAL != null" >
+        #{RAZON_SOCIAL,jdbcType=VARCHAR},
+      </if>
+      <if test="CALLE_FISCAL != null" >
+        #{CALLE_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="NUMERO_EXTERIOR_FISCAL != null" >
+        #{NUMERO_EXTERIOR_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="NUMERO_INTERIOR_FISCAL != null" >
+        #{NUMERO_INTERIOR_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="COLONIA_FISCAL != null" >
+        #{COLONIA_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="CIUDAD_FISCAL != null" >
+        #{CIUDAD_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="MUNICIPIO_FISCAL != null" >
+        #{MUNICIPIO_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="ESTADO_FISCAL != null" >
+        #{ESTADO_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="PAIS_FISCAL != null" >
+        #{PAIS_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="CODI_POSTAL_FISCAL != null" >
+        #{CODI_POSTAL_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="RESPONSABLE != null" >
+        #{RESPONSABLE,jdbcType=VARCHAR},
+      </if>
+      <if test="CALLE_ENTREGA != null" >
+        #{CALLE_ENTREGA,jdbcType=VARCHAR},
+      </if>
+      <if test="TELEFONO != null" >
+        #{TELEFONO,jdbcType=VARCHAR},
+      </if>
+      <if test="ESTADO_DOCUMENTO != null" >
+        #{ESTADO_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="NUMERO_FACTURA != null" >
+        #{NUMERO_FACTURA,jdbcType=VARCHAR},
+      </if>
+      <if test="FLAG != null" >
+        #{FLAG,jdbcType=DECIMAL},
+      </if>
+      <if test="SERIE != null" >
+        #{SERIE,jdbcType=VARCHAR},
+      </if>
+      <if test="FOLIO != null" >
+        #{FOLIO,jdbcType=VARCHAR},
+      </if>
+      <if test="FECHA != null" >
+        #{FECHA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="NO_APROBACION != null" >
+        #{NO_APROBACION,jdbcType=DECIMAL},
+      </if>
+      <if test="STATUS_DOC != null" >
+        #{STATUS_DOC,jdbcType=VARCHAR},
+      </if>
+      <if test="HORA != null" >
+        #{HORA,jdbcType=VARCHAR},
+      </if>
+      <if test="TASA_IMPUESTO != null" >
+        #{TASA_IMPUESTO,jdbcType=DECIMAL},
+      </if>
+      <if test="APROBACION != null" >
+        #{APROBACION,jdbcType=DECIMAL},
+      </if>
+      <if test="RFC != null" >
+        #{RFC,jdbcType=VARCHAR},
+      </if>
+      <if test="SERIE_ERP != null" >
+        #{SERIE_ERP,jdbcType=VARCHAR},
+      </if>
+      <if test="FOLIO_ERP != null" >
+        #{FOLIO_ERP,jdbcType=VARCHAR},
+      </if>
+      <if test="TOTALML != null" >
+        #{TOTALML,jdbcType=FLOAT},
+      </if>
+      <if test="TIPO_DOCUMENTO != null" >
+        #{TIPO_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="NUMERO_CLIENTE != null" >
+        #{NUMERO_CLIENTE,jdbcType=VARCHAR},
+      </if>
+      <if test="MONEDA_DOC != null" >
+        #{MONEDA_DOC,jdbcType=VARCHAR},
+      </if>
+      <if test="FECHA_CANCELACION != null" >
+        #{FECHA_CANCELACION,jdbcType=TIMESTAMP},
+      </if>
+      <if test="STATUS != null" >
+        #{STATUS,jdbcType=DECIMAL},
+      </if>
+      <if test="STATUS_ENVIOI != null" >
+        #{STATUS_ENVIOI,jdbcType=DECIMAL},
+      </if>
+      <if test="STATUS_ENVIOM != null" >
+        #{STATUS_ENVIOM,jdbcType=DECIMAL},
+      </if>
+      <if test="STATUS_ENVIOF != null" >
+        #{STATUS_ENVIOF,jdbcType=DECIMAL},
+      </if>
+      <if test="DESCRIPCION_PRODUCTO != null" >
+        #{DESCRIPCION_PRODUCTO,jdbcType=VARCHAR},
+      </if>
+      <if test="VTIPO_DOCUMENTO != null" >
+        #{VTIPO_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="NNUMERO_PEDIDO != null" >
+        #{NNUMERO_PEDIDO,jdbcType=DECIMAL},
+      </if>
+      <if test="TIPO_CAMBIO != null" >
+        #{TIPO_CAMBIO,jdbcType=FLOAT},
+      </if>
+      <if test="STATUS_PRINT != null" >
+        #{STATUS_PRINT,jdbcType=DECIMAL},
+      </if>
+      <if test="ORIGEN != null" >
+        #{ORIGEN,jdbcType=DECIMAL},
+      </if>
+      <if test="PLANTILLA != null" >
+        #{PLANTILLA,jdbcType=VARCHAR},
+      </if>
+      <if test="POLIZA != null" >
+        #{POLIZA,jdbcType=VARCHAR},
+      </if>
+      <if test="ID_DOCUMENTO != null" >
+        #{ID_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="FECHA_CONSULTA != null" >
+        #{FECHA_CONSULTA,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.InvoiceExample" resultType="java.lang.Integer" >
+    select count(*) from FACTURADOR.INVOICE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update FACTURADOR.INVOICE
+    <set >
+      <if test="record.NCLAVE_SUCURSAL != null" >
+        NCLAVE_SUCURSAL = #{record.NCLAVE_SUCURSAL,jdbcType=DECIMAL},
+      </if>
+      <if test="record.LUGAR_EXPEDICION != null" >
+        LUGAR_EXPEDICION = #{record.LUGAR_EXPEDICION,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FECHA_EMISION != null" >
+        FECHA_EMISION = #{record.FECHA_EMISION,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.HORA_EMISION != null" >
+        HORA_EMISION = #{record.HORA_EMISION,jdbcType=VARCHAR},
+      </if>
+      <if test="record.IMPORTE != null" >
+        IMPORTE = #{record.IMPORTE,jdbcType=FLOAT},
+      </if>
+      <if test="record.IMPORTE_IVA != null" >
+        IMPORTE_IVA = #{record.IMPORTE_IVA,jdbcType=FLOAT},
+      </if>
+      <if test="record.IMPORTE_TOTAL != null" >
+        IMPORTE_TOTAL = #{record.IMPORTE_TOTAL,jdbcType=FLOAT},
+      </if>
+      <if test="record.BANCO1 != null" >
+        BANCO1 = #{record.BANCO1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.CUENTA1 != null" >
+        CUENTA1 = #{record.CUENTA1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.REFERENCIA1 != null" >
+        REFERENCIA1 = #{record.REFERENCIA1,jdbcType=DECIMAL},
+      </if>
+      <if test="record.FECHA_ENTREGA != null" >
+        FECHA_ENTREGA = #{record.FECHA_ENTREGA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.COMENTARIOS != null" >
+        COMENTARIOS = #{record.COMENTARIOS,jdbcType=VARCHAR},
+      </if>
+      <if test="record.RAZON_SOCIAL != null" >
+        RAZON_SOCIAL = #{record.RAZON_SOCIAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.CALLE_FISCAL != null" >
+        CALLE_FISCAL = #{record.CALLE_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NUMERO_EXTERIOR_FISCAL != null" >
+        NUMERO_EXTERIOR_FISCAL = #{record.NUMERO_EXTERIOR_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NUMERO_INTERIOR_FISCAL != null" >
+        NUMERO_INTERIOR_FISCAL = #{record.NUMERO_INTERIOR_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.COLONIA_FISCAL != null" >
+        COLONIA_FISCAL = #{record.COLONIA_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.CIUDAD_FISCAL != null" >
+        CIUDAD_FISCAL = #{record.CIUDAD_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.MUNICIPIO_FISCAL != null" >
+        MUNICIPIO_FISCAL = #{record.MUNICIPIO_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ESTADO_FISCAL != null" >
+        ESTADO_FISCAL = #{record.ESTADO_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.PAIS_FISCAL != null" >
+        PAIS_FISCAL = #{record.PAIS_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.CODI_POSTAL_FISCAL != null" >
+        CODI_POSTAL_FISCAL = #{record.CODI_POSTAL_FISCAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.RESPONSABLE != null" >
+        RESPONSABLE = #{record.RESPONSABLE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.CALLE_ENTREGA != null" >
+        CALLE_ENTREGA = #{record.CALLE_ENTREGA,jdbcType=VARCHAR},
+      </if>
+      <if test="record.TELEFONO != null" >
+        TELEFONO = #{record.TELEFONO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ESTADO_DOCUMENTO != null" >
+        ESTADO_DOCUMENTO = #{record.ESTADO_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NUMERO_FACTURA != null" >
+        NUMERO_FACTURA = #{record.NUMERO_FACTURA,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FLAG != null" >
+        FLAG = #{record.FLAG,jdbcType=DECIMAL},
+      </if>
+      <if test="record.SERIE != null" >
+        SERIE = #{record.SERIE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FOLIO != null" >
+        FOLIO = #{record.FOLIO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FECHA != null" >
+        FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.NO_APROBACION != null" >
+        NO_APROBACION = #{record.NO_APROBACION,jdbcType=DECIMAL},
+      </if>
+      <if test="record.STATUS_DOC != null" >
+        STATUS_DOC = #{record.STATUS_DOC,jdbcType=VARCHAR},
+      </if>
+      <if test="record.HORA != null" >
+        HORA = #{record.HORA,jdbcType=VARCHAR},
+      </if>
+      <if test="record.TASA_IMPUESTO != null" >
+        TASA_IMPUESTO = #{record.TASA_IMPUESTO,jdbcType=DECIMAL},
+      </if>
+      <if test="record.APROBACION != null" >
+        APROBACION = #{record.APROBACION,jdbcType=DECIMAL},
+      </if>
+      <if test="record.RFC != null" >
+        RFC = #{record.RFC,jdbcType=VARCHAR},
+      </if>
+      <if test="record.SERIE_ERP != null" >
+        SERIE_ERP = #{record.SERIE_ERP,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FOLIO_ERP != null" >
+        FOLIO_ERP = #{record.FOLIO_ERP,jdbcType=VARCHAR},
+      </if>
+      <if test="record.TOTALML != null" >
+        TOTALML = #{record.TOTALML,jdbcType=FLOAT},
+      </if>
+      <if test="record.TIPO_DOCUMENTO != null" >
+        TIPO_DOCUMENTO = #{record.TIPO_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NUMERO_CLIENTE != null" >
+        NUMERO_CLIENTE = #{record.NUMERO_CLIENTE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.MONEDA_DOC != null" >
+        MONEDA_DOC = #{record.MONEDA_DOC,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FECHA_CANCELACION != null" >
+        FECHA_CANCELACION = #{record.FECHA_CANCELACION,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.STATUS != null" >
+        STATUS = #{record.STATUS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.STATUS_ENVIOI != null" >
+        STATUS_ENVIOI = #{record.STATUS_ENVIOI,jdbcType=DECIMAL},
+      </if>
+      <if test="record.STATUS_ENVIOM != null" >
+        STATUS_ENVIOM = #{record.STATUS_ENVIOM,jdbcType=DECIMAL},
+      </if>
+      <if test="record.STATUS_ENVIOF != null" >
+        STATUS_ENVIOF = #{record.STATUS_ENVIOF,jdbcType=DECIMAL},
+      </if>
+      <if test="record.DESCRIPCION_PRODUCTO != null" >
+        DESCRIPCION_PRODUCTO = #{record.DESCRIPCION_PRODUCTO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.VTIPO_DOCUMENTO != null" >
+        VTIPO_DOCUMENTO = #{record.VTIPO_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NNUMERO_PEDIDO != null" >
+        NNUMERO_PEDIDO = #{record.NNUMERO_PEDIDO,jdbcType=DECIMAL},
+      </if>
+      <if test="record.TIPO_CAMBIO != null" >
+        TIPO_CAMBIO = #{record.TIPO_CAMBIO,jdbcType=FLOAT},
+      </if>
+      <if test="record.STATUS_PRINT != null" >
+        STATUS_PRINT = #{record.STATUS_PRINT,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ORIGEN != null" >
+        ORIGEN = #{record.ORIGEN,jdbcType=DECIMAL},
+      </if>
+      <if test="record.PLANTILLA != null" >
+        PLANTILLA = #{record.PLANTILLA,jdbcType=VARCHAR},
+      </if>
+      <if test="record.POLIZA != null" >
+        POLIZA = #{record.POLIZA,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ID_DOCUMENTO != null" >
+        ID_SISTEMA = #{record.ID_DOCUMENTO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FECHA_CONSULTA != null" >
+        FECHA_CONSULTA = #{record.FECHA_CONSULTA,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update FACTURADOR.INVOICE
+    set NCLAVE_SUCURSAL = #{record.NCLAVE_SUCURSAL,jdbcType=DECIMAL},
+      LUGAR_EXPEDICION = #{record.LUGAR_EXPEDICION,jdbcType=VARCHAR},
+      FECHA_EMISION = #{record.FECHA_EMISION,jdbcType=TIMESTAMP},
+      HORA_EMISION = #{record.HORA_EMISION,jdbcType=VARCHAR},
+      IMPORTE = #{record.IMPORTE,jdbcType=FLOAT},
+      IMPORTE_IVA = #{record.IMPORTE_IVA,jdbcType=FLOAT},
+      IMPORTE_TOTAL = #{record.IMPORTE_TOTAL,jdbcType=FLOAT},
+      BANCO1 = #{record.BANCO1,jdbcType=VARCHAR},
+      CUENTA1 = #{record.CUENTA1,jdbcType=VARCHAR},
+      REFERENCIA1 = #{record.REFERENCIA1,jdbcType=DECIMAL},
+      FECHA_ENTREGA = #{record.FECHA_ENTREGA,jdbcType=TIMESTAMP},
+      COMENTARIOS = #{record.COMENTARIOS,jdbcType=VARCHAR},
+      RAZON_SOCIAL = #{record.RAZON_SOCIAL,jdbcType=VARCHAR},
+      CALLE_FISCAL = #{record.CALLE_FISCAL,jdbcType=VARCHAR},
+      NUMERO_EXTERIOR_FISCAL = #{record.NUMERO_EXTERIOR_FISCAL,jdbcType=VARCHAR},
+      NUMERO_INTERIOR_FISCAL = #{record.NUMERO_INTERIOR_FISCAL,jdbcType=VARCHAR},
+      COLONIA_FISCAL = #{record.COLONIA_FISCAL,jdbcType=VARCHAR},
+      CIUDAD_FISCAL = #{record.CIUDAD_FISCAL,jdbcType=VARCHAR},
+      MUNICIPIO_FISCAL = #{record.MUNICIPIO_FISCAL,jdbcType=VARCHAR},
+      ESTADO_FISCAL = #{record.ESTADO_FISCAL,jdbcType=VARCHAR},
+      PAIS_FISCAL = #{record.PAIS_FISCAL,jdbcType=VARCHAR},
+      CODI_POSTAL_FISCAL = #{record.CODI_POSTAL_FISCAL,jdbcType=VARCHAR},
+      RESPONSABLE = #{record.RESPONSABLE,jdbcType=VARCHAR},
+      CALLE_ENTREGA = #{record.CALLE_ENTREGA,jdbcType=VARCHAR},
+      TELEFONO = #{record.TELEFONO,jdbcType=VARCHAR},
+      ESTADO_DOCUMENTO = #{record.ESTADO_DOCUMENTO,jdbcType=VARCHAR},
+      NUMERO_FACTURA = #{record.NUMERO_FACTURA,jdbcType=VARCHAR},
+      FLAG = #{record.FLAG,jdbcType=DECIMAL},
+      SERIE = #{record.SERIE,jdbcType=VARCHAR},
+      FOLIO = #{record.FOLIO,jdbcType=VARCHAR},
+      FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
+      NO_APROBACION = #{record.NO_APROBACION,jdbcType=DECIMAL},
+      STATUS_DOC = #{record.STATUS_DOC,jdbcType=VARCHAR},
+      HORA = #{record.HORA,jdbcType=VARCHAR},
+      TASA_IMPUESTO = #{record.TASA_IMPUESTO,jdbcType=DECIMAL},
+      APROBACION = #{record.APROBACION,jdbcType=DECIMAL},
+      RFC = #{record.RFC,jdbcType=VARCHAR},
+      SERIE_ERP = #{record.SERIE_ERP,jdbcType=VARCHAR},
+      FOLIO_ERP = #{record.FOLIO_ERP,jdbcType=VARCHAR},
+      TOTALML = #{record.TOTALML,jdbcType=FLOAT},
+      TIPO_DOCUMENTO = #{record.TIPO_DOCUMENTO,jdbcType=VARCHAR},
+      NUMERO_CLIENTE = #{record.NUMERO_CLIENTE,jdbcType=VARCHAR},
+      MONEDA_DOC = #{record.MONEDA_DOC,jdbcType=VARCHAR},
+      FECHA_CANCELACION = #{record.FECHA_CANCELACION,jdbcType=TIMESTAMP},
+      STATUS = #{record.STATUS,jdbcType=DECIMAL},
+      STATUS_ENVIOI = #{record.STATUS_ENVIOI,jdbcType=DECIMAL},
+      STATUS_ENVIOM = #{record.STATUS_ENVIOM,jdbcType=DECIMAL},
+      STATUS_ENVIOF = #{record.STATUS_ENVIOF,jdbcType=DECIMAL},
+      DESCRIPCION_PRODUCTO = #{record.DESCRIPCION_PRODUCTO,jdbcType=VARCHAR},
+      VTIPO_DOCUMENTO = #{record.VTIPO_DOCUMENTO,jdbcType=VARCHAR},
+      NNUMERO_PEDIDO = #{record.NNUMERO_PEDIDO,jdbcType=DECIMAL},
+      TIPO_CAMBIO = #{record.TIPO_CAMBIO,jdbcType=FLOAT},
+      STATUS_PRINT = #{record.STATUS_PRINT,jdbcType=DECIMAL},
+      ORIGEN = #{record.ORIGEN,jdbcType=DECIMAL},
+      PLANTILLA = #{record.PLANTILLA,jdbcType=VARCHAR},
+      POLIZA = #{record.POLIZA,jdbcType=VARCHAR},
+      ID_SISTEMA = #{record.ID_DOCUMENTO,jdbcType=VARCHAR},
+      FECHA_CONSULTA = #{record.FECHA_CONSULTA,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

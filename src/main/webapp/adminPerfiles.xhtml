@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                template="templates/default/main.xhtml">
+    <ui:param name="menu" value="'Administración,perfiles,index'"/>
+    <ui:define name="menu">
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:commandButton id="btnGuardar" value="" icon="ui-icon-plusthick" styleClass="btnWithPlusIcon" onclick="PF('eventDialog').show();" immediate="true" style="float:left;"/>
+            <p:tooltip for="btnGuardar" value="Agregar perfil"/>
+            <p:growl id="messages" autoUpdate="true" showDetail="true"/>
+
+            <h:panelGrid id="eventDetails" columns="1">
+                <f:facet name="header">
+                    Listado de perfiles
+                </f:facet>
+
+                <h:selectOneMenu id="perfil" value="#{menuManagerBean.currentProfile}">
+                    <f:selectItem itemLabel="Selecciona perfil" value="#{null}" />
+                    <f:selectItems value="#{menuManagerBean.profileList}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
+                    <p:ajax update="form" listener="#{menuManagerBean.changeOptionValue}" event="change"/>
+                </h:selectOneMenu>
+
+                <p:selectManyCheckbox id="profileOptionList" value="#{menuManagerBean.menuOptionsList}" layout="grid" columns="1">
+                    <f:selectItems value="#{menuManagerBean.resourcesList}" var="option" itemLabel="#{option}" itemValue="#{option}" />
+                </p:selectManyCheckbox>
+                <p:commandButton
+                        id="btnSaveOptions"
+                        value="Guardar"
+                        type="submit"
+                        action="#{menuManagerBean.addOptions}"
+                        update="form">
+                </p:commandButton>
+
+            </h:panelGrid>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+            <p:dialog widgetVar="eventDialog" header="Nuevo perfil" showEffect="clip" hideEffect="clip" height="auto" width="auto" position="center, center">
+
+                <h:panelGrid id="profileDetails" columns="3">
+
+                    <h:outputLabel for="nombrePerfil" value="Nombre del perfil: "/>
+                    <p:inputText id="nombrePerfil" value="#{menuManagerBean.newProfile}">
+                        <p:watermark for="nombrePerfil" value="perfil"/>
+                    </p:inputText>
+                    <p:commandButton
+                            id="crearPerfil"
+                            value="Guardar"
+                            action="#{menuManagerBean.addProfile}"
+                            oncomplete= "PF('eventDialog').hide();"
+                            update="form"
+                            type="submit"
+                            ajax="true">
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

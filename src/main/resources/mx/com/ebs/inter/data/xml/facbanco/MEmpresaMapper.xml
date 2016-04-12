@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.facbanco.MEmpresaMapper" >
+  <resultMap id="BaseResultMap" type="mx.com.ebs.inter.data.model.facbanco.MEmpresa" >
+    <id column="ID" property="ID" jdbcType="DECIMAL" />
+    <result column="RAZON_SOCIAL" property="RAZON_SOCIAL" jdbcType="VARCHAR" />
+    <result column="RFC_ORIGEN" property="RFC_ORIGEN" jdbcType="VARCHAR" />
+    <result column="DIRECCION_ID" property="DIRECCION_ID" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="mx.com.ebs.inter.data.model.facbanco.MEmpresa" extends="BaseResultMap" >
+    <result column="LICENCIA" property="LICENCIA" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    ID, RAZON_SOCIAL, RFC_ORIGEN, DIRECCION_ID
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    LICENCIA
+  </sql>
+
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="mx.com.ebs.inter.data.model.facbanco.MEmpresaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from M_INTERACCIONES.M_EMPRESA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by $orderByClause$
+    </if>
+  </select>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.facbanco.MEmpresaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from M_INTERACCIONES.M_EMPRESA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from M_INTERACCIONES.M_EMPRESA
+    where ID = #{ID,jdbcType=DECIMAL}
+  </select>
+
+    <select id="selectByRFC" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from M_INTERACCIONES.M_EMPRESA
+        where RFC_ORIGEN = #{RFC,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.facbanco.MCfdXmlMapper" >
+
+    <resultMap id="BaseResultMap" type="mx.com.ebs.inter.data.model.facbanco.MCfdXml" >
+    <id column="ID" property="ID" jdbcType="DECIMAL" />
+    <result column="UUID" property="UUID" jdbcType="VARCHAR" />
+    <result column="CFD_ID" property="CFD_ID" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="mx.com.ebs.inter.data.model.facbanco.MCfdXmlWithBLOBs" extends="BaseResultMap" >
+    <result column="XML" property="XML" jdbcType="BLOB" />
+    <result column="XMLP" property="XMLP" jdbcType="BLOB" />
+  </resultMap>
+
+    <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+
+
+    <sql id="Base_Column_List" >
+    ID, UUID, CFD_ID
+  </sql>
+
+    <sql id="Blob_Column_List" >
+    XML, XMLP
+  </sql>
+
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfdXmlExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from M_INTERACCIONES.M_CFD_XML
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by $orderByClause$
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfdXmlExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from M_INTERACCIONES.M_CFD_XML
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from M_INTERACCIONES.M_CFD_XML
+    where ID = #{ID,jdbcType=DECIMAL}
+  </select>
+
+    <select id="selectByForeignKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from M_INTERACCIONES.M_CFD_XML
+        where CFD_ID = #{ID,jdbcType=DECIMAL}
+    </select>
+
+</mapper>

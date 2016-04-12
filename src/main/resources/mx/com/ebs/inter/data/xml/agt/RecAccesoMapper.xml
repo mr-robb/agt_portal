@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.agt.RecAccesoMapper" >
+  <resultMap id="BaseResultMap" type="mx.com.ebs.inter.data.model.RecAcceso" >
+
+    <result column="EBS_RFC" property="EBS_RFC" jdbcType="VARCHAR" />
+    <result column="EBS_USER_ID" property="EBS_USER_ID" jdbcType="VARCHAR" />
+    <result column="EBS_PW_ACTUAL" property="EBS_PW_ACTUAL" jdbcType="VARCHAR" />
+    <result column="EBS_TIPO_USER" property="EBS_TIPO_USER" jdbcType="VARCHAR" />
+    <result column="EBS_EMAIL" property="EBS_EMAIL" jdbcType="VARCHAR" />
+    <result column="EBS_NOMBRE" property="EBS_NOMBRE" jdbcType="VARCHAR" />
+    <result column="EBS_TELEFONO" property="EBS_TELEFONO" jdbcType="VARCHAR" />
+    <result column="EBS_DIRECCION" property="EBS_DIRECCION" jdbcType="VARCHAR" />
+    <result column="STATUS" property="STATUS" jdbcType="DECIMAL" />
+    <result column="EBS_FECHA" property="EBS_FECHA" jdbcType="TIMESTAMP" />
+    <result column="FECHA_MODIFICACION" property="FECHA_MODIFICACION" jdbcType="TIMESTAMP" />
+    <result column="M_ENVIO_CHK" property="m_ENVIO_CHK" jdbcType="DECIMAL" />
+    <result column="MAIL_ENVIO" property="MAIL_ENVIO" jdbcType="VARCHAR" />
+    <result column="FTP_ENVIO_IP" property="FTP_ENVIO_IP" jdbcType="VARCHAR" />
+    <result column="FTP_ENVIO_PATH" property="FTP_ENVIO_PATH" jdbcType="VARCHAR" />
+    <result column="FTP_ENVIO_US" property="FTP_ENVIO_US" jdbcType="VARCHAR" />
+    <result column="FTP_ENVIO_PW" property="FTP_ENVIO_PW" jdbcType="VARCHAR" />
+    <result column="FAX_ENVIO" property="FAX_ENVIO" jdbcType="VARCHAR" />
+    <result column="SUCURSAL" property="SUCURSAL" jdbcType="VARCHAR" />
+    <result column="CTA_PADRE" property="CTA_PADRE" jdbcType="VARCHAR" />
+    <result column="NINTENTOS" property="NINTENTOS" jdbcType="DECIMAL" />
+    <result column="ULTIMOACCESO" property="ULTIMOACCESO" jdbcType="DATE" />
+    <result column="EBS_PERFIL" property="EBS_PERFIL" jdbcType="VARCHAR" />
+    <result column="CHANGEPW" property="CHANGEPW" jdbcType="DECIMAL" />
+    <result column="NUMERO_CLIENTE" property="NUMERO_CLIENTE" jdbcType="VARCHAR" />
+    <result column="FECHA_ULTIMA_FACTURA" property="FECHA_ULTIMA_FACTURA" jdbcType="TIMESTAMP" />
+    <result column="CONTRATO_EBS" property="CONTRATO_EBS" jdbcType="VARCHAR" />
+  </resultMap>
+    <!-- Result Mapping for login with user and password fields  -->
+    <resultMap id="LoginUserPassResultMap" type="mx.com.ebs.inter.data.model.RecAcceso">
+        <result column="EBS_USER_ID" property="EBS_USER_ID" jdbcType="VARCHAR" />
+        <result column="EBS_TIPO_USER" property="EBS_TIPO_USER" jdbcType="VARCHAR" />
+        <result column="NINTENTOS" property="NINTENTOS" jdbcType="DECIMAL" />
+        <result column="ULTIMOACCESO" property="ULTIMOACCESO" jdbcType="DATE" />
+        <result column="EBS_PERFIL" property="EBS_PERFIL" jdbcType="VARCHAR" />
+        <result column="CHANGEPW" property="CHANGEPW" jdbcType="DECIMAL" />
+        <result column="EBS_PW_ACTUAL" property="EBS_PW_ACTUAL" jdbcType="VARCHAR" />
+		<result column="NUMERO_CLIENTE" property="NUMERO_CLIENTE" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!-- select clause for login action  -->
+    <select id="findRecAccesoUserPass" parameterType="mx.com.ebs.inter.data.bo.LoginBo" resultMap="LoginUserPassResultMap">
+        SELECT
+        EBS_USER_ID,
+        EBS_TIPO_USER,
+        NINTENTOS,
+        ULTIMOACCESO,
+        EBS_PERFIL,
+        CHANGEPW,
+        EBS_PW_ACTUAL,
+		NUMERO_CLIENTE
+        FROM
+        FACTURADOR.REC_ACCESO rac
+        WHERE rac.EBS_USER_ID = #{username}
+    </select>
+    
+  <sql id="Example_Where_Clause" >
+
+    <where >
+        <if test="oredCriteria.size > 0">
+
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+              and ROWNUM &lt;= #{resultLimitRows}
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+          <if test="!criteria.valid" >
+              ROWNUM &lt;= #{resultLimitRows}
+          </if>
+      </foreach>
+        </if>
+        <if test="oredCriteria.size == 0">
+            ROWNUM &lt;= #{resultLimitRows}
+        </if>
+
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+
+    EBS_RFC, EBS_USER_ID, EBS_PW_ACTUAL, EBS_TIPO_USER, EBS_EMAIL, EBS_NOMBRE, EBS_TELEFONO, 
+    EBS_DIRECCION, STATUS, EBS_FECHA, FECHA_MODIFICACION, M_ENVIO_CHK, MAIL_ENVIO, FTP_ENVIO_IP, 
+    FTP_ENVIO_PATH, FTP_ENVIO_US, FTP_ENVIO_PW, FAX_ENVIO, SUCURSAL, CTA_PADRE, NINTENTOS, 
+    ULTIMOACCESO, EBS_PERFIL, CHANGEPW, NUMERO_CLIENTE, FECHA_ULTIMA_FACTURA, CONTRATO_EBS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.RecAccesoExample" >
+
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from FACTURADOR.REC_ACCESO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+      <if test="_parameter == null">
+          where ROWNUM &lt;= #{resultLimitRows}
+      </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+
+
+  <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.RecAccesoExample" >
+
+    delete from FACTURADOR.REC_ACCESO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.com.ebs.inter.data.model.RecAcceso" >
+
+    insert into FACTURADOR.REC_ACCESO (EBS_RFC, EBS_USER_ID, EBS_PW_ACTUAL, 
+      EBS_TIPO_USER, EBS_EMAIL, EBS_NOMBRE, 
+      EBS_TELEFONO, EBS_DIRECCION, STATUS, 
+      EBS_FECHA, FECHA_MODIFICACION, M_ENVIO_CHK, 
+      MAIL_ENVIO, FTP_ENVIO_IP, FTP_ENVIO_PATH, 
+      FTP_ENVIO_US, FTP_ENVIO_PW, FAX_ENVIO, 
+      SUCURSAL, CTA_PADRE, NINTENTOS, 
+      ULTIMOACCESO, EBS_PERFIL, CHANGEPW, 
+      NUMERO_CLIENTE, FECHA_ULTIMA_FACTURA, 
+      CONTRATO_EBS)
+    values (#{EBS_RFC,jdbcType=VARCHAR}, #{EBS_USER_ID,jdbcType=VARCHAR}, #{EBS_PW_ACTUAL,jdbcType=VARCHAR}, 
+      #{EBS_TIPO_USER,jdbcType=VARCHAR}, #{EBS_EMAIL,jdbcType=VARCHAR}, #{EBS_NOMBRE,jdbcType=VARCHAR}, 
+      #{EBS_TELEFONO,jdbcType=VARCHAR}, #{EBS_DIRECCION,jdbcType=VARCHAR}, #{STATUS,jdbcType=DECIMAL}, 
+      #{EBS_FECHA,jdbcType=TIMESTAMP}, #{FECHA_MODIFICACION,jdbcType=TIMESTAMP}, #{m_ENVIO_CHK,jdbcType=DECIMAL}, 
+      #{MAIL_ENVIO,jdbcType=VARCHAR}, #{FTP_ENVIO_IP,jdbcType=VARCHAR}, #{FTP_ENVIO_PATH,jdbcType=VARCHAR}, 
+      #{FTP_ENVIO_US,jdbcType=VARCHAR}, #{FTP_ENVIO_PW,jdbcType=VARCHAR}, #{FAX_ENVIO,jdbcType=VARCHAR}, 
+      #{SUCURSAL,jdbcType=VARCHAR}, #{CTA_PADRE,jdbcType=VARCHAR}, #{NINTENTOS,jdbcType=DECIMAL}, 
+      #{ULTIMOACCESO,jdbcType=DATE}, #{EBS_PERFIL,jdbcType=VARCHAR}, #{CHANGEPW,jdbcType=DECIMAL}, 
+      #{NUMERO_CLIENTE,jdbcType=VARCHAR}, #{FECHA_ULTIMA_FACTURA,jdbcType=TIMESTAMP}, 
+      #{CONTRATO_EBS,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.RecAcceso" >
+
+    insert into FACTURADOR.REC_ACCESO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="EBS_RFC != null" >
+        EBS_RFC,
+      </if>
+      <if test="EBS_USER_ID != null" >
+        EBS_USER_ID,
+      </if>
+      <if test="EBS_PW_ACTUAL != null" >
+        EBS_PW_ACTUAL,
+      </if>
+      <if test="EBS_TIPO_USER != null" >
+        EBS_TIPO_USER,
+      </if>
+      <if test="EBS_EMAIL != null" >
+        EBS_EMAIL,
+      </if>
+      <if test="EBS_NOMBRE != null" >
+        EBS_NOMBRE,
+      </if>
+      <if test="EBS_TELEFONO != null" >
+        EBS_TELEFONO,
+      </if>
+      <if test="EBS_DIRECCION != null" >
+        EBS_DIRECCION,
+      </if>
+      <if test="STATUS != null" >
+        STATUS,
+      </if>
+      <if test="EBS_FECHA != null" >
+        EBS_FECHA,
+      </if>
+      <if test="FECHA_MODIFICACION != null" >
+        FECHA_MODIFICACION,
+      </if>
+      <if test="m_ENVIO_CHK != null" >
+        M_ENVIO_CHK,
+      </if>
+      <if test="MAIL_ENVIO != null" >
+        MAIL_ENVIO,
+      </if>
+      <if test="FTP_ENVIO_IP != null" >
+        FTP_ENVIO_IP,
+      </if>
+      <if test="FTP_ENVIO_PATH != null" >
+        FTP_ENVIO_PATH,
+      </if>
+      <if test="FTP_ENVIO_US != null" >
+        FTP_ENVIO_US,
+      </if>
+      <if test="FTP_ENVIO_PW != null" >
+        FTP_ENVIO_PW,
+      </if>
+      <if test="FAX_ENVIO != null" >
+        FAX_ENVIO,
+      </if>
+      <if test="SUCURSAL != null" >
+        SUCURSAL,
+      </if>
+      <if test="CTA_PADRE != null" >
+        CTA_PADRE,
+      </if>
+      <if test="NINTENTOS != null" >
+        NINTENTOS,
+      </if>
+      <if test="ULTIMOACCESO != null" >
+        ULTIMOACCESO,
+      </if>
+      <if test="EBS_PERFIL != null" >
+        EBS_PERFIL,
+      </if>
+      <if test="CHANGEPW != null" >
+        CHANGEPW,
+      </if>
+      <if test="NUMERO_CLIENTE != null" >
+        NUMERO_CLIENTE,
+      </if>
+      <if test="FECHA_ULTIMA_FACTURA != null" >
+        FECHA_ULTIMA_FACTURA,
+      </if>
+      <if test="CONTRATO_EBS != null" >
+        CONTRATO_EBS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="EBS_RFC != null" >
+        #{EBS_RFC,jdbcType=VARCHAR},
+      </if>
+      <if test="EBS_USER_ID != null" >
+        #{EBS_USER_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="EBS_PW_ACTUAL != null" >
+        #{EBS_PW_ACTUAL,jdbcType=VARCHAR},
+      </if>
+      <if test="EBS_TIPO_USER != null" >
+        #{EBS_TIPO_USER,jdbcType=VARCHAR},
+      </if>
+      <if test="EBS_EMAIL != null" >
+        #{EBS_EMAIL,jdbcType=VARCHAR},
+      </if>
+      <if test="EBS_NOMBRE != null" >
+        #{EBS_NOMBRE,jdbcType=VARCHAR},
+      </if>
+      <if test="EBS_TELEFONO != null" >
+        #{EBS_TELEFONO,jdbcType=VARCHAR},
+      </if>
+      <if test="EBS_DIRECCION != null" >
+        #{EBS_DIRECCION,jdbcType=VARCHAR},
+      </if>
+      <if test="STATUS != null" >
+        #{STATUS,jdbcType=DECIMAL},
+      </if>
+      <if test="EBS_FECHA != null" >
+        #{EBS_FECHA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="FECHA_MODIFICACION != null" >
+        #{FECHA_MODIFICACION,jdbcType=TIMESTAMP},
+      </if>
+      <if test="m_ENVIO_CHK != null" >
+        #{m_ENVIO_CHK,jdbcType=DECIMAL},
+      </if>
+      <if test="MAIL_ENVIO != null" >
+        #{MAIL_ENVIO,jdbcType=VARCHAR},
+      </if>
+      <if test="FTP_ENVIO_IP != null" >
+        #{FTP_ENVIO_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="FTP_ENVIO_PATH != null" >
+        #{FTP_ENVIO_PATH,jdbcType=VARCHAR},
+      </if>
+      <if test="FTP_ENVIO_US != null" >
+        #{FTP_ENVIO_US,jdbcType=VARCHAR},
+      </if>
+      <if test="FTP_ENVIO_PW != null" >
+        #{FTP_ENVIO_PW,jdbcType=VARCHAR},
+      </if>
+      <if test="FAX_ENVIO != null" >
+        #{FAX_ENVIO,jdbcType=VARCHAR},
+      </if>
+      <if test="SUCURSAL != null" >
+        #{SUCURSAL,jdbcType=VARCHAR},
+      </if>
+      <if test="CTA_PADRE != null" >
+        #{CTA_PADRE,jdbcType=VARCHAR},
+      </if>
+      <if test="NINTENTOS != null" >
+        #{NINTENTOS,jdbcType=DECIMAL},
+      </if>
+      <if test="ULTIMOACCESO != null" >
+        #{ULTIMOACCESO,jdbcType=DATE},
+      </if>
+      <if test="EBS_PERFIL != null" >
+        #{EBS_PERFIL,jdbcType=VARCHAR},
+      </if>
+      <if test="CHANGEPW != null" >
+        #{CHANGEPW,jdbcType=DECIMAL},
+      </if>
+      <if test="NUMERO_CLIENTE != null" >
+        #{NUMERO_CLIENTE,jdbcType=VARCHAR},
+      </if>
+      <if test="FECHA_ULTIMA_FACTURA != null" >
+        #{FECHA_ULTIMA_FACTURA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="CONTRATO_EBS != null" >
+        #{CONTRATO_EBS,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.RecAccesoExample" resultType="java.lang.Integer" >
+
+    select count(*) from FACTURADOR.REC_ACCESO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+
+    update FACTURADOR.REC_ACCESO
+    <set >
+      <if test="record.EBS_RFC != null" >
+        EBS_RFC = #{record.EBS_RFC,jdbcType=VARCHAR},
+      </if>
+      <if test="record.EBS_USER_ID != null" >
+        EBS_USER_ID = #{record.EBS_USER_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.EBS_PW_ACTUAL != null" >
+        EBS_PW_ACTUAL = #{record.EBS_PW_ACTUAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.EBS_TIPO_USER != null" >
+        EBS_TIPO_USER = #{record.EBS_TIPO_USER,jdbcType=VARCHAR},
+      </if>
+      <if test="record.EBS_EMAIL != null" >
+        EBS_EMAIL = #{record.EBS_EMAIL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.EBS_NOMBRE != null" >
+        EBS_NOMBRE = #{record.EBS_NOMBRE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.EBS_TELEFONO != null" >
+        EBS_TELEFONO = #{record.EBS_TELEFONO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.EBS_DIRECCION != null" >
+        EBS_DIRECCION = #{record.EBS_DIRECCION,jdbcType=VARCHAR},
+      </if>
+      <if test="record.STATUS != null" >
+        STATUS = #{record.STATUS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.EBS_FECHA != null" >
+        EBS_FECHA = #{record.EBS_FECHA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.FECHA_MODIFICACION != null" >
+        FECHA_MODIFICACION = #{record.FECHA_MODIFICACION,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.m_ENVIO_CHK != null" >
+        M_ENVIO_CHK = #{record.m_ENVIO_CHK,jdbcType=DECIMAL},
+      </if>
+      <if test="record.MAIL_ENVIO != null" >
+        MAIL_ENVIO = #{record.MAIL_ENVIO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FTP_ENVIO_IP != null" >
+        FTP_ENVIO_IP = #{record.FTP_ENVIO_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FTP_ENVIO_PATH != null" >
+        FTP_ENVIO_PATH = #{record.FTP_ENVIO_PATH,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FTP_ENVIO_US != null" >
+        FTP_ENVIO_US = #{record.FTP_ENVIO_US,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FTP_ENVIO_PW != null" >
+        FTP_ENVIO_PW = #{record.FTP_ENVIO_PW,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FAX_ENVIO != null" >
+        FAX_ENVIO = #{record.FAX_ENVIO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.SUCURSAL != null" >
+        SUCURSAL = #{record.SUCURSAL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.CTA_PADRE != null" >
+        CTA_PADRE = #{record.CTA_PADRE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NINTENTOS != null" >
+        NINTENTOS = #{record.NINTENTOS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ULTIMOACCESO != null" >
+        ULTIMOACCESO = #{record.ULTIMOACCESO,jdbcType=DATE},
+      </if>
+      <if test="record.EBS_PERFIL != null" >
+        EBS_PERFIL = #{record.EBS_PERFIL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.CHANGEPW != null" >
+        CHANGEPW = #{record.CHANGEPW,jdbcType=DECIMAL},
+      </if>
+      <if test="record.NUMERO_CLIENTE != null" >
+        NUMERO_CLIENTE = #{record.NUMERO_CLIENTE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.FECHA_ULTIMA_FACTURA != null" >
+        FECHA_ULTIMA_FACTURA = #{record.FECHA_ULTIMA_FACTURA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.CONTRATO_EBS != null" >
+        CONTRATO_EBS = #{record.CONTRATO_EBS,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+
+    update FACTURADOR.REC_ACCESO
+    set EBS_RFC = #{record.EBS_RFC,jdbcType=VARCHAR},
+      EBS_PW_ACTUAL = #{record.EBS_PW_ACTUAL,jdbcType=VARCHAR},
+      EBS_TIPO_USER = #{record.EBS_TIPO_USER,jdbcType=VARCHAR},
+      EBS_EMAIL = #{record.EBS_EMAIL,jdbcType=VARCHAR},
+      EBS_NOMBRE = #{record.EBS_NOMBRE,jdbcType=VARCHAR},
+      EBS_TELEFONO = #{record.EBS_TELEFONO,jdbcType=VARCHAR},
+      EBS_DIRECCION = #{record.EBS_DIRECCION,jdbcType=VARCHAR},
+      STATUS = #{record.STATUS,jdbcType=DECIMAL},
+      EBS_FECHA = #{record.EBS_FECHA,jdbcType=TIMESTAMP},
+      FECHA_MODIFICACION = #{record.FECHA_MODIFICACION,jdbcType=TIMESTAMP},
+      M_ENVIO_CHK = #{record.m_ENVIO_CHK,jdbcType=DECIMAL},
+      MAIL_ENVIO = #{record.MAIL_ENVIO,jdbcType=VARCHAR},
+      FTP_ENVIO_IP = #{record.FTP_ENVIO_IP,jdbcType=VARCHAR},
+      FTP_ENVIO_PATH = #{record.FTP_ENVIO_PATH,jdbcType=VARCHAR},
+      FTP_ENVIO_US = #{record.FTP_ENVIO_US,jdbcType=VARCHAR},
+      FTP_ENVIO_PW = #{record.FTP_ENVIO_PW,jdbcType=VARCHAR},
+      FAX_ENVIO = #{record.FAX_ENVIO,jdbcType=VARCHAR},
+      SUCURSAL = #{record.SUCURSAL,jdbcType=VARCHAR},
+      CTA_PADRE = #{record.CTA_PADRE,jdbcType=VARCHAR},
+      NINTENTOS = #{record.NINTENTOS,jdbcType=DECIMAL},
+      ULTIMOACCESO = #{record.ULTIMOACCESO,jdbcType=DATE},
+      EBS_PERFIL = #{record.EBS_PERFIL,jdbcType=VARCHAR},
+      CHANGEPW = #{record.CHANGEPW,jdbcType=DECIMAL},
+      NUMERO_CLIENTE = #{record.NUMERO_CLIENTE,jdbcType=VARCHAR},
+      FECHA_ULTIMA_FACTURA = #{record.FECHA_ULTIMA_FACTURA,jdbcType=TIMESTAMP},
+      CONTRATO_EBS = #{record.CONTRATO_EBS,jdbcType=VARCHAR}
+      where EBS_USER_ID = #{record.EBS_USER_ID}
+    <!--<if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>-->
+  </update>
+
+    <update id="updateIntentos" parameterType="map" >
+        update FACTURADOR.REC_ACCESO
+        set
+        NINTENTOS = #{record.NINTENTOS,jdbcType=DECIMAL},
+        ULTIMOACCESO = #{record.ULTIMOACCESO,jdbcType=DATE}
+        where EBS_USER_ID = #{record.EBS_USER_ID}
+    </update>
+
+    <update id="updateStatus" parameterType="java.lang.String" >
+        update FACTURADOR.REC_ACCESO
+        set
+        STATUS = 1
+        where EBS_USER_ID = #{ebsUserId}
+    </update>
+
+</mapper>

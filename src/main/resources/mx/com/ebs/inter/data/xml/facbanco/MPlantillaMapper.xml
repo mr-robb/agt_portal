@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.facbanco.MPlantillaMapper" >
+    <resultMap id="BaseResultMap" type="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
+        <id column="ID" property="ID" jdbcType="DECIMAL" />
+        <result column="ESTATUS" property="ESTATUS" jdbcType="DECIMAL" />
+        <result column="FECHA" property="FECHA" jdbcType="TIMESTAMP" />
+        <result column="NOMBRE" property="NOMBRE" jdbcType="VARCHAR" />
+        <result column="SERIE" property="SERIE" jdbcType="VARCHAR" />
+        <result column="TIPO_DOC" property="TIPO_DOC" jdbcType="VARCHAR" />
+        <result column="VERSION" property="VERSION" jdbcType="FLOAT" />
+        <result column="EMPRESA_ID" property="EMPRESA_ID" jdbcType="DECIMAL" />
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="mx.com.ebs.inter.data.model.facbanco.MPlantilla" extends="BaseResultMap" >
+        <result column="PLANTILLA" property="PLANTILLA" jdbcType="BLOB" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    ROWNUM &lt;= #{criteria.resultLimitRows} and
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+                <if test="!criteria.valid" >
+                    ROWNUM &lt;= #{criteria.resultLimitRows}
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        ID, ESTATUS, FECHA, NOMBRE, SERIE, TIPO_DOC, VERSION, EMPRESA_ID
+    </sql>
+    <sql id="Blob_Column_List" >
+        PLANTILLA
+    </sql>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantillaExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from M_INTERACCIONES.M_PLANTILLA
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="_parameter == null">
+            where ROWNUM &lt;= #{resultLimitRows}
+        </if>
+        <if test="orderByClause != null" >
+            order by $orderByClause$
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantillaExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from M_INTERACCIONES.M_PLANTILLA
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from M_INTERACCIONES.M_PLANTILLA
+        where ID = #{ID,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from M_INTERACCIONES.M_PLANTILLA
+        where ID = #{ID,jdbcType=DECIMAL}
+    </delete>
+    <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantillaExample" >
+        delete from M_INTERACCIONES.M_PLANTILLA
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
+        insert into M_INTERACCIONES.M_PLANTILLA (ID, ESTATUS, FECHA,
+        NOMBRE, SERIE, TIPO_DOC,
+        VERSION, EMPRESA_ID, PLANTILLA
+        )
+        values (#{ID,jdbcType=DECIMAL}, #{ESTATUS,jdbcType=DECIMAL}, #{FECHA,jdbcType=TIMESTAMP},
+        #{NOMBRE,jdbcType=VARCHAR}, #{SERIE,jdbcType=VARCHAR}, #{TIPO_DOC,jdbcType=VARCHAR},
+        #{VERSION,jdbcType=FLOAT}, #{EMPRESA_ID,jdbcType=DECIMAL}, #{PLANTILLA,jdbcType=BLOB}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
+        insert into M_INTERACCIONES.M_PLANTILLA
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="ID != null" >
+                ID,
+            </if>
+            <if test="ESTATUS != null" >
+                ESTATUS,
+            </if>
+            <if test="FECHA != null" >
+                FECHA,
+            </if>
+            <if test="NOMBRE != null" >
+                NOMBRE,
+            </if>
+            <if test="SERIE != null" >
+                SERIE,
+            </if>
+            <if test="TIPO_DOC != null" >
+                TIPO_DOC,
+            </if>
+            <if test="VERSION != null" >
+                VERSION,
+            </if>
+            <if test="EMPRESA_ID != null" >
+                EMPRESA_ID,
+            </if>
+            <if test="PLANTILLA != null" >
+                PLANTILLA,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="ID != null" >
+                #{ID,jdbcType=DECIMAL},
+            </if>
+            <if test="ESTATUS != null" >
+                #{ESTATUS,jdbcType=DECIMAL},
+            </if>
+            <if test="FECHA != null" >
+                #{FECHA,jdbcType=TIMESTAMP},
+            </if>
+            <if test="NOMBRE != null" >
+                #{NOMBRE,jdbcType=VARCHAR},
+            </if>
+            <if test="SERIE != null" >
+                #{SERIE,jdbcType=VARCHAR},
+            </if>
+            <if test="TIPO_DOC != null" >
+                #{TIPO_DOC,jdbcType=VARCHAR},
+            </if>
+            <if test="VERSION != null" >
+                #{VERSION,jdbcType=FLOAT},
+            </if>
+            <if test="EMPRESA_ID != null" >
+                #{EMPRESA_ID,jdbcType=DECIMAL},
+            </if>
+            <if test="PLANTILLA != null" >
+                #{PLANTILLA,jdbcType=BLOB},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantillaExample" resultType="java.lang.Integer" >
+        select count(*) from M_INTERACCIONES.M_PLANTILLA
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update M_INTERACCIONES.M_PLANTILLA
+        <set >
+            <if test="record.ID != null" >
+                ID = #{record.ID,jdbcType=DECIMAL},
+            </if>
+            <if test="record.ESTATUS != null" >
+                ESTATUS = #{record.ESTATUS,jdbcType=DECIMAL},
+            </if>
+            <if test="record.FECHA != null" >
+                FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.NOMBRE != null" >
+                NOMBRE = #{record.NOMBRE,jdbcType=VARCHAR},
+            </if>
+            <if test="record.SERIE != null" >
+                SERIE = #{record.SERIE,jdbcType=VARCHAR},
+            </if>
+            <if test="record.TIPO_DOC != null" >
+                TIPO_DOC = #{record.TIPO_DOC,jdbcType=VARCHAR},
+            </if>
+            <if test="record.VERSION != null" >
+                VERSION = #{record.VERSION,jdbcType=FLOAT},
+            </if>
+            <if test="record.EMPRESA_ID != null" >
+                EMPRESA_ID = #{record.EMPRESA_ID,jdbcType=DECIMAL},
+            </if>
+            <if test="record.PLANTILLA != null" >
+                PLANTILLA = #{record.PLANTILLA,jdbcType=BLOB},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map" >
+        update M_INTERACCIONES.M_PLANTILLA
+        set ID = #{record.ID,jdbcType=DECIMAL},
+        ESTATUS = #{record.ESTATUS,jdbcType=DECIMAL},
+        FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
+        NOMBRE = #{record.NOMBRE,jdbcType=VARCHAR},
+        SERIE = #{record.SERIE,jdbcType=VARCHAR},
+        TIPO_DOC = #{record.TIPO_DOC,jdbcType=VARCHAR},
+        VERSION = #{record.VERSION,jdbcType=FLOAT},
+        EMPRESA_ID = #{record.EMPRESA_ID,jdbcType=DECIMAL},
+        PLANTILLA = #{record.PLANTILLA,jdbcType=BLOB}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update M_INTERACCIONES.M_PLANTILLA
+        set ID = #{record.ID,jdbcType=DECIMAL},
+        ESTATUS = #{record.ESTATUS,jdbcType=DECIMAL},
+        FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
+        NOMBRE = #{record.NOMBRE,jdbcType=VARCHAR},
+        SERIE = #{record.SERIE,jdbcType=VARCHAR},
+        TIPO_DOC = #{record.TIPO_DOC,jdbcType=VARCHAR},
+        VERSION = #{record.VERSION,jdbcType=FLOAT},
+        EMPRESA_ID = #{record.EMPRESA_ID,jdbcType=DECIMAL}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
+        update M_INTERACCIONES.M_PLANTILLA
+        <set >
+            <if test="ESTATUS != null" >
+                ESTATUS = #{ESTATUS,jdbcType=DECIMAL},
+            </if>
+            <if test="FECHA != null" >
+                FECHA = #{FECHA,jdbcType=TIMESTAMP},
+            </if>
+            <if test="NOMBRE != null" >
+                NOMBRE = #{NOMBRE,jdbcType=VARCHAR},
+            </if>
+            <if test="SERIE != null" >
+                SERIE = #{SERIE,jdbcType=VARCHAR},
+            </if>
+            <if test="TIPO_DOC != null" >
+                TIPO_DOC = #{TIPO_DOC,jdbcType=VARCHAR},
+            </if>
+            <if test="VERSION != null" >
+                VERSION = #{VERSION,jdbcType=FLOAT},
+            </if>
+            <if test="EMPRESA_ID != null" >
+                EMPRESA_ID = #{EMPRESA_ID,jdbcType=DECIMAL},
+            </if>
+            <if test="PLANTILLA != null" >
+                PLANTILLA = #{PLANTILLA,jdbcType=BLOB},
+            </if>
+        </set>
+        where ID = #{ID,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
+        update M_INTERACCIONES.M_PLANTILLA
+        set ESTATUS = #{ESTATUS,jdbcType=DECIMAL},
+        FECHA = #{FECHA,jdbcType=TIMESTAMP},
+        NOMBRE = #{NOMBRE,jdbcType=VARCHAR},
+        SERIE = #{SERIE,jdbcType=VARCHAR},
+        TIPO_DOC = #{TIPO_DOC,jdbcType=VARCHAR},
+        VERSION = #{VERSION,jdbcType=FLOAT},
+        EMPRESA_ID = #{EMPRESA_ID,jdbcType=DECIMAL},
+        PLANTILLA = #{PLANTILLA,jdbcType=BLOB}
+        where ID = #{ID,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
+        update M_INTERACCIONES.M_PLANTILLA
+        set ESTATUS = #{ESTATUS,jdbcType=DECIMAL},
+        FECHA = #{FECHA,jdbcType=TIMESTAMP},
+        NOMBRE = #{NOMBRE,jdbcType=VARCHAR},
+        SERIE = #{SERIE,jdbcType=VARCHAR},
+        TIPO_DOC = #{TIPO_DOC,jdbcType=VARCHAR},
+        VERSION = #{VERSION,jdbcType=FLOAT},
+        EMPRESA_ID = #{EMPRESA_ID,jdbcType=DECIMAL}
+        where ID = #{ID,jdbcType=DECIMAL}
+    </update>
+</mapper>

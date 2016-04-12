@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.agt.RecFeloggerAgtMapper" >
+  <resultMap id="BaseResultMap" type="mx.com.ebs.inter.data.model.RecFeloggerAgt" >
+    <result column="FECHA" property="FECHA" jdbcType="TIMESTAMP" />
+    <result column="CLASE" property="CLASE" jdbcType="VARCHAR" />
+    <result column="METODO" property="METODO" jdbcType="VARCHAR" />
+    <result column="NIVEL" property="NIVEL" jdbcType="VARCHAR" />
+    <result column="ID" property="ID" jdbcType="VARCHAR" />
+    <result column="MENSAJE" property="MENSAJE" jdbcType="VARCHAR" />
+    <result column="AGENTE" property="AGENTE" jdbcType="VARCHAR" />
+    <result column="ANO" property="ANO" jdbcType="VARCHAR" />
+    <result column="MES" property="MES" jdbcType="VARCHAR" />
+    <result column="SIT_COMPROBANTE" property="SIT_COMPROBANTE" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+
+    <where >
+        <if test="oredCriteria.size > 0">
+
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+              and ROWNUM &lt;= #{resultLimitRows}
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+          <if test="!criteria.valid" >
+              ROWNUM &lt;= #{resultLimitRows}
+          </if>
+      </foreach>
+        </if>
+        <if test="oredCriteria.size == 0">
+            ROWNUM &lt;= #{resultLimitRows}
+        </if>
+
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    FECHA, CLASE, METODO, NIVEL, ID, MENSAJE, AGENTE, ANO, MES, SIT_COMPROBANTE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.RecFeloggerAgtExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from FACTURADOR.REC_FELOGGER_AGT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+      <if test="_parameter == null">
+          where ROWNUM &lt;= #{resultLimitRows}
+      </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.RecFeloggerAgtExample" >
+    delete from FACTURADOR.REC_FELOGGER_AGT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.com.ebs.inter.data.model.RecFeloggerAgt" >
+    insert into FACTURADOR.REC_FELOGGER_AGT (FECHA, CLASE, METODO,
+      NIVEL, ID, MENSAJE, 
+      AGENTE, ANO, MES, SIT_COMPROBANTE
+      )
+    values (#{FECHA,jdbcType=TIMESTAMP}, #{CLASE,jdbcType=VARCHAR}, #{METODO,jdbcType=VARCHAR}, 
+      #{NIVEL,jdbcType=VARCHAR}, #{ID,jdbcType=VARCHAR}, #{MENSAJE,jdbcType=VARCHAR}, 
+      #{AGENTE,jdbcType=VARCHAR}, #{ANO,jdbcType=VARCHAR}, #{MES,jdbcType=VARCHAR}, #{SIT_COMPROBANTE,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.RecFeloggerAgt" >
+    insert into FACTURADOR.REC_FELOGGER_AGT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="FECHA != null" >
+        FECHA,
+      </if>
+      <if test="CLASE != null" >
+        CLASE,
+      </if>
+      <if test="METODO != null" >
+        METODO,
+      </if>
+      <if test="NIVEL != null" >
+        NIVEL,
+      </if>
+      <if test="ID != null" >
+        ID,
+      </if>
+      <if test="MENSAJE != null" >
+        MENSAJE,
+      </if>
+      <if test="AGENTE != null" >
+        AGENTE,
+      </if>
+      <if test="ANO != null" >
+        ANO,
+      </if>
+      <if test="MES != null" >
+        MES,
+      </if>
+      <if test="SIT_COMPROBANTE != null" >
+        SIT_COMPROBANTE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="FECHA != null" >
+        #{FECHA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="CLASE != null" >
+        #{CLASE,jdbcType=VARCHAR},
+      </if>
+      <if test="METODO != null" >
+        #{METODO,jdbcType=VARCHAR},
+      </if>
+      <if test="NIVEL != null" >
+        #{NIVEL,jdbcType=VARCHAR},
+      </if>
+      <if test="ID != null" >
+        #{ID,jdbcType=VARCHAR},
+      </if>
+      <if test="MENSAJE != null" >
+        #{MENSAJE,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENTE != null" >
+        #{AGENTE,jdbcType=VARCHAR},
+      </if>
+      <if test="ANO != null" >
+        #{ANO,jdbcType=VARCHAR},
+      </if>
+      <if test="MES != null" >
+        #{MES,jdbcType=VARCHAR},
+      </if>
+      <if test="SIT_COMPROBANTE != null" >
+        #{SIT_COMPROBANTE,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.RecFeloggerAgtExample" resultType="java.lang.Integer" >
+    select count(*) from FACTURADOR.REC_FELOGGER_AGT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update FACTURADOR.REC_FELOGGER_AGT
+    <set >
+      <if test="record.FECHA != null" >
+        FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.CLASE != null" >
+        CLASE = #{record.CLASE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.METODO != null" >
+        METODO = #{record.METODO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NIVEL != null" >
+        NIVEL = #{record.NIVEL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ID != null" >
+        ID = #{record.ID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.MENSAJE != null" >
+        MENSAJE = #{record.MENSAJE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.AGENTE != null" >
+        AGENTE = #{record.AGENTE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ANO != null" >
+        ANO = #{record.ANO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.MES != null" >
+        MES = #{record.MES,jdbcType=VARCHAR},
+      </if>
+      <if test="record.SIT_COMPROBANTE != null" >
+        SIT_COMPROBANTE = #{record.SIT_COMPROBANTE,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update FACTURADOR.REC_FELOGGER_AGT
+    set FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
+      CLASE = #{record.CLASE,jdbcType=VARCHAR},
+      METODO = #{record.METODO,jdbcType=VARCHAR},
+      NIVEL = #{record.NIVEL,jdbcType=VARCHAR},
+      ID = #{record.ID,jdbcType=VARCHAR},
+      MENSAJE = #{record.MENSAJE,jdbcType=VARCHAR},
+      AGENTE = #{record.AGENTE,jdbcType=VARCHAR},
+      ANO = #{record.ANO,jdbcType=VARCHAR},
+      MES = #{record.MES,jdbcType=VARCHAR},
+      SIT_COMPROBANTE = #{record.SIT_COMPROBANTE,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

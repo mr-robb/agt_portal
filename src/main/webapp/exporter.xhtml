@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/templates/default/main.xhtml">
+    <ui:param name="menu" value="'Administración,exportar archivos,index'" />
+    <ui:define name="menu"></ui:define>
+    <ui:define name="content">
+        <p:accordionPanel activeIndex="0" >
+            <p:tab title="Opciones de búsqueda" >
+                <h:form id="frmSearch">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true"  closable="true" escape="false" />
+                    <h:panelGrid id="panel" columns="9">
+
+                        <h:outputLabel for="numAgente" value="No. de agente:" />
+                        <p:inputText id="numAgente"
+                                     maxlength="10"
+                                     value="#{exporterBean.exporterSearchBo.numAgente}" required="false"
+                                     title="debe ser exactamente el número de agente">
+                            <pe:keyFilter regEx="/[0-9\/]/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipAgente" for="numAgente" showEvent="focus" hideEvent="blur" />
+
+
+                        <h:outputLabel for="rfc" value="RFC:" />
+                        <p:inputText id="rfc"
+                                     maxlength="13"
+                                     value="#{exporterBean.exporterSearchBo.rfc}" required="false"
+                                     title="debe ser de 12 ó 13 caracteres y debe ser exacto">
+                            <pe:keyFilter regEx="/[a-zÑ&amp;0-9]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipRfc" for="rfc" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="fecha1" value="Fecha desde:" />
+                        <p:calendar id="fecha1"
+                                    pattern="dd/MM/yyyy"
+                                    navigator="true"
+                                    readonlyInput="true"
+                                    effect="explode" value="#{exporterBean.exporterSearchBo.fechaDesde}"
+                                    title="debe ser menor que la fecha hasta"/>
+                        <p:tooltip id="ttipFecha1" for="fecha1" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="fecha2" value="Fecha hasta:" />
+                        <p:calendar id="fecha2"
+                                    pattern="dd/MM/yyyy"
+                                    navigator="true"
+                                    readonlyInput="true"
+                                    effect="explode" value="#{exporterBean.exporterSearchBo.fechaHasta}"
+                                    title="debe ser mayor que la fecha desde"/>
+                        <p:tooltip id="ttipFecha2" for="fecha2" showEvent="focus" hideEvent="blur" />
+
+                        <p:commandButton immediate="false"
+                                         value="buscar"
+                                         actionListener="#{exporterBean.searchInvoices}"
+                                         ajax="true"
+                                         update="@all"
+                                >
+                            <p:ajax global="false" event="click" onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                        </p:commandButton>
+
+                        <p:commandButton immediate="false"
+                                         value="Exportar archivos"
+                                         actionListener="#{exporterBean.doExportDocuments}"
+                                         rendered="#{exporterBean.documentCounter gt 0}"
+                                         ajax="true"
+                                         update="@all"
+                                >
+                            <p:ajax global="false" event="click" onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                        </p:commandButton>
+
+                        <p:commandButton
+                                value="limpiar campos"
+                                actionListener="#{exporterBean.resetForm}"
+                                immediate="false"
+                                ajax="false"
+                                update="@all">
+                        </p:commandButton>
+
+                    </h:panelGrid>
+
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage width="100" height="100" url="./resources/img/loading.gif" />
+                    </p:dialog>
+                </h:form>
+            </p:tab>
+        </p:accordionPanel>
+    </ui:define>
+
+</ui:composition>

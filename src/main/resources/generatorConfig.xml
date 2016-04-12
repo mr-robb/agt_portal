@@ -2,11 +2,12 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
     <classPathEntry location="C:\Users\robb\Documents\apps\ebs\proyectos\libs\ojdbc14_ora10.2.jar" />
+<!--
   <context id="ctx-facturador" >
     <jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="${db.portal.url}" userId="${db.portal.user}" password="${db.portal.pass}" />
     <javaModelGenerator targetPackage="mx.com.ebs.inter.data.model" targetProject="${mbg.generated.sources}" />
-    <sqlMapGenerator targetPackage="mx.com.ebs.inter.data.xml" targetProject="${mbg.generated.resources}" />
-    <javaClientGenerator targetPackage="mx.com.ebs.inter.data.dao" targetProject="${mbg.generated.sources}" type="XMLMAPPER" />
+    <sqlMapGenerator targetPackage="mx.com.ebs.inter.data.xml.agt" targetProject="${mbg.generated.resources}" />
+    <javaClientGenerator targetPackage="mx.com.ebs.inter.data.dao.agt" targetProject="${mbg.generated.sources}" type="XMLMAPPER" />
     <table schema="${db.portal.schemaName}" tableName="REC_ACCESO" >
       <property name="useActualColumnNames" value="true"/>
     </table>
@@ -28,19 +29,42 @@
   </context>
   <context id="ctx-proceso" >
     <jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="${db.process.url}" userId="${db.process.user}" password="${db.process.pass}" />
-    <javaModelGenerator targetPackage="mx.com.ebs.inter.data.model.proc" targetProject="${mbg.generated.sources}" />
+    <javaModelGenerator targetPackage="mx.com.ebs.inter.data.model" targetProject="${mbg.generated.sources}" />
     <sqlMapGenerator targetPackage="mx.com.ebs.inter.data.xml.proc" targetProject="${mbg.generated.resources}" />
     <javaClientGenerator targetPackage="mx.com.ebs.inter.data.dao.proc" targetProject="${mbg.generated.sources}" type="XMLMAPPER" />
     
-	<table schema="${db.process.schemaName}" tableName="AGT_FEL_ENVIO" >
+	<table schema="${db.process.schemaName}" tableName="AGT_FEL_ENVIO" domainObjectName="ProcAgtFelEnvio" >
       <property name="useActualColumnNames" value="true"/>
     </table>
-	<table schema="${db.process.schemaName}" tableName="REC_FELOGGER" >
+	<table schema="${db.process.schemaName}" tableName="REC_FELOGGER" domainObjectName="ProcRecFelogger" >
       <property name="useActualColumnNames" value="true"/>
     </table>
-	<table schema="${db.process.schemaName}" tableName="REC_INVOICE" >
+	<table schema="${db.process.schemaName}" tableName="REC_INVOICE" domainObjectName="ProcRecInvoice" >
       <property name="useActualColumnNames" value="true"/>
     </table>
 	
   </context>
+-->
+    <context id="ctx-cfdi" >
+        <jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="${db.apl_portal.url}" userId="${db.apl_portal.user}" password="${db.apl_portal.pass}" />
+        <javaModelGenerator targetPackage="mx.com.ebs.inter.data.model.facbanco" targetProject="${mbg.generated.sources}" />
+        <sqlMapGenerator targetPackage="mx.com.ebs.inter.data.xml.facbanco" targetProject="${mbg.generated.resources}" />
+        <javaClientGenerator targetPackage="mx.com.ebs.inter.data.dao.facbanco" targetProject="${mbg.generated.sources}" type="XMLMAPPER" />
+
+        <!--<table schema="${db.apl_portal.schemaName}" tableName="INVOICE" domainObjectName="Invoice" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table schema="${db.apl_portal.schemaName}" tableName="M_CFD" domainObjectName="MCfd" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table schema="${db.apl_portal.schemaName}" tableName="M_OTRO" domainObjectName="MOtro" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        -->
+        <table schema="${db.apl_portal.schemaName}" tableName="M_EMPRESA" domainObjectName="MEmpresa" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+
+    </context>
+
 </generatorConfiguration>

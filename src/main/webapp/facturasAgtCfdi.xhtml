@@ -1,0 +1,204 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/templates/default/main.xhtml">
+    <ui:param name="menu" value="'Facturas Clientes,facturas CFDI,index'" />
+    <ui:define name="menu">
+        <p:accordionPanel activeIndex="0" >
+            <p:tab title="Opciones de búsqueda" >
+                <h:form id="frmSearch" >
+                    <h:panelGrid id="panel" columns="9">
+
+                        <h:outputLabel for="numFactura" value="No. de factura:" />
+                        <p:inputText id="numFactura"
+                                     maxlength="70"
+                                     value="#{mcfdBean.recInvoiceSearchBo.numFactura}" required="false"
+                                     title="debe ser exactamente el número de factura">
+                            <pe:keyFilter regEx="/[a-z0-9_\-\.]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipFactura" for="numFactura" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="numPoliza" value="Póliza:" />
+                        <p:inputText id="numPoliza"
+                                     maxlength="25"
+                                     value="#{mcfdBean.recInvoiceSearchBo.numPoliza}" required="false"
+                                     title="debe conincidir exactamente con su póliza">
+                            <pe:keyFilter regEx="/[a-z0-9_\-]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipPoliza" for="numPoliza" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="numAgte" value="No.Agente:" />
+                        <p:inputText id="numAgte"
+                                     disabled="#{not mcfdBean.numAgenteEnabled}"
+                                     maxlength="25"
+                                     value="#{mcfdBean.recInvoiceSearchBo.numAgente}" required="false"
+                                     title="debe conincidir exactamente con el número de agente">
+                            <pe:keyFilter regEx="/[0-9\/]/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipNumAgte" for="numAgte" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="razonSocial" value="Razón social:" />
+                        <p:inputText id="razonSocial"
+                                     maxlength="150"
+                                     value="#{mcfdBean.recInvoiceSearchBo.razonSocial}" required="false"
+                                     title="se considera que la razón social comience ó conincida con lo que usted escriba">
+                            <pe:keyFilter regEx="/^([a-zA-ZñÑ0-9 ´_-]+)$/"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipRazon" for="razonSocial" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="rfc" value="RFC:" />
+                        <p:inputText id="rfc"
+                                     maxlength="13"
+                                     value="#{mcfdBean.recInvoiceSearchBo.rfc}" required="false"
+                                     title="debe ser de 12 ó 13 caracteres y debe ser exacto">
+                            <pe:keyFilter regEx="/[a-zÑ&amp;0-9]/i"/>
+                        </p:inputText>
+                        <p:tooltip id="ttipRfc" for="rfc" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="fecha1" value="Fecha desde:" />
+                        <p:calendar id="fecha1"
+                                    navigator="true"
+                                    pattern="dd/MM/yyyy"
+                                    readonlyInput="true"
+                                    effect="explode" value="#{mcfdBean.recInvoiceSearchBo.fecha1}"
+                                    title="debe ser menor que la fecha hasta"/>
+                        <p:tooltip id="ttipFecha1" for="fecha1" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="fecha2" value="Fecha hasta:" />
+                        <p:calendar id="fecha2"
+                                    navigator="true"
+                                    pattern="dd/MM/yyyy"
+                                    readonlyInput="true"
+                                    effect="explode" value="#{mcfdBean.recInvoiceSearchBo.fecha2}"
+                                    title="debe ser mayor que la fecha desde"/>
+                        <p:tooltip id="ttipFecha2" for="fecha2" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="importe" value="Importe >= :" />
+                        <p:inputText id="importe"
+                                     maxlength="#{mcfdBean.defaultInputMaxSize}"
+                                     value="#{mcfdBean.recInvoiceSearchBo.importeTotal}"
+                                     required="false" title="EL importe sera >= que el valor introducido">
+                            <pe:keyFilter regEx="/[\d\.]/" />
+                        </p:inputText>
+                        <p:tooltip id="ttipImporte" for="importe" showEvent="focus" hideEvent="blur" />
+
+                        <h:outputLabel for="estatus" value="Estatus:" />
+
+                        <p:selectOneMenu id="estatus" value="#{mcfdBean.recInvoiceSearchBo.estatus}" title="" >
+                            <f:selectItem itemLabel="Todos" itemValue="#{null}" />
+                            <f:selectItem itemLabel="Generado" itemValue="1" />
+                            <f:selectItem itemLabel="Cancelado" itemValue="0" />
+                        </p:selectOneMenu>
+                        <p:tooltip id="ttipEstatus" for="estatus" showEvent="focus" hideEvent="blur" />
+
+                        <p:commandButton
+                                value="buscar"
+                                immediate="false"
+                                actionListener="#{mcfdBean.executeSearch}"
+                                ajax="true"
+                                update=":form:resultTable">
+                            <p:ajax global="false" event="click" onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                                </p:commandButton>
+
+                        <p:commandButton
+                                value="limpiar campos"
+                                actionListener="#{mcfdBean.cleanForm()}"
+                                immediate="false"
+                                ajax="false"
+                                update="@all" />
+
+
+                    </h:panelGrid>
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage width="100" height="100" url="./resources/img/loading.gif" />
+                    </p:dialog>
+                </h:form>
+
+
+            </p:tab>
+        </p:accordionPanel>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+            <p:dataTable tableStyleClass="table table-condensed"
+                         editable="false"
+                         id="resultTable"
+                         widgetVar="resultTable"
+                         var="invoice"
+                         value="#{ mcfdBean.mCfdList }"
+                         emptyMessage="No se encontraron resultados"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
+                         paginator="true"
+                         paginatorAlwaysVisible="true"
+                         paginatorPosition="bottom"
+                         rows="10">
+                <f:facet name="{ExporterWidget}">
+                    <h:commandLink id="excel">
+                        <p:graphicImage url="./resources/img/excel.png" />
+                        <p:dataExporter type="xls" target="resultTable" fileName="invoices" />
+                    </h:commandLink>
+
+                    <h:commandLink id="pdf">
+                        <p:graphicImage url="/resources/img/pdf.png" />
+                        <p:dataExporter type="pdf" target="resultTable" fileName="invoices" />
+                    </h:commandLink>
+                </f:facet>
+                <f:facet name="header">
+                    Facturas CFDI
+                </f:facet>
+
+                <p:column headerText="Factura" sortBy="#{invoice.NUMERO_FACTURA}">
+                    <h:commandLink action="#{servletCallerBean.downloadPdfDb}" target="_blank">
+                        <p:graphicImage url="/resources/img/pdf.png" width="16" height="16" title="descargar pdf"/>
+                    </h:commandLink>
+
+                    <h:commandLink action="#{servletCallerBean.downloadXmlDb}" target="_blank">
+                        <p:graphicImage url="/resources/img/xml.png" width="16" height="16" title="descargar xml"/>
+                    </h:commandLink>
+
+                    <h:outputText value="#{invoice.NUMERO_FACTURA}" />
+                </p:column>
+
+                <p:column headerText="No. Agente" sortBy="#{invoice.mOtro.PARAM1}">
+                    <h:outputText value="#{invoice.mOtro.PARAM1}" />
+                </p:column>
+
+                <p:column headerText="No. Póliza" sortBy="#{invoice.mOtro.PARAM2}">
+                    <h:outputText value="#{invoice.mOtro.PARAM2}" />
+                </p:column>
+
+                <p:column headerText="Razón Social" sortBy="#{invoice.RAZON_SOCIAL}">
+                    <h:outputText value="#{invoice.RAZON_SOCIAL}" />
+                </p:column>
+
+                <p:column headerText="RFC" sortBy="#{invoice.RFC}">
+                    <h:outputText value="#{invoice.RFC}" />
+                </p:column>
+
+                <p:column headerText="Fecha" sortBy="#{invoice.FECHA}">
+                    <h:outputText value="#{invoice.FECHA}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.DateConverter"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Importe" sortBy="#{invoice.TOTAL}">
+                    <h:outputText value="#{invoice.TOTAL}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.CurrencyConverter" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Estatus" sortBy="#{invoice.ESTADO_DOCUMENTO}">
+                    <h:outputText value="#{invoice.ESTADO_DOCUMENTO}">
+                        <f:converter converterId="mx.com.ebs.inter.converter.McfdEstatusConverter" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

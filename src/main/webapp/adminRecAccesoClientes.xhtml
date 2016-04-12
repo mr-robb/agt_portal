@@ -1,0 +1,187 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="templates/default/main.xhtml">
+    <ui:param name="menu" value="'Administración,proveedores y agentes,index'"/>
+    <ui:define name="menu">
+        <p:accordionPanel activeIndex="-1">
+            <p:tab title="Opciones de búsqueda">
+                <h:form id="frmSearch">
+                    <h:panelGrid id="panel" columns="6">
+
+                        <h:outputLabel for="user" value="Usuario:"/>
+                        <p:inputText id="user"
+                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                     value="#{recAccesoClientesBean.recAccesoSearchBo.user}"
+                                     required="false" title="debe coincidir exactamente con el usuario"/>
+                        <p:tooltip id="ttipUser" for="user" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="username" value="Nombre de usuario:"/>
+                        <p:inputText id="username"
+                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                     value="#{recAccesoClientesBean.recAccesoSearchBo.username}"
+                                     required="false"
+                                     title="debe coincidir con el nombre del usuario, ej: Carlos"/>
+                        <p:tooltip id="ttipUsername" for="username" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="noCte" value="Número de cliente:"/>
+                        <p:inputText id="noCte"
+                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                     value="#{recAccesoClientesBean.recAccesoSearchBo.noCte}"
+                                     required="false"
+                                     title="es el numero de cliente a buscar"/>
+                        <p:tooltip id="ttipNoCte" for="noCte" showEvent="focus" hideEvent="blur"/>
+
+                        <h:outputLabel for="status" value="Status:" />
+                        <p:selectOneMenu id="status" value="#{recAccesoClientesBean.recAccesoSearchBo.status}" converter="mx.com.ebs.inter.converter.RecAccesoStatusConverter" >
+                            <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                            <f:selectItem itemLabel="ACTIVADO" itemValue="1" />
+                            <f:selectItem itemLabel="DESACTIVADO" itemValue="0" />
+                        </p:selectOneMenu>
+                        <p:tooltip id="ttipStatus" for="status" />
+                        <p:commandButton value="buscar" actionListener="#{recAccesoClientesBean.executeSearch}"
+                                         ajax="true" update=":form:resultTable"/>
+                        <p:commandButton value="limpiar campos" actionListener="#{recAccesoClientesBean.cleanForm}" immediate="false" ajax="true" update="frmSearch:panel,:form:resultTable" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:accordionPanel>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:commandButton id="btnGuardar" value="Nuevo" onclick="PF('eventDialog').show();" immediate="true" style="float:left;"/>
+            <p:growl id="messages" showDetail="true" autoUpdate="true" closable="true" sticky="false"/>
+
+            <p:dataTable tableStyleClass="table table-condensed"
+                         editable="false"
+                         id="resultTable"
+                         widgetVar="resultTable"
+                         var="acceso"
+                         value="#{recAccesoClientesBean.recAccesoList}"
+                         emptyMessage="No se encontraron resultados con sus opciones de búsqueda"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginator="true"
+                         paginatorAlwaysVisible="true"
+                         paginatorPosition="bottom"
+                         rows="10">
+                <f:facet name="header">
+                    Listado de proveedores y agentes
+                </f:facet>
+
+                <p:column headerText="Usuario" sortBy="#{acceso.EBS_USER_ID}">
+                    <h:outputText value="#{acceso.EBS_USER_ID}"/>
+                </p:column>
+
+                <p:column headerText="Nombre de usuario" sortBy="#{acceso.EBS_NOMBRE}">
+                    <h:outputText value="#{acceso.EBS_NOMBRE}"/>
+                </p:column>
+
+                <p:column headerText="No. Cliente" sortBy="#{acceso.NUMERO_CLIENTE}">
+                    <h:outputText value="#{acceso.NUMERO_CLIENTE}"/>
+                </p:column>
+
+                <p:column headerText="Estatus" sortBy="#{acceso.STATUS}">
+                    <h:outputText value="#{acceso.STATUS}" >
+                        <f:converter converterId="mx.com.ebs.inter.converter.RecAccesoStatusConverter"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Tipo de usuario" sortBy="#{acceso.EBS_TIPO_USER}">
+                    <h:outputText value="#{acceso.EBS_TIPO_USER}" />
+                </p:column>
+
+                <p:column headerText="" exportable="false" styleClass="columnHeaderIcon">
+                    <p:commandLink id="sendEmailLink" styleClass="ui-icon ui-icon-mail-closed"
+                                   action="#{recAccesoClientesBean.sendPassword(acceso.EBS_EMAIL,acceso.EBS_USER_ID)}"
+                                   immediate="true"
+                                   title="enviar contraseña">
+                        <p:confirm header="Confirmación" message="¿enviar contraseña?" icon="ui-icon-alert"/>
+                    </p:commandLink>
+                </p:column>
+
+                <p:column headerText="" exportable="false" styleClass="columnHeaderIcon">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:column headerText="" exportable="false" styleClass="columnHeaderIcon">
+                    <p:commandLink id="deleteLink" styleClass="ui-icon ui-icon-trash"
+                                   action="#{recAccesoClientesBean.deleteRecAcceso(acceso.EBS_USER_ID)}"
+                                   immediate="true"
+                                   title="eliminar"
+                                   update=":#{p:component('resultTable')}">
+                        <p:confirm header="Confirmación" message="¿Estás seguro de eliminar?" icon="ui-icon-alert"/>
+                    </p:commandLink>
+                </p:column>
+                <p:column headerText="" exportable="false" styleClass="columnHeaderIcon">
+                    <p:commandLink id="unlockLink" styleClass="ui-icon ui-icon-unlocked"
+                                   rendered="#{ acceso.STATUS != null and acceso.STATUS == 0 }"
+                                   action="#{recAccesoClientesBean.unlockUser(acceso.EBS_USER_ID)}"
+                                   immediate="true"
+                                   title="desbloquear"
+                                   update=":#{p:component('resultTable')}">
+                        <p:confirm header="Confirmación" message="¿Desea desbloquear al usuario?" icon="ui-icon-alert"/>
+                    </p:commandLink>
+                </p:column>
+
+            </p:dataTable>
+
+            <!--  DIALOGS copied-->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+            <p:dialog widgetVar="eventDialog" header="Agregar agente" showEffect="clip" hideEffect="clip" height="auto" width="auto" position="center, center">
+
+                <h:panelGrid id="eventDetails" columns="3">
+
+                    <h:outputLabel for="numeroCliente" value="Número de Cliente: *"/>
+                    <p:inputText id="numeroCliente"
+                                 maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                 required="true" requiredMessage="Número de cliente es requerido" value="#{recAccesoClientesBean.recAcceso.NUMERO_CLIENTE}">
+                        <p:watermark for="numeroCliente" value="Número de cliente"/>
+                    </p:inputText>
+
+                    <h:outputLabel for="nombre" value="Nombre del usuario: *"/>
+                    <p:inputText id="nombre"
+                                 maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                 required="true" requiredMessage="El nombre es requerido" value="#{recAccesoClientesBean.recAcceso.EBS_NOMBRE}">
+                        <p:watermark for="nombre" value="nombre"/>
+                    </p:inputText>
+
+                    <h:outputLabel for="rfc" value="RFC: *"/>
+                    <p:inputText id="rfc"
+                                 maxlength="13"
+                                 required="true" requiredMessage="El RFC es requerido" value="#{recAccesoClientesBean.recAcceso.EBS_RFC}">
+                        <f:validateRegex pattern="[A-Z,Ñ,&amp;]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?"/>
+                        <p:watermark for="rfc" value="el RFC"/>
+                    </p:inputText>
+
+                    <h:outputLabel for="email" value="Email: *"/>
+                    <p:inputText id="email" required="true" requiredMessage="El email es requerido" value="#{recAccesoClientesBean.recAcceso.EBS_EMAIL}">
+                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        <p:watermark for="email" value="email"/>
+                    </p:inputText>
+
+                    <h:outputLabel for="rol" value="Tipo de usuario: *"/>
+                    <h:selectOneMenu id="rol" required="true" value="#{recAccesoClientesBean.recAcceso.EBS_TIPO_USER}" requiredMessage="El tipo de usuario es requerido">
+                        <f:selectItem itemLabel="Selecciona" />
+                        <f:selectItems value="#{recAccesoClientesBean.recPerfilesList}" var="perfil" itemLabel="#{perfil}" itemValue="#{perfil}" />
+                    </h:selectOneMenu>
+
+                    <p:commandButton
+                            id="crearUsuario"
+                            value="Guardar"
+                            actionListener="#{recAccesoClientesBean.insertRecAccesoCliente}"
+                            oncomplete= "PF('eventDialog').hide();"
+                            update="eventDetails,resultTable"
+                            immediate="false"
+                            ajax="true" validateClient="true"
+                            >
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

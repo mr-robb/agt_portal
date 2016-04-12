@@ -1,17 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>mx.com.ebs.inter</groupId>
-  <artifactId>agentes</artifactId>
-  <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>Portal de agentes de Interacciones</name>
-  <url>http://maven.apache.org</url>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>mx.com.ebs.inter</groupId>
+    <artifactId>agentes</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>Portal de agentes de Interacciones</name>
+    <url>http://maven.apache.org</url>
     <properties>
         <!--<mbg.generated>C:\Users\robb\Documents\apps\ebs\proyectos\portal_agentes\src\main\java</mbg.generated>-->
         <mbg.generated.sources>${basedir}/src/main/java</mbg.generated.sources>
         <mbg.generated.resources>${basedir}/src/main/resources</mbg.generated.resources>
+        <spring.version>3.2.4.RELEASE</spring.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
+
+    </repositories>
 
     <profiles>
         <profile>
@@ -32,6 +43,15 @@
                 <db.portal.url>jdbc:oracle:thin:@localhost:1521:XE</db.portal.url>
                 <db.portal.user>FACTURADOR</db.portal.user>
                 <db.portal.pass>e4bhse12</db.portal.pass>
+
+                <db.apl_portal.schemaName>M_INTERACCIONES</db.apl_portal.schemaName>
+                <db.apl_portal.url>jdbc:oracle:thin:@localhost:1521:XE</db.apl_portal.url>
+                <db.apl_portal.user>M_INTERACCIONES</db.apl_portal.user>
+                <db.apl_portal.pass>e4bhse12</db.apl_portal.pass>
+
+                <jndi_aseg1>ASEG</jndi_aseg1>
+                <jndi_aseg2>ASEG</jndi_aseg2>
+                <jndi_corp>CORP</jndi_corp>
             </properties>
         </profile>
         <!-- Configurar datos de conexion para las 2 bases de datos
@@ -41,11 +61,11 @@
          de aplicaciones y conectarse por medio de JNDI
         -->
         <profile>
-            <id>test_ebs</id>
+            <id>local</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>test-ebs</value>
+                    <value>local</value>
                 </property>
             </activation>
             <properties>
@@ -58,34 +78,61 @@
                 <db.portal.url>jdbc:oracle:thin:@localhost:1521:XE</db.portal.url>
                 <db.portal.user>FACTURADOR</db.portal.user>
                 <db.portal.pass>e4bhse12</db.portal.pass>
+
+                <jndi_aseg1>jdbc/db_agentes</jndi_aseg1>
+                <jndi_aseg2>jdbc/db_facturador</jndi_aseg2>
+                <jndi_corp>jdbc/db_facbanco</jndi_corp>
             </properties>
         </profile>
     </profiles>
 
-    <!--
-    <repositories>
-        <repository>
-            <id>prime-repo</id>
-            <name>PrimeFaces Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
--->
     <dependencies>
+        <!-- Validar el correcto funcionamiento de EL en JSF  -->
+        <!--
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-el</artifactId>
+            <version>2.0.0.GA</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.el</groupId>
+                    <artifactId>el-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
-            <scope>test</scope>
         </dependency>
 
-        <!-- MySQL database will not be the default database
+        <!-- QRCode library -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.26</version>
-        </dependency>-->
+            <groupId>mx.com.ebs</groupId>
+            <artifactId>barcode</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mx.com.ebs</groupId>
+            <artifactId>utils</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- DBXML Client local dependency -->
+        <dependency>
+            <groupId>com.dbxml</groupId>
+            <artifactId>dbxml</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xmlrpc.client</groupId>
+            <artifactId>xmlrpc-client</artifactId>
+            <version>1.0</version>
+        </dependency>
+
 
         <!-- ORACLE database driver -->
         <dependency>
@@ -103,11 +150,13 @@
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-api</artifactId>
             <version>2.2.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-impl</artifactId>
             <version>2.2.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -118,14 +167,15 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- JEE -->
         <dependency>
-            <groupId>javax</groupId>
+            <groupId>javaee</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
+            <version>5</version>
+            <!--scope>provided</scope-->
         </dependency>
 
         <!-- Dependencias de Primefaces -->
@@ -133,37 +183,84 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>4.0</version>
+            <version>5.2</version>
         </dependency>
-<!--
+        <!-- for PDF files generation -->
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <!-- For excel files generation -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+        <!-- Mailing using java API -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- commons for mailing -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3</version>
+        </dependency>
+
+
+
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>all-themes</artifactId>
             <version>1.0.10</version>
         </dependency>
-
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>cupertino</artifactId>
             <version>1.0.10</version>
         </dependency>
--->
+
         <!-- Dependencias de Spring -->
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>3.2.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.2.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>3.2.4.RELEASE</version>
+            <version>${spring.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -174,47 +271,63 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>3.2.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>3.2.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
-        <dependency>
+
+        <!--dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>3.2.4.RELEASE</version>
-        </dependency>
+            <version>${spring.version}</version>
+        </dependency-->
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>3.2.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>3.1.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>3.1.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>3.1.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
-            <version>3.1.4.RELEASE</version>
+            <version>${spring.version}</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
         </dependency>
-<!-- Soporte para Transacciones -->
+
+        <!-- Log4j logging -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <!-- Soporte para Transacciones -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
@@ -252,10 +365,58 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
+
+        <!-- dependencies for web service client -->
+        <dependency>
+            <groupId>axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.axis</groupId>
+                    <artifactId>axis-jaxrpc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-jaxrpc</artifactId>
+            <version>1.4</version>
+        </dependency-->
+
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.0.b2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+
+
     </dependencies>
 
     <build>
-    <finalName>agentes</finalName>
+        <finalName>agentes</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -272,15 +433,17 @@
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.3.0</version>
                 <!-- Desactivo la ejecución atumática de MyBatis Generator  -->
-                <!--<executions>
-                    <execution>
-                        <id>Generate MyBatis Artifacts</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>-->
+                <!--
+                                <executions>
+                                    <execution>
+                                        <id>Generate MyBatis Artifacts</id>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                    </execution>
+                                </executions>
+                -->
             </plugin>
         </plugins>
-  </build>
+    </build>
 </project>
