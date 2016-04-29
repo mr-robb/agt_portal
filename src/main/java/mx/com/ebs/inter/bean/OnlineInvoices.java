@@ -10,6 +10,7 @@ import mx.com.ebs.inter.util.PropertiesCleaner;
 import mx.com.ebs.inter.util.UnicodeCommonWords;
 import mx.com.ebs.inter.util.Validator;
 import org.apache.log4j.Logger;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -69,10 +70,10 @@ public class OnlineInvoices extends AbstractBean implements Serializable {
         }else {
             if ( cfd.equals(searchType)) {
                 mCfdList = new ArrayList<MCfd>();
-                invoiceList = invoiceService.getUsingFilter(recInvoiceSearchBo);
+                invoiceList = invoiceService.getListUsingFilter(recInvoiceSearchBo,0,100,null,null);
             } else {
                 invoiceList = new ArrayList<Invoice>();
-                mCfdList = mCfdService.getUsingFilter(recInvoiceSearchBo);
+                mCfdList = mCfdService.getListUsingFilter(recInvoiceSearchBo, 0, 100, "FECHA", SortOrder.DESCENDING);
             }
         }
     }

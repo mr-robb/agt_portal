@@ -2,6 +2,7 @@ package mx.com.ebs.inter.bean;
 
 import mx.com.ebs.inter.data.bo.RecAccesoSearchBo;
 import mx.com.ebs.inter.data.model.RecAcceso;
+import mx.com.ebs.inter.data.model.RecInvoice;
 import mx.com.ebs.inter.exception.ValidationException;
 import mx.com.ebs.inter.service.RecAccesoService;
 import mx.com.ebs.inter.util.*;
@@ -11,6 +12,8 @@ import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +28,7 @@ import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static mx.com.ebs.inter.util.FacesMessageUtil.showFacesMessage;
 import static mx.com.ebs.inter.util.mail.EmailProperties.EMAIL_PASSWORD_CONTENT;
@@ -35,7 +39,7 @@ import static mx.com.ebs.inter.util.mail.EmailProperties.EMAIL_PASSWORD_CONTENT;
 //@ManagedBean
 //@ViewScoped
 //@Component
-public class RecAccesoBean extends AbstractBean implements Serializable{
+public class RecAccesoBean extends AbstractBean<RecAcceso> implements Serializable{
 
     private static final Logger LOGGER = Logger.getLogger(RecAccesoBean.class);
     private static final int DEFAULT_PASSWORD_SIZE=8;
@@ -46,16 +50,25 @@ public class RecAccesoBean extends AbstractBean implements Serializable{
 
     private RecAccesoSearchBo recAccesoSearchBo;
 
-    private List<RecAcceso> recAccesoList;
     private List<String> recPerfilesList;
     @PostConstruct
     public void init(){
         LOGGER.debug("init() method of RecAccesoBean has been called");
-        recAccesoList = recAccesoService.getAll();
         recAcceso = new RecAcceso();
         recAccesoSearchBo = new RecAccesoSearchBo();
         recPerfilesList = new ArrayList<String>();
+        createModel();
         loadProfileList();
+    }
+
+    private void createModel(){
+        model = new LazyDataModel<RecAcceso>() {
+            @Override
+            public List<RecAcceso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                model.setRowCount(recAccesoService.countRowsUsingFilter(recAccesoSearchBo));
+                return recAccesoService.getListUsingFilter(recAccesoSearchBo,first,pageSize,sortField,sortOrder);
+            }
+        };
     }
 
     public RecAccesoService getRecAccesoService() {
@@ -84,14 +97,6 @@ public class RecAccesoBean extends AbstractBean implements Serializable{
         this.recAccesoSearchBo = recAccesoSearchBo;
     }
 
-    public List<RecAcceso> getRecAccesoList() {
-        return recAccesoList;
-    }
-
-    public void setRecAccesoList(List<RecAcceso> recAccesoList) {
-        this.recAccesoList = recAccesoList;
-    }
-
     public void executeSearch(ActionEvent actionEvent){
         LOGGER.debug("Executing search...");
         try {
@@ -104,12 +109,11 @@ public class RecAccesoBean extends AbstractBean implements Serializable{
             LOGGER.error("At cleaning String fields from recAccesoSearchBo", e);
         }
         loadProfileList();
-        recAccesoList = recAccesoService.getUsingFilter(recAccesoSearchBo);
+        createModel();
     }
 
     public void cleanForm(ActionEvent actionEvent){
         recAccesoSearchBo = new RecAccesoSearchBo();
-        recAccesoList.clear();
     }
 
     public void updateRecAcceso(RowEditEvent event ){
@@ -243,7 +247,7 @@ public class RecAccesoBean extends AbstractBean implements Serializable{
     private boolean emailExists (final String email){
         RecAccesoSearchBo recAccesoSearchBoEmail = new RecAccesoSearchBo();
         recAccesoSearchBoEmail.setEmail(email);
-        List<RecAcceso> recAccesoList1 = recAccesoService.getUsingFilter(recAccesoSearchBoEmail);
+        List<RecAcceso> recAccesoList1 = recAccesoService.getListUsingFilter(recAccesoSearchBoEmail,0,100,null,null);
         if( recAccesoList1 != null && !recAccesoList1.isEmpty() ){
             return true;
         }

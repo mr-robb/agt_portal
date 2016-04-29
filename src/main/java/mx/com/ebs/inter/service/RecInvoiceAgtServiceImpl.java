@@ -7,6 +7,7 @@ import mx.com.ebs.inter.data.model.RecInvoiceAgt;
 import mx.com.ebs.inter.data.model.RecInvoiceAgtExample;
 import mx.com.ebs.inter.data.model.param.ParamNumeroFacturaEnviado;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,12 +34,23 @@ public class RecInvoiceAgtServiceImpl implements RecInvoiceAgtService {
     }
 
     @Override
-    public List<RecInvoiceAgt> getListUsingFilter(RecInvoiceAgtSearchBo recInvoiceAgtSearchBo) {
+    public List<RecInvoiceAgt> getListUsingFilter(RecInvoiceAgtSearchBo recInvoiceAgtSearchBo,int index,int pageSize,String sortField,SortOrder sortOrder) {
         if( recInvoiceAgtSearchBo == null ){
            return getAll();
         }
+        RecInvoiceAgtExample example = createExample(recInvoiceAgtSearchBo);
+        if( sortField == null ) {
+            example.setOrderByClause("FECHA desc");
+        }else{
+            example.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
+        }
+        example.setPageSize(pageSize);
+        example.setPageIndex(index);
+        return recInvoiceAgtMapper.selectByExample(example);
+    }
+
+    private RecInvoiceAgtExample createExample(RecInvoiceAgtSearchBo recInvoiceAgtSearchBo){
         RecInvoiceAgtExample example = new RecInvoiceAgtExample();
-        example.setOrderByClause("FECHA desc");
         RecInvoiceAgtExample.Criteria criteria = example.createCriteria();
 
         if( !isEmptyString(recInvoiceAgtSearchBo.getNumFactura())){
@@ -62,8 +74,12 @@ public class RecInvoiceAgtServiceImpl implements RecInvoiceAgtService {
         if( recInvoiceAgtSearchBo.getEstatus() != null ){
             criteria.andSIT_COMPROBANTEEqualTo(recInvoiceAgtSearchBo.getEstatus());
         }
+        return example;
+    }
 
-        return recInvoiceAgtMapper.selectByExample(example);
+    @Override
+    public Integer countRowsUsingFilter(RecInvoiceAgtSearchBo recInvoiceAgtSearchBo) {
+        return recInvoiceAgtMapper.countByExample(createExample(recInvoiceAgtSearchBo));
     }
 
     @Override

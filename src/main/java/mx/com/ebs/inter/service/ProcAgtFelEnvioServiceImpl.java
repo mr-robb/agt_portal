@@ -7,6 +7,7 @@ import mx.com.ebs.inter.data.model.ProcAgtFelEnvioExample;
 import mx.com.ebs.inter.data.model.ProcAgtFelEnvioKey;
 import mx.com.ebs.inter.util.Validator;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,13 +33,30 @@ public class ProcAgtFelEnvioServiceImpl implements ProcAgtFelEnvioService {
     }
 
     @Override
-    public List<ProcAgtFelEnvio> getUsingFilter(final ProcAgtFelEnvioSearchBo procAgtFelEnvioSearchBo) {
+    public List<ProcAgtFelEnvio> getListUsingFilter(final ProcAgtFelEnvioSearchBo procAgtFelEnvioSearchBo,int first, int pageSize, String sortField, SortOrder sortOrder) {
         if( procAgtFelEnvioSearchBo == null ){
             return getAll();
         }
+        ProcAgtFelEnvioExample procAgtFelEnvioExample = createExample(procAgtFelEnvioSearchBo);
+        if( sortField == null ){
+            procAgtFelEnvioExample.setOrderByClause(" FH_CARGA desc");
+        }else{
+            procAgtFelEnvioExample.setOrderByClause( sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc")  );
+        }
 
+        procAgtFelEnvioExample.setPageIndex(first);
+        procAgtFelEnvioExample.setPageSize(pageSize);
+        return procAgtFelEnvioMapper.selectByExample(procAgtFelEnvioExample);
+
+    }
+
+    @Override
+    public int countRowsUsingFilter(ProcAgtFelEnvioSearchBo procAgtFelEnvioSearchBo) {
+        return procAgtFelEnvioMapper.countByExample(createExample(procAgtFelEnvioSearchBo));
+    }
+
+    private ProcAgtFelEnvioExample createExample(final ProcAgtFelEnvioSearchBo procAgtFelEnvioSearchBo){
         ProcAgtFelEnvioExample procAgtFelEnvioExample = new ProcAgtFelEnvioExample();
-        procAgtFelEnvioExample.setOrderByClause(" FH_CARGA desc");
         ProcAgtFelEnvioExample.Criteria criteria = procAgtFelEnvioExample.createCriteria();
 
         if( procAgtFelEnvioSearchBo.getAnioMes() != null ){
@@ -77,9 +95,7 @@ public class ProcAgtFelEnvioServiceImpl implements ProcAgtFelEnvioService {
                 criteria.andFH_RESPUESTAIsNull();
             }
         }
-
-        return procAgtFelEnvioMapper.selectByExample(procAgtFelEnvioExample);
-
+        return procAgtFelEnvioExample;
     }
 
     @Override

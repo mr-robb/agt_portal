@@ -6,6 +6,7 @@ import mx.com.ebs.inter.data.model.RecFeloggerAgt;
 import mx.com.ebs.inter.data.model.RecFeloggerAgtExample;
 import mx.com.ebs.inter.util.Validator;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +30,23 @@ public class RecFeloggerAgtServiceImpl implements RecFeloggerAgtService {
 
     @Transactional( value = Variables.TXM_PROCESO, readOnly = true)
     @Override
-    public List<RecFeloggerAgt> getUsingFilter(RecFeloggerSearchBo recFeloggerSearchBo) {
+    public List<RecFeloggerAgt> getListUsingFilter(RecFeloggerSearchBo recFeloggerSearchBo,int index, int pageSize,String sortField, SortOrder sortOrder) {
         if( recFeloggerSearchBo == null ){
             return getAll();
         }
+        RecFeloggerAgtExample recFeloggerAgtExample = createExample(recFeloggerSearchBo);
+        if( sortField == null ) {
+            recFeloggerAgtExample.setOrderByClause(" FECHA desc");
+        }else{
+            recFeloggerAgtExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
+        }
+        recFeloggerAgtExample.setPageIndex(index);
+        recFeloggerAgtExample.setPageSize(pageSize);
+        return recFeloggerAgtMapper.selectByExample(recFeloggerAgtExample);
+    }
+
+    private RecFeloggerAgtExample createExample(RecFeloggerSearchBo recFeloggerSearchBo){
         RecFeloggerAgtExample recFeloggerAgtExample = new RecFeloggerAgtExample();
-        recFeloggerAgtExample.setOrderByClause(" FECHA desc");
         RecFeloggerAgtExample.Criteria criteria = recFeloggerAgtExample.createCriteria();
 
         if( !Validator.isEmptyString(recFeloggerSearchBo.getId()) ){
@@ -55,8 +67,13 @@ public class RecFeloggerAgtServiceImpl implements RecFeloggerAgtService {
         if( recFeloggerSearchBo.getFecha1() != null && recFeloggerSearchBo.getFecha2() != null ){
             criteria.andFECHABetween(recFeloggerSearchBo.getFecha1(),recFeloggerSearchBo.getFecha2());
         }
+        return recFeloggerAgtExample;
+    }
 
-        return recFeloggerAgtMapper.selectByExample(recFeloggerAgtExample);
+    @Transactional( value = Variables.TXM_PROCESO, readOnly = true)
+    @Override
+    public int countRowsUsingFilter(RecFeloggerSearchBo recFeloggerSearchBo) {
+        return recFeloggerAgtMapper.countByExample(createExample(recFeloggerSearchBo));
     }
 
     public RecFeloggerAgtMapper getRecFeloggerAgtMapper() {

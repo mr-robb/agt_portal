@@ -2,6 +2,7 @@ package mx.com.ebs.inter.service;
 
 import mx.com.ebs.inter.data.bo.RecFeloggerSearchBo;
 import mx.com.ebs.inter.data.model.RecFeloggerAgt;
+import org.primefaces.model.SortOrder;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public interface RecFeloggerAgtService {
 
     List<RecFeloggerAgt> getAll();
-    List<RecFeloggerAgt> getUsingFilter(RecFeloggerSearchBo recFeloggerSearchBo);
+    List<RecFeloggerAgt> getListUsingFilter(RecFeloggerSearchBo recFeloggerSearchBo, int index, int pageSize,String sortField, SortOrder sortOrder);
+    int countRowsUsingFilter(RecFeloggerSearchBo recFeloggerSearchBo);
 
 }

@@ -2,12 +2,15 @@ package mx.com.ebs.inter.bean;
 
 import mx.com.ebs.inter.data.bo.RecFeloggerSearchBo;
 import mx.com.ebs.inter.data.bo.UserDataBo;
+import mx.com.ebs.inter.data.model.RecFelogger;
 import mx.com.ebs.inter.data.model.RecFeloggerAgt;
 import mx.com.ebs.inter.service.RecFeloggerAgtService;
 import mx.com.ebs.inter.util.PropertiesCleaner;
 import mx.com.ebs.inter.util.SessionReader;
 import mx.com.ebs.inter.util.Validator;
 import org.apache.log4j.Logger;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,18 +21,18 @@ import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by robb on 28/05/2015.
  */
-public class RecFeloggerAgtBean extends AbstractBean implements Serializable{
+public class RecFeloggerAgtBean extends AbstractBean<RecFeloggerAgt> implements Serializable{
 
     private static final Logger LOGGER = Logger.getLogger(RecFeloggerAgtBean.class);
 
     @Autowired
     private RecFeloggerAgtService recFeloggerAgtService;
     private RecFeloggerSearchBo recFeloggerSearchBo;
-    private List<RecFeloggerAgt> recFeloggerAgtList;
     private boolean isNumAgenteEnabled;
 
     @PostConstruct
@@ -40,7 +43,7 @@ public class RecFeloggerAgtBean extends AbstractBean implements Serializable{
         if( !isNumAgenteEnabled ){
             recFeloggerSearchBo.setNumAgt(userDataBo.getNumAgt());
         }
-        recFeloggerAgtList = recFeloggerAgtService.getUsingFilter(recFeloggerSearchBo);
+        createModel();
     }
 
     public void executeSearch(ActionEvent actionEvent){
@@ -57,12 +60,21 @@ public class RecFeloggerAgtBean extends AbstractBean implements Serializable{
         if( !isNumAgenteEnabled ){
             recFeloggerSearchBo.setNumAgt(SessionReader.getUserDataBo().getNumAgt());
         }
-        recFeloggerAgtList = recFeloggerAgtService.getUsingFilter(recFeloggerSearchBo);
+        createModel();
+    }
+
+    private void createModel(){
+        model = new LazyDataModel<RecFeloggerAgt>() {
+            @Override
+            public List<RecFeloggerAgt> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                model.setRowCount(recFeloggerAgtService.countRowsUsingFilter(recFeloggerSearchBo));
+                return recFeloggerAgtService.getListUsingFilter(recFeloggerSearchBo,first,pageSize,sortField,sortOrder);
+            }
+        };
     }
 
     public void cleanForm(){
         recFeloggerSearchBo = new RecFeloggerSearchBo();
-        recFeloggerAgtList.clear();
     }
 
     public RecFeloggerAgtService getRecFeloggerAgtService() {
@@ -79,14 +91,6 @@ public class RecFeloggerAgtBean extends AbstractBean implements Serializable{
 
     public void setRecFeloggerSearchBo(RecFeloggerSearchBo recFeloggerSearchBo) {
         this.recFeloggerSearchBo = recFeloggerSearchBo;
-    }
-
-    public List<RecFeloggerAgt> getRecFeloggerAgtList() {
-        return recFeloggerAgtList;
-    }
-
-    public void setRecFeloggerAgtList(List<RecFeloggerAgt> recFeloggerAgtList) {
-        this.recFeloggerAgtList = recFeloggerAgtList;
     }
 
     public boolean isNumAgenteEnabled() {

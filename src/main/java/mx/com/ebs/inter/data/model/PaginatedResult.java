@@ -7,9 +7,23 @@ import mx.com.ebs.inter.util.Variables;
  */
 public abstract class PaginatedResult {
 
-    protected int resultLimitRows = Variables.DEFAULT_SIZE_RESULT;
+    private int pageIndex=1;
 
-    public int getResultLimitRows() {
-        return resultLimitRows;
+    public int getPageSize() {
+        return pageSize;
     }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
+
+    private int pageSize;
 }

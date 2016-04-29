@@ -91,6 +91,7 @@ public class LoginServiceImpl implements LoginService {
                     acceso.setULTIMOACCESO(Calendar.getInstance().getTime());
                     recAccesoMapper.updateIntentos(acceso);
                     HttpSession session = request.getSession(true);
+
                     session.setAttribute("userData" ,map(acceso));
                     session.setAttribute("userMainPage", "index.xhtml");
                 }

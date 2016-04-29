@@ -3,6 +3,7 @@ package mx.com.ebs.inter.bean;
 import mx.com.ebs.inter.data.bo.ProcAgtFelEnvioSearchBo;
 import mx.com.ebs.inter.data.bo.UserDataBo;
 import mx.com.ebs.inter.data.model.ProcAgtFelEnvio;
+import mx.com.ebs.inter.data.model.RecFelogger;
 import mx.com.ebs.inter.service.ProcAgtFelEnvioService;
 import mx.com.ebs.inter.service.RecInvoiceAgtService;
 import mx.com.ebs.inter.util.PropertiesCleaner;
@@ -10,6 +11,8 @@ import mx.com.ebs.inter.util.SessionReader;
 import mx.com.ebs.inter.util.Validator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +23,7 @@ import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by robb on 28/05/2015.
@@ -27,7 +31,7 @@ import java.util.List;
 //@ManagedBean
 //@ViewScoped
 //@Component
-public class ProcAgtFelEnvioBean extends AbstractBean implements Serializable {
+public class ProcAgtFelEnvioBean extends AbstractBean<ProcAgtFelEnvio> implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(ProcAgtFelEnvioBean.class);
 
@@ -37,7 +41,6 @@ public class ProcAgtFelEnvioBean extends AbstractBean implements Serializable {
     private RecInvoiceAgtService recInvoiceAgtService;
 
     private ProcAgtFelEnvioSearchBo procAgtFelEnvioSearchBo;
-    private List<ProcAgtFelEnvio> procAgtFelEnvioList;
 
     private boolean isNumAgenteEnabled;
 
@@ -49,8 +52,7 @@ public class ProcAgtFelEnvioBean extends AbstractBean implements Serializable {
         if( !isNumAgenteEnabled && StringUtils.isNumeric(userDataBo.getNumAgt())){
            procAgtFelEnvioSearchBo.setNumAgt( Integer.parseInt(userDataBo.getNumAgt()));
         }
-        procAgtFelEnvioList = procAgtFelEnvioService.getUsingFilter(procAgtFelEnvioSearchBo);
-        recInvoiceAgtService.fillNumerofactura(procAgtFelEnvioList);
+        createModel();
     }
 
     public void executeSearch(ActionEvent actionEvent){
@@ -69,13 +71,23 @@ public class ProcAgtFelEnvioBean extends AbstractBean implements Serializable {
             procAgtFelEnvioSearchBo.setNumAgt( Integer.parseInt(userDataBo.getNumAgt()));
         }
         LOGGER.debug("Executing search, aniomes:" + procAgtFelEnvioSearchBo.getAnioMes());
-        procAgtFelEnvioList = procAgtFelEnvioService.getUsingFilter(procAgtFelEnvioSearchBo);
-        recInvoiceAgtService.fillNumerofactura(procAgtFelEnvioList);
+        createModel();
+    }
+    private void createModel(){
+        model = new LazyDataModel<ProcAgtFelEnvio>() {
+            @Override
+            public List<ProcAgtFelEnvio> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                LOGGER.info("sortField:" + sortField+"  SortOrder:" + sortOrder.name() );
+                model.setRowCount(procAgtFelEnvioService.countRowsUsingFilter(procAgtFelEnvioSearchBo));
+                List<ProcAgtFelEnvio> result = procAgtFelEnvioService.getListUsingFilter(procAgtFelEnvioSearchBo,first,pageSize,sortField,sortOrder);
+                recInvoiceAgtService.fillNumerofactura(result);
+                return result;
+            }
+        };
     }
 
     public void cleanForm(){
         procAgtFelEnvioSearchBo = new ProcAgtFelEnvioSearchBo();
-        procAgtFelEnvioList.clear();
     }
     public ProcAgtFelEnvioService getProcAgtFelEnvioService() {
         return procAgtFelEnvioService;
@@ -91,14 +103,6 @@ public class ProcAgtFelEnvioBean extends AbstractBean implements Serializable {
 
     public void setProcAgtFelEnvioSearchBo(ProcAgtFelEnvioSearchBo procAgtFelEnvioSearchBo) {
         this.procAgtFelEnvioSearchBo = procAgtFelEnvioSearchBo;
-    }
-
-    public List<ProcAgtFelEnvio> getProcAgtFelEnvioList() {
-        return procAgtFelEnvioList;
-    }
-
-    public void setProcAgtFelEnvioList(List<ProcAgtFelEnvio> procAgtFelEnvioList) {
-        this.procAgtFelEnvioList = procAgtFelEnvioList;
     }
 
     public RecInvoiceAgtService getRecInvoiceAgtService() {

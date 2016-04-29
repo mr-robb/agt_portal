@@ -114,13 +114,14 @@
                          id="resultTable"
                          widgetVar="resultTable"
                          var="log"
-                         value="#{recFeloggerBean.recFeloggerList}"
+                         lazy="true"
+                         value="#{recFeloggerBean.model}"
                          emptyMessage="No se encontraron resultados con sus opciones de búsqueda"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
                          paginator="true"
                          paginatorAlwaysVisible="true"
                          paginatorPosition="bottom"
-                         rows="10">
+                         rows="#{recFeloggerBean.paginationSize}">
                 <f:facet name="{ExporterWidget}">
                     <h:commandLink id="excel">
                         <p:graphicImage url="./resources/img/excel.png"/>

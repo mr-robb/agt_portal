@@ -2,6 +2,7 @@ package mx.com.ebs.inter.service;
 
 import mx.com.ebs.inter.data.bo.RecInvoiceSearchBo;
 import mx.com.ebs.inter.data.model.facbanco.MCfd;
+import org.primefaces.model.SortOrder;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public interface MCfdService {
 
     List<MCfd> getAll();
-    List<MCfd> getUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo);
+    List<MCfd> getListUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo,int first,int pageSize,String sortField, SortOrder sortOrder);
+    int countRowsUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo);
     MCfd findById(Long id);
 }

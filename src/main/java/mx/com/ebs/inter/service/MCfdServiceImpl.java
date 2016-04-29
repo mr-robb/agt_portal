@@ -6,6 +6,7 @@ import mx.com.ebs.inter.data.dao.facbanco.MCfdMapper;
 import mx.com.ebs.inter.data.model.facbanco.MCfd;
 import mx.com.ebs.inter.data.model.facbanco.MCfdExample;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +33,29 @@ public class MCfdServiceImpl implements MCfdService {
     }
 
     @Override
-    public List<MCfd> getUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo) {
+    public List<MCfd> getListUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo,int first, int pageSize,String sortField,SortOrder sortOrder) {
         if( recInvoiceSearchBo == null ){
             return getAll();
         }
+        MCfdExample mCfdExample = createExample(recInvoiceSearchBo);
+        mCfdExample.setPageIndex(first);
+        mCfdExample.setPageSize(pageSize);
+        if( sortField == null ) {
+            mCfdExample.setOrderByClause("FECHA desc");
+        }else{
+            mCfdExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
+        }
+
+        return mCfdMapper.selectByExample( mCfdExample );
+    }
+
+    @Override
+    public int countRowsUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo) {
+        return mCfdMapper.countByExample(createExample(recInvoiceSearchBo));
+    }
+
+    private MCfdExample createExample(RecInvoiceSearchBo recInvoiceSearchBo){
         MCfdExample mCfdExample = new MCfdExample();
-        mCfdExample.setOrderByClause("FECHA desc");
         MCfdExample.Criteria criteria = mCfdExample.createCriteria();
         if( !isEmptyString(recInvoiceSearchBo.getNumFactura())){
             criteria.andNUMERO_FACTURAEqualTo(recInvoiceSearchBo.getNumFactura());
@@ -63,8 +81,7 @@ public class MCfdServiceImpl implements MCfdService {
         if( recInvoiceSearchBo.getEstatus() != null ){
             criteria.andESTADO_DOCUMENTOEqualTo(recInvoiceSearchBo.getEstatus().longValue());
         }
-
-        return mCfdMapper.selectByExample( mCfdExample );
+        return mCfdExample;
     }
 
     @Override

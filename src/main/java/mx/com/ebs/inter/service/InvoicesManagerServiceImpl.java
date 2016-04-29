@@ -7,6 +7,7 @@ import mx.com.ebs.inter.data.dao.agt.RecInvoiceMapper;
 import mx.com.ebs.inter.data.model.RecInvoice;
 import mx.com.ebs.inter.data.model.RecInvoiceExample;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +36,32 @@ public class InvoicesManagerServiceImpl implements InvoicesManagerService {
         if( recInvoiceSearchBo == null ){
             return getAll();
         }
-        RecInvoiceExample recInvoiceExample = new RecInvoiceExample();
+        RecInvoiceExample recInvoiceExample = createRecInvoiceExample(recInvoiceSearchBo);
         recInvoiceExample.setOrderByClause("FECHA desc");
+        return recInvoiceMapper.selectByExample(recInvoiceExample);
+    }
+
+    @Override
+    public List<RecInvoice> getUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo, int index, int pageSize,String sortField,SortOrder sortOrder) {
+        RecInvoiceExample recInvoiceExample = createRecInvoiceExample(recInvoiceSearchBo);
+        recInvoiceExample.setPageSize(pageSize);
+        recInvoiceExample.setPageIndex(index );
+        if( sortField == null ) {
+            recInvoiceExample.setOrderByClause("FECHA desc");
+        }else{
+            recInvoiceExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
+        }
+        return recInvoiceMapper.selectByExample(recInvoiceExample);
+    }
+
+    @Transactional( value = Variables.TXM_PORTAL, readOnly = true)
+    @Override
+    public Integer countRowsUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo) {
+        return recInvoiceMapper.countByExample(createRecInvoiceExample(recInvoiceSearchBo));
+    }
+
+    private RecInvoiceExample createRecInvoiceExample( RecInvoiceSearchBo recInvoiceSearchBo ){
+        RecInvoiceExample recInvoiceExample = new RecInvoiceExample();
         RecInvoiceExample.Criteria criteria = recInvoiceExample.createCriteria();
         if( !isEmptyString(recInvoiceSearchBo.getNumFactura())){
             criteria.andNUMERO_FACTURAEqualTo(recInvoiceSearchBo.getNumFactura());
@@ -62,7 +87,7 @@ public class InvoicesManagerServiceImpl implements InvoicesManagerService {
         if( recInvoiceSearchBo.getEstatus() != null ){
             criteria.andSIT_COMPROBANTEEqualTo(recInvoiceSearchBo.getEstatus());
         }
-        return recInvoiceMapper.selectByExample(recInvoiceExample);
+        return recInvoiceExample ;
     }
 
     @Transactional( value = Variables.TXM_PORTAL, readOnly = false)

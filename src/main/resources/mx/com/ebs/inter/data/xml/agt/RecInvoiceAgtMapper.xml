@@ -40,7 +40,6 @@
           <foreach collection="oredCriteria" item="criteria" separator="or" >
               <if test="criteria.valid" >
                   <trim prefix="(" suffix=")" prefixOverrides="and" >
-                      and ROWNUM &lt;= #{resultLimitRows}
                       <foreach collection="criteria.criteria" item="criterion" >
                   <choose >
                     <when test="criterion.noValue" >
@@ -61,16 +60,9 @@
                   </choose>
                 </foreach>
               </trim>
-            </if>
-              <if test="!criteria.valid" >
-                  ROWNUM &lt;= #{resultLimitRows}
               </if>
           </foreach>
         </if>
-        <if test="oredCriteria.size == 0">
-            ROWNUM &lt;= #{resultLimitRows}
-        </if>
-
     </where>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
@@ -110,22 +102,24 @@
     NUMERO_CLIENTE, IMPORTE_ISR, IMPORTE_RET, POLIZA, DIA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.RecInvoiceAgtExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from FACTURADOR.REC_INVOICE_AGT
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
+      SELECT * from (
+      select
+      ROWNUM rnum,
+    <include refid="Base_Column_List"/>
+      from FACTURADOR.REC_INVOICE_AGT
+      <if test="_parameter != null" >
+      <include refid="Example_Where_Clause"/>
     </if>
       <if test="_parameter == null">
           where ROWNUM &lt;= #{resultLimitRows}
       </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
+    <if test="
+          orderByClause != null" >
+        order by ${
+      orderByClause}
     </if>
-  </select>
+      ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}  </select>
+
   <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.RecInvoiceAgtExample" >
     delete from FACTURADOR.REC_INVOICE_AGT
     <if test="_parameter != null" >

@@ -25,7 +25,6 @@
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>cupertino</param-value>
-        <!--<param-value>bootstrap</param-value>-->
     </context-param>
 
 
@@ -50,6 +49,7 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
     <servlet>
         <servlet-name>Login_servlet</servlet-name>
         <servlet-class>mx.com.ebs.inter.controller.LoginController</servlet-class>
@@ -151,7 +151,6 @@
         <servlet-name>Faces Servlet</servlet-name>
     </filter-mapping>
 
-
     <error-page>
         <error-code>404</error-code>
         <location>/error/404.xhtml</location>
@@ -179,6 +178,7 @@
     </error-page>
 
     <welcome-file-list>
+        <!--<welcome-file>onlineInvoices.xhtml</welcome-file>-->
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 

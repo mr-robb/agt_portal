@@ -23,9 +23,9 @@ String errorMessage = (String)request.getAttribute("errorMessage");
                 <legend>Inicio de Sesión</legend>
                 <%=errorMessage%>
                 <label for="sec_user">Nombre de Usuario</label>
-                <input type="text" id="sec_user" name="sec_user" required="required" placeholder="usuario"/>
+                <input autocomplete="off" type="text" id="sec_user" name="sec_user" required="required" placeholder="usuario"/>
                 <label for="sec_pass">Contraseña</label>
-                <input type="password" id="sec_pass" name="sec_pass" required="required" />
+                <input autocomplete="off" type="password" id="sec_pass" name="sec_pass" required="required" />
                 <input type="submit" value="entrar" />
             </fieldset>
             <a class="liga" href="resetPassword">¿olvidó su contraseña?</a>

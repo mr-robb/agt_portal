@@ -132,13 +132,14 @@
                                      id="resultTable"
                                      widgetVar="resultTable"
                                      var="invoice"
-                                     value="#{ invoicesReceivedBean.listRecInvoice }"
+                                     value="#{ invoicesReceivedBean.model }"
                                      emptyMessage="No se encontraron resultados"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
                                      paginator="true"
+                                     lazy="true"
                                      paginatorAlwaysVisible="true"
                                      paginatorPosition="bottom"
-                                     rows="10">
+                                     rows="#{invoicesReceivedBean.paginationSize}">
                             <f:facet name="{ExporterWidget}">
                                 <h:commandLink id="excel">
                                     <p:graphicImage url="./resources/img/excel.png" />

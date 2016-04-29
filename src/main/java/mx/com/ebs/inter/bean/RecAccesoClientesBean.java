@@ -11,6 +11,8 @@ import mx.com.ebs.inter.util.mail.EmailSender;
 import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,19 +25,12 @@ import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static mx.com.ebs.inter.util.FacesMessageUtil.showFacesMessage;
 import static mx.com.ebs.inter.util.mail.EmailProperties.EMAIL_PASSWORD_CONTENT;
 
-//import javax.faces.bean.ManagedBean;
-//import javax.faces.context.FacesContext;
-
-/**
- * Created by robb on 09/06/2015.
- */
-//@ManagedBean
-//@Component
-public class RecAccesoClientesBean extends AbstractBean implements Serializable{
+public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Serializable{
 
     private static final Logger LOGGER = Logger.getLogger(RecAccesoClientesBean.class);
     private static final String PERFIL_ADMINISTRACION_VENTAS = "ADMINISTRACIONVENTAS";
@@ -46,7 +41,6 @@ public class RecAccesoClientesBean extends AbstractBean implements Serializable{
     @Autowired
     private RecAccesoService recAccesoService;
 
-    private List<RecAcceso> recAccesoList;
     private RecAcceso recAcceso;
     private RecAccesoSearchBo recAccesoSearchBo;
     private List<String> tipoUserInList;
@@ -66,7 +60,17 @@ public class RecAccesoClientesBean extends AbstractBean implements Serializable{
             //verifyUserInSession();
         }
         recAccesoSearchBo.setTipoUserInList(tipoUserInList);
-        recAccesoList = recAccesoService.getUsingFilter(recAccesoSearchBo);
+        createModel();
+    }
+
+    private void createModel(){
+        model = new LazyDataModel<RecAcceso>() {
+            @Override
+            public List<RecAcceso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                model.setRowCount(recAccesoService.countRowsUsingFilter(recAccesoSearchBo));
+                return recAccesoService.getListUsingFilter(recAccesoSearchBo,first,pageSize,sortField,sortOrder);
+            }
+        };
     }
 
     public void executeSearch(){
@@ -80,7 +84,7 @@ public class RecAccesoClientesBean extends AbstractBean implements Serializable{
             LOGGER.error("At cleaning String fields from recAccesoSearchBo", e);
         }finally {
             verifyUserInSession();
-            recAccesoList = recAccesoService.getUsingFilter(recAccesoSearchBo);
+            createModel();
         }
     }
 
@@ -114,16 +118,6 @@ public class RecAccesoClientesBean extends AbstractBean implements Serializable{
 
     public void setRecAccesoSearchBo(RecAccesoSearchBo recAccesoSearchBo) {
         this.recAccesoSearchBo = recAccesoSearchBo;
-    }
-
-
-
-    public List<RecAcceso> getRecAccesoList() {
-        return recAccesoList;
-    }
-
-    public void setRecAccesoList(List<RecAcceso> recAccesoList) {
-        this.recAccesoList = recAccesoList;
     }
 
     public void deleteRecAcceso(final String ebsUserId){
@@ -219,7 +213,7 @@ public class RecAccesoClientesBean extends AbstractBean implements Serializable{
     private boolean emailExists (){
         RecAccesoSearchBo recAccesoSearchBoEmail = new RecAccesoSearchBo();
         recAccesoSearchBoEmail.setEmail(recAcceso.getEBS_EMAIL());
-        List<RecAcceso> recAccesoList1 = recAccesoService.getUsingFilter(recAccesoSearchBoEmail);
+        List<RecAcceso> recAccesoList1 = recAccesoService.getListUsingFilter(recAccesoSearchBoEmail,0,100,null,null);
         if( recAccesoList1 != null && !recAccesoList1.isEmpty() ){
             return true;
         }

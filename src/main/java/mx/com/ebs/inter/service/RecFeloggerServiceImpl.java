@@ -6,6 +6,7 @@ import mx.com.ebs.inter.data.model.RecFelogger;
 import mx.com.ebs.inter.data.model.RecFeloggerExample;
 import mx.com.ebs.inter.util.Validator;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +30,29 @@ public class RecFeloggerServiceImpl implements RecFeloggerService {
 
     @Transactional( value = Variables.TXM_PROCESO, readOnly = true)
     @Override
-    public List<RecFelogger> getUsingFilter(final RecFeloggerSearchBo recFeloggerSearchBo) {
+    public List<RecFelogger> getListUsingFilter(final RecFeloggerSearchBo recFeloggerSearchBo,int fisrt, int pageSize, String sortField, SortOrder sortOrder) {
         if( recFeloggerSearchBo == null ){
             return getAll();
         }
         RecFeloggerExample recFeloggerExample = new RecFeloggerExample();
-        recFeloggerExample.setOrderByClause(" FECHA desc");
+        if( sortField == null ) {
+            recFeloggerExample.setOrderByClause(" FECHA desc");
+        }else{
+            recFeloggerExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
+        }
+        recFeloggerExample.setPageIndex(fisrt);
+        recFeloggerExample.setPageSize(pageSize);
+        return recFeloggerMapper.selectByExample(recFeloggerExample);
+    }
+
+    @Transactional( value = Variables.TXM_PROCESO, readOnly = true)
+    @Override
+    public Integer countRowsUsingFilter(RecFeloggerSearchBo recFeloggerSearchBo) {
+        return recFeloggerMapper.countByExample( createExample(recFeloggerSearchBo) );
+    }
+
+    private RecFeloggerExample createExample(RecFeloggerSearchBo recFeloggerSearchBo){
+        RecFeloggerExample recFeloggerExample = new RecFeloggerExample();
         RecFeloggerExample.Criteria criteria = recFeloggerExample.createCriteria();
 
         if( !Validator.isEmptyString(recFeloggerSearchBo.getId()) ){
@@ -55,7 +73,7 @@ public class RecFeloggerServiceImpl implements RecFeloggerService {
         if( recFeloggerSearchBo.getFecha1() != null && recFeloggerSearchBo.getFecha2() != null ){
             criteria.andFECHABetween(recFeloggerSearchBo.getFecha1(),recFeloggerSearchBo.getFecha2());
         }
-        return recFeloggerMapper.selectByExample(recFeloggerExample);
+        return recFeloggerExample;
     }
 
     @Override

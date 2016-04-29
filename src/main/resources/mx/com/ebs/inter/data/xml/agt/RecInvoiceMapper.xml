@@ -42,7 +42,7 @@
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
           <trim prefixOverrides="and" prefix="(" suffix=")">
-              and ROWNUM &lt;= #{resultLimitRows}
+
             <foreach collection="criteria.criteria" item="criterion" >
               <choose >
                 <when test="criterion.noValue" >
@@ -64,16 +64,42 @@
             </foreach>
           </trim>
         </if>
-          <if test="!criteria.valid" >
-              ROWNUM &lt;= #{resultLimitRows}
-          </if>
       </foreach>
-        </if>
-        <if test="oredCriteria.size == 0">
-            ROWNUM &lt;= #{resultLimitRows}
         </if>
     </where>
   </sql>
+
+    <sql id="CountExample" >
+        <where >
+            <if test="oredCriteria.size > 0">
+                <foreach collection="oredCriteria" item="criteria" separator="or" >
+                    <if test="criteria.valid" >
+                        <trim prefixOverrides="and" prefix="(" suffix=")">
+                            <foreach collection="criteria.criteria" item="criterion" >
+                                <choose >
+                                    <when test="criterion.noValue" >
+                                        and ${criterion.condition}
+                                    </when>
+                                    <when test="criterion.singleValue" >
+                                        and ${criterion.condition} #{criterion.value}
+                                    </when>
+                                    <when test="criterion.betweenValue" >
+                                        and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                    </when>
+                                    <when test="criterion.listValue" >
+                                        and ${criterion.condition}
+                                        <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                            #{listItem}
+                                        </foreach>
+                                    </when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+                </foreach>
+            </if>
+        </where>
+    </sql>
   <sql id="Update_By_Example_Where_Clause" >
 
     <where >
@@ -113,23 +139,20 @@
     NUMERO_CLIENTE, IMPORTE_ISR, IMPORTE_RET, POLIZA, DIA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.RecInvoiceExample" >
-
+  SELECT * from (
     select
-    <if test="distinct" >
-      distinct
-    </if>
+    ROWNUM rnum,
     <include refid="Base_Column_List" />
     from FACTURADOR.REC_INVOICE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-      <if test="_parameter == null">
-          where ROWNUM &lt;= #{resultLimitRows}
-      </if>
 
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+      ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
+
   </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
@@ -365,7 +388,7 @@
 
     select count(*) from FACTURADOR.REC_INVOICE
     <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
+      <include refid="CountExample" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >

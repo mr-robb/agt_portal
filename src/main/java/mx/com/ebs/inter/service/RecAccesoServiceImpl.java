@@ -7,6 +7,7 @@ import mx.com.ebs.inter.data.model.RecAccesoExample;
 import mx.com.ebs.inter.exception.ValidationException;
 import mx.com.ebs.inter.util.Validator;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +32,23 @@ public class RecAccesoServiceImpl implements RecAccesoService {
 
     @Transactional( value = Variables.TXM_PORTAL, readOnly = true)
     @Override
-    public List<RecAcceso> getUsingFilter(final RecAccesoSearchBo recAccesoSearchBo) {
+    public List<RecAcceso> getListUsingFilter(final RecAccesoSearchBo recAccesoSearchBo,int first, int pageSize, String sortField, SortOrder sortOrder) {
         if( recAccesoSearchBo == null ){
             return getAll();
         }
+        RecAccesoExample recAccesoExample = createExample(recAccesoSearchBo);
+        recAccesoExample.setPageIndex(first);
+        recAccesoExample.setPageSize(pageSize);
+        if( sortField == null ) {
+            recAccesoExample.setOrderByClause("EBS_USER_ID desc");
+        }else{
+            recAccesoExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
+        }
+        return recAccesoMapper.selectByExample( recAccesoExample );
+
+    }
+
+    private RecAccesoExample createExample(RecAccesoSearchBo recAccesoSearchBo){
         RecAccesoExample recAccesoExample = new RecAccesoExample();
         RecAccesoExample.Criteria criteria = recAccesoExample.createCriteria();
 
@@ -62,8 +76,7 @@ public class RecAccesoServiceImpl implements RecAccesoService {
         if( recAccesoSearchBo.getTipoUserInList() != null && !recAccesoSearchBo.getTipoUserInList().isEmpty() ){
             criteria.andEBS_TIPO_USERIn(recAccesoSearchBo.getTipoUserInList());
         }
-        return recAccesoMapper.selectByExample( recAccesoExample );
-
+        return recAccesoExample;
     }
 
     @Transactional( value = Variables.TXM_PORTAL, readOnly = true)
@@ -141,5 +154,11 @@ public class RecAccesoServiceImpl implements RecAccesoService {
     @Override
     public int updateStatus(String ebsUserId) {
         return recAccesoMapper.updateStatus(ebsUserId);
+    }
+
+    @Transactional( value = Variables.TXM_PORTAL, readOnly = true)
+    @Override
+    public int countRowsUsingFilter(RecAccesoSearchBo recAccesoSearchBo) {
+        return recAccesoMapper.countByExample(createExample(recAccesoSearchBo));
     }
 }

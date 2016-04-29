@@ -167,6 +167,7 @@ public class InvoiceExample  extends PaginatedResult {
         }
         private int resultLimitRows = Variables.DEFAULT_SIZE_RESULT;
 
+
         public int getResultLimitRows() {
             return resultLimitRows;
         }

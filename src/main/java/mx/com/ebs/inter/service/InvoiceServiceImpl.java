@@ -5,6 +5,7 @@ import mx.com.ebs.inter.data.dao.agt.InvoiceMapper;
 import mx.com.ebs.inter.data.model.facbanco.Invoice;
 import mx.com.ebs.inter.data.model.facbanco.InvoiceExample;
 import mx.com.ebs.inter.util.Variables;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +32,23 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<Invoice> getUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo) {
+    public List<Invoice> getListUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo,int first, int pageSize, String sortField, SortOrder sortOrder) {
         if( recInvoiceSearchBo == null ){
             return getAll();
         }
+        InvoiceExample invoiceExample = createExample(recInvoiceSearchBo);
+        if( sortField == null ) {
+            invoiceExample.setOrderByClause("FECHA_EMISION desc");
+        }else{
+            invoiceExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
+        }
+        invoiceExample.setPageIndex(first);
+        invoiceExample.setPageSize(pageSize);
+        return invoiceMapper.selectByExample(invoiceExample);
+    }
+
+    private InvoiceExample createExample(RecInvoiceSearchBo recInvoiceSearchBo){
         InvoiceExample invoiceExample = new InvoiceExample();
-        invoiceExample.setOrderByClause("FECHA_EMISION desc");
         InvoiceExample.Criteria criteria = invoiceExample.createCriteria();
         if( !isEmptyString(recInvoiceSearchBo.getNumFactura())){
             criteria.andNUMERO_FACTURAEqualTo(recInvoiceSearchBo.getNumFactura());
@@ -62,7 +74,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         if( recInvoiceSearchBo.getEstatus() != null ){
             criteria.andESTADO_DOCUMENTOEqualTo(recInvoiceSearchBo.getEstatus().toString());
         }
-        return invoiceMapper.selectByExample(invoiceExample);
+        return invoiceExample;
+    }
+
+    @Override
+    public int countRowsUsingFilter(RecInvoiceSearchBo recInvoiceSearchBo) {
+        return invoiceMapper.countByExample(createExample(recInvoiceSearchBo));
     }
 
     public InvoiceMapper getInvoiceMapper() {

@@ -122,16 +122,17 @@
 
             <p:dataTable tableStyleClass="table table-condensed"
                          editable="false"
+                         lazy="true"
                          id="resultTable"
                          widgetVar="resultTable"
                          var="invoice"
-                         value="#{ automaticInvoicesBean.recInvoiceAgtList }"
+                         value="#{ automaticInvoicesBean.model }"
                          emptyMessage="No se encontraron resultados con sus opciones de búsqueda"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {ExporterWidget}"
                          paginator="true"
                          paginatorAlwaysVisible="true"
                          paginatorPosition="bottom"
-                         rows="10">
+                         rows="#{automaticInvoicesBean.paginationSize}">
                 <f:facet name="{ExporterWidget}">
                     <h:commandLink id="excel">
                         <p:graphicImage url="./resources/img/excel.png"/>

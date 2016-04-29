@@ -8,9 +8,12 @@ import mx.com.ebs.inter.service.InvoicesManagerService;
 import mx.com.ebs.inter.util.PropertiesCleaner;
 import mx.com.ebs.inter.util.SessionReader;
 import mx.com.ebs.inter.util.Validator;
+import mx.com.ebs.inter.util.Variables;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -25,21 +28,19 @@ import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by robb on 29/04/2015.
  */
 
-public class InvoicesReceivedBean extends AbstractBean implements Serializable {
+public class InvoicesReceivedBean extends AbstractBean<RecInvoice> implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(InvoicesReceivedBean.class);
 
     @Autowired
-   private InvoicesManagerService invoicesManagerService;
-
-    private List<RecInvoice> listRecInvoice;
+    private InvoicesManagerService invoicesManagerService;
     private RecInvoiceSearchBo recInvoiceSearchBo;
-
     private boolean isNumAgenteEnabled;
 
     @PostConstruct
@@ -50,19 +51,15 @@ public class InvoicesReceivedBean extends AbstractBean implements Serializable {
         if( !isNumAgenteEnabled ){
             recInvoiceSearchBo.setNumAgente( userDataBo.getNumAgt() );
         }
-        listRecInvoice = invoicesManagerService.getUsingFilter(recInvoiceSearchBo);
+        createModel();
     }
 
     public void cleanForm(){
         recInvoiceSearchBo = new RecInvoiceSearchBo();
-        listRecInvoice.clear();
         LOGGER.debug("cleanForm method has been called");
-        LOGGER.debug(listRecInvoice.size());
     }
 
     public void executeSearch(ActionEvent actionEvent){
-        LOGGER.debug("Dentro del metodo executeSearch!!");
-        //logSearchBo();
         try {
             PropertiesCleaner.cleanObjectUsingCapitalizedMetods(recInvoiceSearchBo);
         } catch (IllegalAccessException e) {
@@ -76,7 +73,18 @@ public class InvoicesReceivedBean extends AbstractBean implements Serializable {
         if( !isNumAgenteEnabled ){
             recInvoiceSearchBo.setNumAgente( userDataBo.getNumAgt() );
         }
-        listRecInvoice = invoicesManagerService.getUsingFilter(recInvoiceSearchBo);
+        //  listRecInvoice = invoicesManagerService.getUsingFilter(recInvoiceSearchBo);
+        createModel();
+    }
+
+    private void createModel(){
+        model = new LazyDataModel<RecInvoice>() {
+            @Override
+            public List<RecInvoice> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                model.setRowCount(invoicesManagerService.countRowsUsingFilter(recInvoiceSearchBo));
+                return invoicesManagerService.getUsingFilter(recInvoiceSearchBo,first,pageSize,sortField,sortOrder);
+            }
+        };
     }
 
     public InvoicesManagerService getInvoicesManagerService() {
@@ -87,24 +95,12 @@ public class InvoicesReceivedBean extends AbstractBean implements Serializable {
         this.invoicesManagerService = invoicesManagerService;
     }
 
-    public List<RecInvoice> getListRecInvoice() {
-        return listRecInvoice;
-    }
-
-    public void setListRecInvoice(List<RecInvoice> listRecInvoice) {
-        this.listRecInvoice = listRecInvoice;
-    }
-
     public RecInvoiceSearchBo getRecInvoiceSearchBo() {
         return recInvoiceSearchBo;
     }
 
     public void setRecInvoiceSearchBo(RecInvoiceSearchBo recInvoiceSearchBo) {
         this.recInvoiceSearchBo = recInvoiceSearchBo;
-    }
-
-    private void logSearchBo(){
-        LOGGER.debug(this.recInvoiceSearchBo.toString());
     }
 
     public boolean isNumAgenteEnabled() {

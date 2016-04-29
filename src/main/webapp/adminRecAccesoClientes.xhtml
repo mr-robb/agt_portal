@@ -56,15 +56,16 @@
             <p:dataTable tableStyleClass="table table-condensed"
                          editable="false"
                          id="resultTable"
+                         lazy="true"
                          widgetVar="resultTable"
                          var="acceso"
-                         value="#{recAccesoClientesBean.recAccesoList}"
+                         value="#{recAccesoClientesBean.model}"
                          emptyMessage="No se encontraron resultados con sus opciones de búsqueda"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                          paginator="true"
                          paginatorAlwaysVisible="true"
                          paginatorPosition="bottom"
-                         rows="10">
+                         rows="#{recAccesoClientesBean.paginationSize}">
                 <f:facet name="header">
                     Listado de proveedores y agentes
                 </f:facet>
