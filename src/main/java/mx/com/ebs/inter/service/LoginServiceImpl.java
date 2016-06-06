@@ -84,7 +84,7 @@ public class LoginServiceImpl implements LoginService {
                                     .append(" bloqueado de forma permanente");
                         }
                         recAccesoMapper.updateIntentos(acceso);
-                    }
+                   }
                     throw new LoginFailureException(errorMessage.toString());
                 } else {
                     acceso.setNINTENTOS(BigDecimal.ZERO);
@@ -99,7 +99,7 @@ public class LoginServiceImpl implements LoginService {
 
 
         }else{
-            throw new LoginFailureException("No es posible iniciar sesi&oacute;n, el usuario "+ user+" no se encuentra en la BD");
+            throw new LoginFailureException("No es posible iniciar sesi&oacute;n, revise sus credenciales");
         }
     }
 

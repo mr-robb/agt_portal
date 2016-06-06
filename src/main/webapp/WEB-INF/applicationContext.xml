@@ -16,8 +16,8 @@
     <import resource="classpath:/jsfSpringScope.xml"/>
 
     <bean id="dataSourceAgt" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="jdbc/db_agentes"/>
-        <!--property name="jndiName" value="AASEG"/-->
+        <!--property name="jndiName" value="jdbc/db_agentes"-->
+        <property name="jndiName" value="AASEG"/>
     </bean>
 
     <bean id="txmProceso" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

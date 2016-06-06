@@ -46,7 +46,7 @@
                                      maxlength="100"
                                      value="#{invoicesReceivedBean.recInvoiceSearchBo.razonSocial}" required="false"
                                 title="se considera que la razón social comience ó conincida con lo que usted escriba">
-                            <pe:keyFilter regEx="/^([a-zA-ZñÑ0-9 ´_-]+)$/"/>
+                            <pe:keyFilter regEx="/^([a-zA-ZñÑ0-9 ´_-,\.]+)$/"/>
                                 </p:inputText>
                         <p:tooltip id="ttipRazon" for="razonSocial" showEvent="focus" hideEvent="blur" />
 

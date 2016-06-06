@@ -34,7 +34,7 @@ public class RecFeloggerServiceImpl implements RecFeloggerService {
         if( recFeloggerSearchBo == null ){
             return getAll();
         }
-        RecFeloggerExample recFeloggerExample = new RecFeloggerExample();
+        RecFeloggerExample recFeloggerExample = createExample(recFeloggerSearchBo);
         if( sortField == null ) {
             recFeloggerExample.setOrderByClause(" FECHA desc");
         }else{
