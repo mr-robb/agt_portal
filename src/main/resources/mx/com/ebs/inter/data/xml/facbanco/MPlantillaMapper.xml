@@ -90,7 +90,7 @@
         <include refid="Base_Column_List" />
         ,
         <include refid="Blob_Column_List" />
-        from M_INTERACCIONES.M_PLANTILLA
+        from FACCORP_APL.M_PLANTILLA
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
@@ -107,7 +107,7 @@
             distinct
         </if>
         <include refid="Base_Column_List" />
-        from M_INTERACCIONES.M_PLANTILLA
+        from FACCORP_APL.M_PLANTILLA
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
@@ -120,21 +120,21 @@
         <include refid="Base_Column_List" />
         ,
         <include refid="Blob_Column_List" />
-        from M_INTERACCIONES.M_PLANTILLA
+        from FACCORP_APL.M_PLANTILLA
         where ID = #{ID,jdbcType=DECIMAL}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-        delete from M_INTERACCIONES.M_PLANTILLA
+        delete from FACCORP_APL.M_PLANTILLA
         where ID = #{ID,jdbcType=DECIMAL}
     </delete>
     <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantillaExample" >
-        delete from M_INTERACCIONES.M_PLANTILLA
+        delete from FACCORP_APL.M_PLANTILLA
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
-        insert into M_INTERACCIONES.M_PLANTILLA (ID, ESTATUS, FECHA,
+        insert into FACCORP_APL.M_PLANTILLA (ID, ESTATUS, FECHA,
         NOMBRE, SERIE, TIPO_DOC,
         VERSION, EMPRESA_ID, PLANTILLA
         )
@@ -144,7 +144,7 @@
         )
     </insert>
     <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
-        insert into M_INTERACCIONES.M_PLANTILLA
+        insert into FACCORP_APL.M_PLANTILLA
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="ID != null" >
                 ID,
@@ -205,13 +205,13 @@
         </trim>
     </insert>
     <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantillaExample" resultType="java.lang.Integer" >
-        select count(*) from M_INTERACCIONES.M_PLANTILLA
+        select count(*) from FACCORP_APL.M_PLANTILLA
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map" >
-        update M_INTERACCIONES.M_PLANTILLA
+        update FACCORP_APL.M_PLANTILLA
         <set >
             <if test="record.ID != null" >
                 ID = #{record.ID,jdbcType=DECIMAL},
@@ -246,7 +246,7 @@
         </if>
     </update>
     <update id="updateByExampleWithBLOBs" parameterType="map" >
-        update M_INTERACCIONES.M_PLANTILLA
+        update FACCORP_APL.M_PLANTILLA
         set ID = #{record.ID,jdbcType=DECIMAL},
         ESTATUS = #{record.ESTATUS,jdbcType=DECIMAL},
         FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
@@ -261,7 +261,7 @@
         </if>
     </update>
     <update id="updateByExample" parameterType="map" >
-        update M_INTERACCIONES.M_PLANTILLA
+        update FACCORP_APL.M_PLANTILLA
         set ID = #{record.ID,jdbcType=DECIMAL},
         ESTATUS = #{record.ESTATUS,jdbcType=DECIMAL},
         FECHA = #{record.FECHA,jdbcType=TIMESTAMP},
@@ -275,7 +275,7 @@
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
-        update M_INTERACCIONES.M_PLANTILLA
+        update FACCORP_APL.M_PLANTILLA
         <set >
             <if test="ESTATUS != null" >
                 ESTATUS = #{ESTATUS,jdbcType=DECIMAL},
@@ -305,7 +305,7 @@
         where ID = #{ID,jdbcType=DECIMAL}
     </update>
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
-        update M_INTERACCIONES.M_PLANTILLA
+        update FACCORP_APL.M_PLANTILLA
         set ESTATUS = #{ESTATUS,jdbcType=DECIMAL},
         FECHA = #{FECHA,jdbcType=TIMESTAMP},
         NOMBRE = #{NOMBRE,jdbcType=VARCHAR},
@@ -317,7 +317,7 @@
         where ID = #{ID,jdbcType=DECIMAL}
     </update>
     <update id="updateByPrimaryKey" parameterType="mx.com.ebs.inter.data.model.facbanco.MPlantilla" >
-        update M_INTERACCIONES.M_PLANTILLA
+        update FACCORP_APL.M_PLANTILLA
         set ESTATUS = #{ESTATUS,jdbcType=DECIMAL},
         FECHA = #{FECHA,jdbcType=TIMESTAMP},
         NOMBRE = #{NOMBRE,jdbcType=VARCHAR},

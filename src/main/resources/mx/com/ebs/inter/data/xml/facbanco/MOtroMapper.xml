@@ -125,7 +125,7 @@
             distinct
         </if>
         <include refid="Base_Column_List" />
-        from M_INTERACCIONES.M_OTRO
+        from FACCORP_APL.M_OTRO
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
@@ -139,21 +139,21 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
         select
         <include refid="Base_Column_List" />
-        from M_INTERACCIONES.M_OTRO
+        from FACCORP_APL.M_OTRO
         where ID = #{ID,jdbcType=DECIMAL}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-        delete from M_INTERACCIONES.M_OTRO
+        delete from FACCORP_APL.M_OTRO
         where ID = #{ID,jdbcType=DECIMAL}
     </delete>
     <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtroExample" >
-        delete from M_INTERACCIONES.M_OTRO
+        delete from FACCORP_APL.M_OTRO
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
-        insert into M_INTERACCIONES.M_OTRO (ID, DPARAM0, DPARAM1,
+        insert into FACCORP_APL.M_OTRO (ID, DPARAM0, DPARAM1,
         DPARAM10, DPARAM11, DPARAM12,
         DPARAM13, DPARAM14, DPARAM2,
         DPARAM3, DPARAM4, DPARAM5,
@@ -187,7 +187,7 @@
         #{PARAM9,jdbcType=VARCHAR}, #{CFD_ID,jdbcType=DECIMAL})
     </insert>
     <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
-        insert into M_INTERACCIONES.M_OTRO
+        insert into FACCORP_APL.M_OTRO
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="ID != null" >
                 ID,
@@ -476,13 +476,13 @@
         </trim>
     </insert>
     <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtroExample" resultType="java.lang.Integer" >
-        select count(*) from M_INTERACCIONES.M_OTRO
+        select count(*) from FACCORP_APL.M_OTRO
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map" >
-        update M_INTERACCIONES.M_OTRO
+        update FACCORP_APL.M_OTRO
         <set >
             <if test="record.ID != null" >
                 ID = #{record.ID,jdbcType=DECIMAL},
@@ -631,7 +631,7 @@
         </if>
     </update>
     <update id="updateByExample" parameterType="map" >
-        update M_INTERACCIONES.M_OTRO
+        update FACCORP_APL.M_OTRO
         set ID = #{record.ID,jdbcType=DECIMAL},
         DPARAM0 = #{record.DPARAM0,jdbcType=FLOAT},
         DPARAM1 = #{record.DPARAM1,jdbcType=FLOAT},
@@ -684,7 +684,7 @@
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
-        update M_INTERACCIONES.M_OTRO
+        update FACCORP_APL.M_OTRO
         <set >
             <if test="DPARAM0 != null" >
                 DPARAM0 = #{DPARAM0,jdbcType=FLOAT},
@@ -828,7 +828,7 @@
         where ID = #{ID,jdbcType=DECIMAL}
     </update>
     <update id="updateByPrimaryKey" parameterType="mx.com.ebs.inter.data.model.facbanco.MOtro" >
-        update M_INTERACCIONES.M_OTRO
+        update FACCORP_APL.M_OTRO
         set DPARAM0 = #{DPARAM0,jdbcType=FLOAT},
         DPARAM1 = #{DPARAM1,jdbcType=FLOAT},
         DPARAM10 = #{DPARAM10,jdbcType=FLOAT},

@@ -59,7 +59,7 @@
     <result column="ORIGEN" property="ORIGEN" jdbcType="DECIMAL" />
     <result column="PLANTILLA" property="PLANTILLA" jdbcType="VARCHAR" />
     <result column="POLIZA" property="POLIZA" jdbcType="VARCHAR" />
-    <result column="ID_DOCUMENTO" property="ID_DOCUMENTO" jdbcType="VARCHAR" />
+    <result column="ID_SISTEMA" property="ID_DOCUMENTO" jdbcType="VARCHAR" />
     <result column="FECHA_CONSULTA" property="FECHA_CONSULTA" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -133,7 +133,7 @@
     STATUS_DOC, HORA, TASA_IMPUESTO, APROBACION, RFC, SERIE_ERP, FOLIO_ERP, TOTALML, 
     TIPO_DOCUMENTO, NUMERO_CLIENTE, MONEDA_DOC, FECHA_CANCELACION, STATUS, STATUS_ENVIOI, 
     STATUS_ENVIOM, STATUS_ENVIOF, DESCRIPCION_PRODUCTO, VTIPO_DOCUMENTO, NNUMERO_PEDIDO, 
-    TIPO_CAMBIO, STATUS_PRINT, ORIGEN, PLANTILLA, POLIZA, ID_DOCUMENTO, FECHA_CONSULTA
+    TIPO_CAMBIO, STATUS_PRINT, ORIGEN, PLANTILLA, POLIZA, ID_SISTEMA, FECHA_CONSULTA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.facbanco.InvoiceExample" >
     select * from (

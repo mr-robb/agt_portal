@@ -16,7 +16,7 @@
     <import resource="classpath:/jsfSpringScope.xml"/>
 
     <bean id="dataSourceAgt" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <!--property name="jndiName" value="jdbc/db_agentes"-->
+        <!--property name="jndiName" value="jdbc/db_agentes"/-->
         <property name="jndiName" value="AASEG"/>
     </bean>
 
@@ -31,16 +31,16 @@
     </bean>
 
     <bean id="dataSourceProc" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="jdbc/db_facturador"/>
-        <!--property name="jndiName" value="AASEG"/-->
+        <!--property name="jndiName" value="jdbc/db_facturador"/-->
+        <property name="jndiName" value="AASEG"/>
     </bean>
     <bean id="txmPortal" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSourceProc" />
     </bean>
 
     <bean id="dataSourceFacbanco" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="jdbc/db_facbanco"/>
-        <!--property name="jndiName" value="BCORP"/-->
+        <!--property name="jndiName" value="jdbc/db_facbanco"/-->
+        <property name="jndiName" value="BCORP"/>
     </bean>
     <bean id="txmFacbanco" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSourceFacbanco" />

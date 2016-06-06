@@ -61,7 +61,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from M_INTERACCIONES.M_CFD_XML
+    from FACCORP_APL.M_CFD_XML
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -75,7 +75,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from M_INTERACCIONES.M_CFD_XML
+    from FACCORP_APL.M_CFD_XML
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,7 +89,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from M_INTERACCIONES.M_CFD_XML
+    from FACCORP_APL.M_CFD_XML
     where ID = #{ID,jdbcType=DECIMAL}
   </select>
 
@@ -98,7 +98,7 @@
         <include refid="Base_Column_List" />
         ,
         <include refid="Blob_Column_List" />
-        from M_INTERACCIONES.M_CFD_XML
+        from FACCORP_APL.M_CFD_XML
         where CFD_ID = #{ID,jdbcType=DECIMAL}
     </select>
 
