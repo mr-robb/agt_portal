@@ -148,11 +148,11 @@
       <include refid="Example_Where_Clause" />
     </if>
 
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-      ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
 
+      ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
+      <if test="orderByClause != null" >
+          order by ${orderByClause}
+      </if>
   </select>
 
     <select id="selectAll" resultMap="BaseResultMap">

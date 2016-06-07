@@ -113,12 +113,14 @@
       <if test="_parameter == null">
           where ROWNUM &lt;= #{resultLimitRows}
       </if>
-    <if test="
+
+      ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
+      <if test="
           orderByClause != null" >
-        order by ${
+          order by ${
       orderByClause}
-    </if>
-      ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}  </select>
+      </if>
+  </select>
 
   <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.RecInvoiceAgtExample" >
     delete from FACTURADOR.REC_INVOICE_AGT
