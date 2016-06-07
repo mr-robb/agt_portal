@@ -828,7 +828,7 @@ public class MCfdExample  extends PaginatedResult {
         }
 
         public Criteria andFECHABetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("FECHA between", value1, value2, "FECHA");
+            addCriterionForJDBCDate("trunc(FECHA) between", value1, value2, "FECHA");
             return (Criteria) this;
         }
 

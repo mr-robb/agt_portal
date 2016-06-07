@@ -251,7 +251,7 @@ public class ProcRecFeloggerExample  extends PaginatedResult  {
         }
 
         public Criteria andFECHABetween(Date value1, Date value2) {
-            addCriterion("FECHA between", value1, value2, "FECHA");
+            addCriterion("trunc(FECHA) between", value1, value2, "FECHA");
             return (Criteria) this;
         }
 
