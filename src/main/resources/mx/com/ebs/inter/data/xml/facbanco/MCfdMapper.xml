@@ -518,7 +518,7 @@ mOtro.CFD_ID
         </trim>
     </insert>
     <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfdExample" resultType="java.lang.Integer" >
-        select count(*) from FACCORP_APL.M_CFD
+        select count(*) from FACCORP_APL.M_CFD cfd JOIN FACCORP_APL.M_OTRO mOtro ON cfd.ID=mOtro.CFD_ID
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
