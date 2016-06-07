@@ -12,14 +12,14 @@
 
                         <h:outputLabel for="user" value="Usuario:"/>
                         <p:inputText id="user"
-                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSizeUsuario}"
                                      value="#{recAccesoClientesBean.recAccesoSearchBo.user}"
                                      required="false" title="debe coincidir exactamente con el usuario"/>
                         <p:tooltip id="ttipUser" for="user" showEvent="focus" hideEvent="blur"/>
 
                         <h:outputLabel for="username" value="Nombre de usuario:"/>
                         <p:inputText id="username"
-                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSizeUsuarioNombre}"
                                      value="#{recAccesoClientesBean.recAccesoSearchBo.username}"
                                      required="false"
                                      title="debe coincidir con el nombre del usuario, ej: Carlos"/>
@@ -27,7 +27,7 @@
 
                         <h:outputLabel for="noCte" value="Número de cliente:"/>
                         <p:inputText id="noCte"
-                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSizeClienteNumero}"
                                      value="#{recAccesoClientesBean.recAccesoSearchBo.noCte}"
                                      required="false"
                                      title="es el numero de cliente a buscar"/>
@@ -139,14 +139,14 @@
 
                     <h:outputLabel for="numeroCliente" value="Número de Cliente: *"/>
                     <p:inputText id="numeroCliente"
-                                 maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                 maxlength="#{recAccesoClientesBean.defaultInputMaxSizeClienteNumero}"
                                  required="true" requiredMessage="Número de cliente es requerido" value="#{recAccesoClientesBean.recAcceso.NUMERO_CLIENTE}">
                         <p:watermark for="numeroCliente" value="Número de cliente"/>
                     </p:inputText>
 
                     <h:outputLabel for="nombre" value="Nombre del usuario: *"/>
                     <p:inputText id="nombre"
-                                 maxlength="#{recAccesoClientesBean.defaultInputMaxSize}"
+                                 maxlength="#{recAccesoClientesBean.defaultInputMaxSizeUsuarioNombre}"
                                  required="true" requiredMessage="El nombre es requerido" value="#{recAccesoClientesBean.recAcceso.EBS_NOMBRE}">
                         <p:watermark for="nombre" value="nombre"/>
                     </p:inputText>

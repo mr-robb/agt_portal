@@ -37,4 +37,11 @@ public class Variables {
     public static final String COLLECTION_NAME_RECEPCION = "/recepcion";
 
     public static final String  WS_VALIDA_SAT_URL = "wsclient.validaSat.url";
+
+    //NUEVO
+    public static final int MAX_LENGTH_INPUT_SEARCH_USUARIO = 28;// USUARIO DE SISTEMA
+    public static final int MAX_LENGTH_INPUT_SEARCH_USUARIO_NOMBRE = 128;// NOMBRE DE PILA
+    public static final int MAX_LENGTH_INPUT_SEARCH_PASSWORD = 8;
+    public static final int MAX_LENGTH_INPUT_SEARCH_NUMERO_AGENTE = 20;
+    public static final int MAX_LENGTH_INPUT_SEARCH_NUMERO_CLIENTE = 50;
 }

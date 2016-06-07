@@ -52,7 +52,7 @@
 
                         <h:outputLabel for="rfc" value="RFC:" />
                         <p:inputText id="rfc"
-                                     maxlength="#{invoicesReceivedBean.defaultInputMaxSize}"
+                                     maxlength="13"
                                      value="#{invoicesReceivedBean.recInvoiceSearchBo.rfc}" required="false"
                                 title="debe ser de 12 ó 13 caracteres y debe ser exacto">
                             <pe:keyFilter regEx="/[a-zÑ&amp;0-9]/i"/>
