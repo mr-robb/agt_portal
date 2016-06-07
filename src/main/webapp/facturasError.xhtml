@@ -46,7 +46,7 @@
                                      maxlength="500"
                                      value="#{recFeloggerBean.recFeloggerSearchBo.msg}"
                                      required="false" title="se buscará el texto introducido en la descripción del error">
-                            <pe:keyFilter regEx="/[a-z0-9_\-]/i"/>
+                            <pe:keyFilter regEx="/[a-z0-9_ \-]/i"/>
                                 </p:inputText>
                         <p:tooltip id="ttipMsg" for="msg" showEvent="focus" hideEvent="blur"/>
 
