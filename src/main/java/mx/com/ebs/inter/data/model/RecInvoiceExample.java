@@ -250,7 +250,7 @@ public class RecInvoiceExample  extends PaginatedResult {
         }
 
         public Criteria andFECHABetween(Date value1, Date value2) {
-            addCriterion("FECHA between", value1, value2, "FECHA");
+            addCriterion("TRUNC(FECHA) between", value1, value2, "FECHA");
             return (Criteria) this;
         }
 

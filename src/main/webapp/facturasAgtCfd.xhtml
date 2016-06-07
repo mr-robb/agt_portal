@@ -15,7 +15,7 @@
 
                         <h:outputLabel for="numFactura" value="No. de factura:" />
                         <p:inputText id="numFactura"
-                                     maxlength="70"
+                                     maxlength="20"
                                      value="#{invoicesBean.recInvoiceSearchBo.numFactura}" required="false"
                                      title="debe ser exactamente el número de factura">
                             <pe:keyFilter regEx="/[a-z0-9_\-\.]/i"/>
@@ -26,7 +26,7 @@
                         <h:outputLabel for="numAgente" value="No. de agente:" />
                         <p:inputText id="numAgente"
                                      disabled="#{not invoicesBean.numAgenteEnabled}"
-                                     maxlength="#{invoicesBean.defaultInputMaxSize}"
+                                     maxlength="20"
                                      value="#{invoicesBean.recInvoiceSearchBo.numAgente}" required="false"
                                      title="debe ser exactamente el número de agente">
                             <pe:keyFilter regEx="/[0-9\/]/"/>
@@ -47,13 +47,13 @@
                                      maxlength="150"
                                      value="#{invoicesBean.recInvoiceSearchBo.razonSocial}" required="false"
                                      title="se considera que la razón social comience ó conincida con lo que usted escriba">
-                            <pe:keyFilter regEx="/^([a-zA-ZñÑ0-9 ´_-]+)$/"/>
+                            <pe:keyFilter regEx="/^([a-zA-ZñÑ0-9 ´_-, \.]+)$/"/>
                         </p:inputText>
                         <p:tooltip id="ttipRazon" for="razonSocial" showEvent="focus" hideEvent="blur" />
 
                         <h:outputLabel for="rfc" value="RFC:" />
                         <p:inputText id="rfc"
-                                     maxlength="#{invoicesBean.defaultInputMaxSize}"
+                                     maxlength="13"
                                      value="#{invoicesBean.recInvoiceSearchBo.rfc}" required="false"
                                      title="debe ser de 12 ó 13 caracteres y debe ser exacto">
                             <pe:keyFilter regEx="/[a-zÑ&amp;0-9]/i"/>
