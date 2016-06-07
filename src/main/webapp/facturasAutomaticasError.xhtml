@@ -13,7 +13,7 @@
                     <h:panelGrid id="panel" columns="9">
                         <h:outputLabel for="idError" value="Folio ERP:"/>
                         <p:inputText id="idError"
-                                     maxlength="#{recFeloggerAgtBean.defaultInputMaxSize}"
+                                     maxlength="20"
                                      value="#{recFeloggerAgtBean.recFeloggerSearchBo.id}"
                                      required="false"
                                      title="debe ser exactamente el número del folio erp">
@@ -44,10 +44,10 @@
                         <h:outputLabel for="msg" value="Mensaje error:"/>
                         <p:inputText id="msg"
                                      maxlength="#{recFeloggerAgtBean.defaultInputMaxSize}"
-                                     value="#{recFeloggerAgtBean.recFeloggerSearchBo.msg}"
+                                     value="500"
                                      required="false"
                                      title="se buscará el texto introducido en la descripción del error">
-                            <pe:keyFilter regEx="/[a-z0-9_\-]/i"/>
+                            <pe:keyFilter regEx="/[a-z0-9_\- ]/i"/>
                         </p:inputText>
                         <p:tooltip id="ttipMsg" for="msg" showEvent="focus" hideEvent="blur"/>
 
@@ -55,7 +55,7 @@
                         <h:outputLabel for="numAgt" value="No. Agente:"/>
                         <p:inputText id="numAgt"
                                      disabled="#{not recFeloggerAgtBean.numAgenteEnabled}"
-                                     maxlength="#{recFeloggerAgtBean.defaultInputMaxSize}"
+                                     maxlength="10"
                                      value="#{recFeloggerAgtBean.recFeloggerSearchBo.numAgt}"
                                      required="false"
                                      title="es el número del agente">
