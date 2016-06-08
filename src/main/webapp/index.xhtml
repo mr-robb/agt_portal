@@ -143,12 +143,12 @@
                             <f:facet name="{ExporterWidget}">
                                 <h:commandLink id="excel">
                                     <p:graphicImage url="./resources/img/excel.png" />
-                                    <p:dataExporter type="xls" target="resultTable" fileName="invoices" />
+                                    <p:dataExporter type="xls" pageOnly="true" target="resultTable" fileName="invoices" />
                                 </h:commandLink>
 
                                 <h:commandLink id="pdf">
                                     <p:graphicImage url="/resources/img/pdf.png" />
-                                    <p:dataExporter type="pdf" target="resultTable" fileName="invoices" />
+                                    <p:dataExporter type="pdf" pageOnly="true" target="resultTable" fileName="invoices" />
                                 </h:commandLink>
                             </f:facet>
                             <f:facet name="header">
