@@ -143,10 +143,10 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
       ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
+      <if test="orderByClause != null" >
+          order by ${orderByClause}
+      </if>
   </select>
   <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.InvoiceExample" >
     delete from FACTURADOR.INVOICE

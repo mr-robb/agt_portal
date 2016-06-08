@@ -98,19 +98,15 @@
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.RecFeloggerExample" >
     select * from (
     select ROWNUM rnum,
-
     <include refid="Base_Column_List" />
     from FACTURADOR.REC_FELOGGER
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-      <if test="_parameter == null">
-          where ROWNUM &lt;= #{resultLimitRows}
-      </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
       ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
+      <if test="orderByClause != null" >
+          order by ${orderByClause}
+      </if>
   </select>
   <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.RecFeloggerExample" >
     <!--
