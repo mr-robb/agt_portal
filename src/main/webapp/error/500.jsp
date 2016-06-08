@@ -21,8 +21,12 @@
     </tr>
 </table>
 <img src="<c:url value="/resources/img/error_interno.png"/>" width="579" height="309" alt="error_interno"/>
-<p>
-    Detalles del error:<b><i><%= exception.getMessage() %></i></b>, contacta al administrador
+<p>Favor de contactar al administrador
 </p>
+<!--
+ <div>
+ <% exception.printStackTrace(response.getWriter()); %>
+ </div>
+-->
 </body>
 </html>

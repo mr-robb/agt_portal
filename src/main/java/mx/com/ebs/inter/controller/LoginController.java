@@ -38,7 +38,7 @@ public class LoginController extends AbstractAutowirableServlet {
             }
             user = user.trim();
             passwd = passwd.trim();
-            loginService.doLogin(user, Protection.encodePassword(user,passwd) ,request);
+            loginService.doLogin(user, Protection.encodePassword(user,passwd) ,request,response);
             RequestDispatcher dispatcher = request.getRequestDispatcher("index.xhtml");
             dispatcher.forward(request,response);
         } catch (LoginFailureException e) {

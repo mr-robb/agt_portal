@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -34,13 +36,14 @@ public class LoginServiceImpl implements LoginService {
 
     private static final Logger LOGGER = Logger.getLogger(LoginServiceImpl.class);
     private static final String AGTE_PROFILE="AGENTE";
+    private static final int SESSION_DEFAULT_TIMEOUT = 15;
 
     @Autowired
     private RecAccesoMapper recAccesoMapper;
 
     @Override
     @Transactional(value = Variables.TXM_PORTAL,readOnly = true)
-    public void doLogin(String user, String passwd, HttpServletRequest request) throws LoginFailureException {
+    public void doLogin(String user, String passwd, HttpServletRequest request,HttpServletResponse response) throws LoginFailureException {
         RecAcceso acceso = recAccesoMapper.findRecAccesoUserPass(new LoginBo(user,passwd));
         if( acceso != null ){
             if( acceso.getNINTENTOS() != null && acceso.getNINTENTOS().intValue() >= 3 ){
@@ -91,9 +94,13 @@ public class LoginServiceImpl implements LoginService {
                     acceso.setULTIMOACCESO(Calendar.getInstance().getTime());
                     recAccesoMapper.updateIntentos(acceso);
                     HttpSession session = request.getSession(true);
-
+                    session.setMaxInactiveInterval(60 * SESSION_DEFAULT_TIMEOUT);
                     session.setAttribute("userData" ,map(acceso));
                     session.setAttribute("userMainPage", "index.xhtml");
+                    Cookie cookie = new Cookie("JSESSIONID", session.getId());
+                    cookie.setMaxAge(60 * SESSION_DEFAULT_TIMEOUT);
+                    cookie.setSecure(true);
+                    response.addCookie(cookie);
                 }
             }
 
