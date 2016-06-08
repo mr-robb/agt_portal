@@ -125,10 +125,10 @@
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
+        ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
         <if test="orderByClause != null" >
             order by ${orderByClause}
         </if>
-        ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.ProcAgtFelEnvioKey" >
         <!--

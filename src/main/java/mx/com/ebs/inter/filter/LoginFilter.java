@@ -29,8 +29,6 @@ public class LoginFilter implements Filter {
         if( session == null || session.getAttribute("userData") == null ){
             String user = request.getParameter("sec_user");
             String pass = request.getParameter("sec_pass");
-            LOGGER.debug("USER:"+user);
-            LOGGER.debug("PASS:"+pass);
             request.setAttribute("username",user);
             request.setAttribute("passwd",pass);
             filterChain.doFilter(servletRequest,servletResponse);

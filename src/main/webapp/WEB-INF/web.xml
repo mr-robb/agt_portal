@@ -151,13 +151,22 @@
         <servlet-name>Faces Servlet</servlet-name>
     </filter-mapping>
 
+    <filter>
+        <filter-name>viewSessionFilter</filter-name>
+        <filter-class>mx.com.ebs.inter.filter.ViewSessionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>viewSessionFilter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+
     <error-page>
         <error-code>404</error-code>
-        <location>/error/404.xhtml</location>
+        <location>/error/404.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/error/500.xhtml</location>
+        <location>/error/500.jsp</location>
     </error-page>
     <!--
         <error-page>
@@ -166,15 +175,15 @@
         </error-page>-->
     <error-page>
         <exception-type>javax.servlet.ServletException</exception-type>
-        <location>/error/500.xhtml</location>
+        <location>/error/500.jsp</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.NullPointerException</exception-type>
-        <location>/error/500.xhtml</location>
+        <location>/error/500.jsp</location>
     </error-page>
     <error-page>
         <exception-type>java.io.EOFException</exception-type>
-        <location>/error/500.xhtml</location>
+        <location>/error/500.jsp</location>
     </error-page>
 
     <welcome-file-list>

@@ -54,7 +54,6 @@
         <where >
             <foreach collection="oredCriteria" item="criteria" separator="or" >
                 <if test="criteria.valid" >
-                    ROWNUM &lt;= #{criteria.resultLimitRows} and
                     <trim prefix="(" suffix=")" prefixOverrides="and" >
                         <foreach collection="criteria.criteria" item="criterion" >
                             <choose >
@@ -76,9 +75,6 @@
                             </choose>
                         </foreach>
                     </trim>
-                </if>
-                <if test="!criteria.valid" >
-                    ROWNUM &lt;= #{criteria.resultLimitRows}
                 </if>
             </foreach>
         </where>
@@ -128,9 +124,6 @@
         from FACCORP_APL.M_OTRO
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
-        </if>
-        <if test="_parameter == null">
-            where ROWNUM &lt;= #{resultLimitRows}
         </if>
         <if test="orderByClause != null" >
             order by ${orderByClause}
