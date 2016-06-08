@@ -12,14 +12,14 @@
 
                         <h:outputLabel for="user" value="Usuario:"/>
                         <p:inputText id="user"
-                                     maxlength="28"
+                                     maxlength="#{recAccesoBean.defaultInputMaxSizeUsuario}"
                                      value="#{recAccesoBean.recAccesoSearchBo.user}"
                                      required="false" title="debe coincidir exactamente con el usuario"/>
                         <p:tooltip id="ttipUser" for="user" showEvent="focus" hideEvent="blur"/>
 
                         <h:outputLabel for="username" value="Nombre de usuario:"/>
                         <p:inputText id="username"
-                                     maxlength="#{recAccesoBean.defaultInputMaxSize}"
+                                     maxlength="#{recAccesoBean.defaultInputMaxSizeUsuarioNombre}"
                                      value="#{recAccesoBean.recAccesoSearchBo.username}"
                                      required="false"
                                      title="debe coincidir con el nombre del usuario, ej: Carlos"/>
@@ -110,7 +110,7 @@
                             <p:inputText
                                     required="true"
                                     requiredMessage="El nombre de usuario es requerido"
-                                    maxlength="#{recAccesoBean.defaultInputMaxSize}"
+                                    maxlength="#{recAccesoBean.defaultInputMaxSizeUsuarioNombre}"
                                     value="#{acceso.EBS_NOMBRE}"/>
                         </f:facet>
                     </p:cellEditor>
@@ -225,14 +225,14 @@
 
                     <h:outputLabel for="usuario" value="Usuario: *"/>
                     <p:inputText id="usuario"
-                                 maxlength="#{recAccesoBean.defaultInputMaxSize}"
+                                 maxlength="#{recAccesoBean.defaultInputMaxSizeUsuario}"
                                  required="true" requiredMessage="El usuario es requerido" value="#{recAccesoBean.recAcceso.EBS_USER_ID}">
                         <p:watermark for="usuario" value="usuario"/>
                     </p:inputText>
 
                     <h:outputLabel for="nombre" value="Nombre del usuario: *"/>
                     <p:inputText id="nombre"
-                                 maxlength="#{recAccesoBean.defaultInputMaxSize}"
+                                 maxlength="#{recAccesoBean.defaultInputMaxSizeUsuarioNombre}"
                                  required="true" requiredMessage="El nombre es requerido" value="#{recAccesoBean.recAcceso.EBS_NOMBRE}">
                         <p:watermark for="nombre" value="nombre"/>
                     </p:inputText>
