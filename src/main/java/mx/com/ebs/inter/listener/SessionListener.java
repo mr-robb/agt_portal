@@ -7,20 +7,18 @@ import mx.com.ebs.inter.data.dao.agt.RecSessionUserMapper;
 import mx.com.ebs.inter.data.model.RecSessionUser;
 import mx.com.ebs.inter.util.Variables;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.sql.Timestamp;
 
-@Service
+@Component
 public class SessionListener implements HttpSessionListener{
-
-    @Autowired
-    private RecSessionUserMapper userMapper;
 
     private static final Logger LOGGER = Logger.getLogger(RecSessionUserMapper.class);
 
@@ -30,6 +28,9 @@ public class SessionListener implements HttpSessionListener{
 
     @Transactional(value = Variables.TXM_PORTAL,readOnly = false)
     public void sessionDestroyed(HttpSessionEvent se) {
+        ServletContext servletContext =   se.getSession().getServletContext();
+        WebApplicationContext appContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+        RecSessionUserMapper userMapper = appContext.getBean(RecSessionUserMapper.class);
         UserDataBo dataBo = (UserDataBo) se.getSession().getAttribute("userData");
         LOGGER.info("L I S T E N E R  SessionListener.sessionDestroyed() method called for user "+ dataBo.getEbsUserId());
         RecSessionUser sessionUser = new RecSessionUser();
