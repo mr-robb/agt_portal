@@ -41,6 +41,7 @@
         <result column="CHANGEPW" property="CHANGEPW" jdbcType="DECIMAL" />
         <result column="EBS_PW_ACTUAL" property="EBS_PW_ACTUAL" jdbcType="VARCHAR" />
 		<result column="NUMERO_CLIENTE" property="NUMERO_CLIENTE" jdbcType="VARCHAR" />
+      <result column="STATUS" property="STATUS" jdbcType="DECIMAL" />
     </resultMap>
 
     <!-- select clause for login action  -->
@@ -53,7 +54,8 @@
         EBS_PERFIL,
         CHANGEPW,
         EBS_PW_ACTUAL,
-		NUMERO_CLIENTE
+		NUMERO_CLIENTE,
+		STATUS
         FROM
         FACTURADOR.REC_ACCESO rac
         WHERE rac.EBS_USER_ID = #{username}
