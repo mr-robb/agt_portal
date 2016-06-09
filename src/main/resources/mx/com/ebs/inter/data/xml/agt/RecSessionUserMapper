@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.com.ebs.inter.data.dao.agt.RecSessionUserMapper" >
+
+    <resultMap id="recSessionUserMap" type="mx.com.ebs.inter.data.model.RecSessionUser" >
+
+        <result column="EBS_USER_ID" property="EBS_USER_ID" jdbcType="VARCHAR" />
+        <result column="STATUS" property="STATUS" jdbcType="DECIMAL" />
+        <result column="CREATED_TS" property="CREATED_TS" jdbcType="TIMESTAMP" />
+        <result column="DESTROYED_TS" property="DESTROYED_TS" jdbcType="TIMESTAMP" />
+
+    </resultMap>
+
+    <select id="find" parameterType="java.lang.String" resultMap="recSessionUserMap">
+        SELECT
+        EBS_USER_ID,
+        STATUS,
+        CREATED_TS,
+        DESTROYED_TS
+        FROM
+        FACTURADOR.REC_SESSION_USER WHERE EBS_USER_ID = #{username}
+    </select>
+
+    <insert id="insert" parameterType="mx.com.ebs.inter.data.model.RecSessionUser" >
+        insert into FACTURADOR.REC_SESSION_USER (
+        EBS_USER_ID,
+        STATUS,
+        CREATED_TS,
+        DESTROYED_TS)
+        values (
+            #{EBS_USER_ID,jdbcType=VARCHAR},
+            #{STATUS,jdbcType=DECIMAL},
+            #{CREATED_TS,jdbcType=TIMESTAMP},
+            #{DESTROYED_TS,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <update id="updateLogin" parameterType="map" >
+        update FACTURADOR.REC_SESSION_USER
+        set
+        STATUS = 1,
+        CREATED_TS = #{record.CREATED_TS,jdbcType=TIMESTAMP}
+        where EBS_USER_ID = #{record.EBS_USER_ID}
+    </update>
+
+    <update id="updateLogout" parameterType="map" >
+        update FACTURADOR.REC_SESSION_USER
+        set
+        STATUS = 0,
+        DESTROYED_TS = #{record.DESTROYED_TS,jdbcType=TIMESTAMP}
+        where EBS_USER_ID = #{record.EBS_USER_ID}
+    </update>
+
+
+</mapper>

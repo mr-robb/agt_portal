@@ -1,6 +1,7 @@
 package mx.com.ebs.inter.controller;
 
 import mx.com.ebs.inter.exception.LoginFailureException;
+import mx.com.ebs.inter.exception.UserAlreadyLoggedException;
 import mx.com.ebs.inter.exception.ValidationException;
 import mx.com.ebs.inter.service.LoginService;
 import mx.com.ebs.inter.util.Protection;
@@ -52,6 +53,9 @@ public class LoginController extends AbstractAutowirableServlet {
         } catch (NoSuchAlgorithmException e) {
             request.setAttribute("errorMessage", "<div id=\"errorMessage\">" + e.getMessage()+"</div>");
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            dispatcher.forward(request, response);
+        } catch (UserAlreadyLoggedException e) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("no-access.html");
             dispatcher.forward(request, response);
         }
     }

@@ -43,6 +43,9 @@
             org.springframework.web.context.request.RequestContextListener
         </listener-class>
     </listener>
+    <listener>
+        <listener-class>mx.com.ebs.inter.listener.SessionListener</listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

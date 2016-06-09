@@ -4,9 +4,12 @@ import mx.com.ebs.inter.data.bo.LoginBo;
 import mx.com.ebs.inter.data.bo.MenuBo;
 import mx.com.ebs.inter.data.bo.UserDataBo;
 import mx.com.ebs.inter.data.dao.agt.RecAccesoMapper;
+import mx.com.ebs.inter.data.dao.agt.RecSessionUserMapper;
 import mx.com.ebs.inter.data.model.RecAcceso;
 import mx.com.ebs.inter.data.model.RecAccesoExample;
+import mx.com.ebs.inter.data.model.RecSessionUser;
 import mx.com.ebs.inter.exception.LoginFailureException;
+import mx.com.ebs.inter.exception.UserAlreadyLoggedException;
 import mx.com.ebs.inter.exception.ValidationException;
 import mx.com.ebs.inter.util.UnicodeCommonWords;
 import mx.com.ebs.inter.util.Validator;
@@ -17,12 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,9 +46,12 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private RecAccesoMapper recAccesoMapper;
 
+    @Autowired
+    private RecSessionUserMapper recSessionUserMapper;
+
     @Override
     @Transactional(value = Variables.TXM_PORTAL,readOnly = true)
-    public void doLogin(String user, String passwd, HttpServletRequest request,HttpServletResponse response) throws LoginFailureException {
+    public void doLogin(String user, String passwd, HttpServletRequest request,HttpServletResponse response) throws LoginFailureException,UserAlreadyLoggedException{
         RecAcceso acceso = recAccesoMapper.findRecAccesoUserPass(new LoginBo(user,passwd));
         if( acceso != null ){
             if( acceso.getNINTENTOS() != null && acceso.getNINTENTOS().intValue() >= 3 ){
@@ -62,12 +70,14 @@ public class LoginServiceImpl implements LoginService {
                             user+" se encuentra bloqueado. Intente en "+ ( minutesToAcces < 1 ? "1 minuto" : minutesToAcces+" minutos"));
                 }*/
             }else {
+
+                if(isValidUserToLogin(user)){
                 if (!passwd.equals(acceso.getEBS_PW_ACTUAL())) {
                     StringBuilder errorMessage = new StringBuilder();
                     errorMessage.append("No es posible iniciar sesi&oacute;n, la contrase").
                             append(UnicodeCommonWords.NTILDE_LOWER).
                             append("a proporcionada no coincide.");
-                    if( !"admingral".equals(acceso.getEBS_USER_ID()) ) {
+                    if (!"admingral".equals(acceso.getEBS_USER_ID())) {
                         if (acceso.getNINTENTOS() == null) {
                             acceso.setNINTENTOS(BigDecimal.ONE);
                         } else {
@@ -87,7 +97,7 @@ public class LoginServiceImpl implements LoginService {
                                     .append(" bloqueado de forma permanente");
                         }
                         recAccesoMapper.updateIntentos(acceso);
-                   }
+                    }
                     throw new LoginFailureException(errorMessage.toString());
                 } else {
                     acceso.setNINTENTOS(BigDecimal.ZERO);
@@ -95,12 +105,15 @@ public class LoginServiceImpl implements LoginService {
                     recAccesoMapper.updateIntentos(acceso);
                     HttpSession session = request.getSession(true);
                     session.setMaxInactiveInterval(60 * SESSION_DEFAULT_TIMEOUT);
-                    session.setAttribute("userData" ,map(acceso));
+                    session.setAttribute("userData", map(acceso));
                     session.setAttribute("userMainPage", "index.xhtml");
                     Cookie cookie = new Cookie("JSESSIONID", session.getId());
                     cookie.setMaxAge(60 * SESSION_DEFAULT_TIMEOUT);
                     cookie.setSecure(true);
                     response.addCookie(cookie);
+                }
+            }else{
+                    throw new UserAlreadyLoggedException();
                 }
             }
 
@@ -169,6 +182,20 @@ public class LoginServiceImpl implements LoginService {
         userDataBo.setMenuOptionsList(userOptions);
 
         return userDataBo;
+    }
+
+    public boolean isValidUserToLogin(String ebsUserId) {
+        RecSessionUser sessionUser = recSessionUserMapper.find(ebsUserId);
+        if(sessionUser == null){
+            sessionUser = new RecSessionUser();
+            sessionUser.setEBS_USER_ID(ebsUserId);
+            sessionUser.setSTATUS(1);
+            sessionUser.setCREATED_TS(new Timestamp(System.currentTimeMillis()));
+            return recSessionUserMapper.insert(sessionUser) > 0;
+        }else{
+            sessionUser.setCREATED_TS(new Timestamp(System.currentTimeMillis()));
+            return recSessionUserMapper.updateLogin(sessionUser) > 0;
+        }
     }
 
 }
