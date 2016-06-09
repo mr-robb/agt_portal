@@ -9,13 +9,14 @@ import mx.com.ebs.inter.util.Variables;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.sql.Timestamp;
 
-@Component
+@Service
 public class SessionListener implements HttpSessionListener{
 
     @Autowired
@@ -27,7 +28,7 @@ public class SessionListener implements HttpSessionListener{
         LOGGER.debug("SessionListener::sessionCreated");
     }
 
-    @Transactional(value = Variables.TXM_PORTAL,readOnly = true)
+    @Transactional(value = Variables.TXM_PORTAL,readOnly = false)
     public void sessionDestroyed(HttpSessionEvent se) {
         UserDataBo dataBo = (UserDataBo) se.getSession().getAttribute("userData");
         LOGGER.info("L I S T E N E R  SessionListener.sessionDestroyed() method called for user "+ dataBo.getEbsUserId());
