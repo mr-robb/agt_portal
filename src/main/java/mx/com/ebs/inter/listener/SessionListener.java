@@ -32,11 +32,13 @@ public class SessionListener implements HttpSessionListener{
         WebApplicationContext appContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
         RecSessionUserMapper userMapper = appContext.getBean(RecSessionUserMapper.class);
         UserDataBo dataBo = (UserDataBo) se.getSession().getAttribute("userData");
-        LOGGER.info("L I S T E N E R  SessionListener.sessionDestroyed() method called for user "+ dataBo.getEbsUserId());
-        RecSessionUser sessionUser = new RecSessionUser();
-        sessionUser.setEBS_USER_ID(dataBo.getEbsUserId());
-        sessionUser.setDESTROYED_TS(new Timestamp(System.currentTimeMillis()));
-        userMapper.updateLogout(sessionUser);
+        if( dataBo != null ) {
+            LOGGER.info("L I S T E N E R  SessionListener.sessionDestroyed() method called for user " + dataBo.getEbsUserId());
+            RecSessionUser sessionUser = new RecSessionUser();
+            sessionUser.setEBS_USER_ID(dataBo.getEbsUserId());
+            sessionUser.setDESTROYED_TS(new Timestamp(System.currentTimeMillis()));
+            userMapper.updateLogout(sessionUser);
+        }
     }
 
 }
