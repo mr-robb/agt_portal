@@ -192,9 +192,11 @@ public class LoginServiceImpl implements LoginService {
             sessionUser.setSTATUS(1);
             sessionUser.setCREATED_TS(new Timestamp(System.currentTimeMillis()));
             return recSessionUserMapper.insert(sessionUser) > 0;
+        }else if ( sessionUser.getSTATUS() != 1 ){
+                sessionUser.setCREATED_TS(new Timestamp(System.currentTimeMillis()));
+                return recSessionUserMapper.updateLogin(sessionUser) > 0;
         }else{
-            sessionUser.setCREATED_TS(new Timestamp(System.currentTimeMillis()));
-            return recSessionUserMapper.updateLogin(sessionUser) > 0;
+            return false;
         }
     }
 
