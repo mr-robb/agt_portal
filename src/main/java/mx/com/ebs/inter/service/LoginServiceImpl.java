@@ -54,7 +54,7 @@ public class LoginServiceImpl implements LoginService {
     public void doLogin(String user, String passwd, HttpServletRequest request,HttpServletResponse response) throws LoginFailureException,UserAlreadyLoggedException{
         RecAcceso acceso = recAccesoMapper.findRecAccesoUserPass(new LoginBo(user,passwd));
         if( acceso != null ){
-            if( acceso.getNINTENTOS() != null && acceso.getNINTENTOS().intValue() >= 3 ){
+            if( acceso.getNINTENTOS() != null && acceso.getNINTENTOS().intValue() >= 3 || (acceso.getSTATUS() != null && acceso.getSTATUS().intValue() !=1 )){
                 throw new LoginFailureException("No es posible iniciar sesi&oacute;n, el usuario "+
                         user+" se encuentra bloqueado permanentemente");
 
