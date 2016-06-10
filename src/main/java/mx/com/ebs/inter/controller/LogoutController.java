@@ -28,6 +28,9 @@ public class LogoutController extends HttpServlet {
 
             UserDataBo dataBo = (UserDataBo) session.getAttribute("userData");
             if( dataBo != null ) {
+                if( !session.getId().equals(request.getParameter("id"))){
+                    throw new ServletException("CSRF attack detected!");
+                }
                 RecSessionUser sessionUser = new RecSessionUser();
                 sessionUser.setEBS_USER_ID(dataBo.getEbsUserId());
                 sessionUser.setDESTROYED_TS(new Timestamp(System.currentTimeMillis()));

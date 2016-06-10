@@ -21,4 +21,15 @@ public class SessionReader {
         }
         return null;
     }
+
+    public static String getId(){
+        if( FacesContext.getCurrentInstance() == null ){
+            return "";
+        }
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if( session != null ){
+            session.getId();
+        }
+        return "";
+    }
 }

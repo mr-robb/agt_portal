@@ -25,4 +25,8 @@ public class UserMenuBean implements Serializable {
         return userData.getMenuOptionsList().contains(menuOption+".xhtml");
     }
 
+    public String getSessionId(){
+        return SessionReader.getId();
+    }
+
 }

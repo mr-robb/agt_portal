@@ -58,4 +58,11 @@ function buildBreadcrum( strForSplit ){
         document.getElementById(idMenu).innerHTML = textLabel;
     }
 
+    function createLogoutButton(){
+        $("#exitLink").preventDefault();
+        var url = $("#exitLink").getAttribute("href") + "?id=" + sessionId;
+        console.log("Sending to " + url);
+        window.location.href = url;
+    }
+
 }
