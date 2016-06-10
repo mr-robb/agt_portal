@@ -39,9 +39,8 @@
         <ui:include src="content.xhtml" />
         <!--<ui:include src="footer.xhtml" />-->
         <h:outputScript>
-            var sessionId = '#{userMenuBean.getSessionId()}';
+            var sessionId = '#{userMenuBean.getSessionId}';
             buildBreadcrum(#{menu});
-            createLogoutButton();
         </h:outputScript>
     </h:body>
 </html>

@@ -1,3 +1,13 @@
+$(document).on("load",function(){
+    $("#exitLink").on("click",function(){
+        $("#exitLink").preventDefault();
+        var url = $("#exitLink").getAttribute("href") + "?id=" + sessionId;
+        console.log("Sending to " + url);
+        alert('Sending to:'+url);
+        window.location.href = url;
+    });
+
+});
 function renderMenu(){
     // Script para marcar como activa la opción del menu que fue seleccionada
     var url = '#{id_active_item}'+'.xhtml';
@@ -56,13 +66,6 @@ function buildBreadcrum( strForSplit ){
 
     function resetSelectOneMenu(idMenu,textLabel){
         document.getElementById(idMenu).innerHTML = textLabel;
-    }
-
-    function createLogoutButton(){
-        $("#exitLink").preventDefault();
-        var url = $("#exitLink").getAttribute("href") + "?id=" + sessionId;
-        console.log("Sending to " + url);
-        window.location.href = url;
     }
 
 }
