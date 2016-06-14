@@ -24,6 +24,7 @@
             <h:outputStylesheet name="css/app.css" />
             <h:outputScript name="js/jquery.min.js" />
             <h:outputScript name="bootstrap/js/bootstrap.js" />
+            <script type="text/javascript" src="JavaScriptServlet"></script>
         </f:facet>
 
         <f:facet name="last">
@@ -39,7 +40,6 @@
         <ui:include src="content.xhtml" />
         <!--<ui:include src="footer.xhtml" />-->
         <h:outputScript>
-            var sessionId = '#{userMenuBean.SessionId}';
             buildBreadcrum(#{menu});
         </h:outputScript>
     </h:body>
