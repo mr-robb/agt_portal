@@ -410,7 +410,12 @@
             <artifactId>primefaces-extensions</artifactId>
             <version>4.0.0</version>
         </dependency>
-
+        <!-- CSRF attack protection -->
+        <dependency>
+            <groupId>org.owasp</groupId>
+            <artifactId>csrfguard</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
 
     </dependencies>
