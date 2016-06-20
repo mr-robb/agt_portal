@@ -27,7 +27,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public List<Invoice> getAll() {
         InvoiceExample invoiceExample = new InvoiceExample();
-        invoiceExample.setOrderByClause("FECHA desc");
+        invoiceExample.setOrderByClause("FECHA_EMISION desc");
         return invoiceMapper.selectByExample(invoiceExample);
     }
 
@@ -38,7 +38,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         InvoiceExample invoiceExample = createExample(recInvoiceSearchBo);
         if( sortField == null ) {
-            invoiceExample.setOrderByClause("FECHA desc");
+            invoiceExample.setOrderByClause("FECHA_EMISION desc");
         }else{
             invoiceExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
         }
