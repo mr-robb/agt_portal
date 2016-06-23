@@ -27,7 +27,9 @@ public class ViewSessionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
-        if( session == null || session.getAttribute("userData") == null ){
+        String resourceUri = request.getRequestURI();
+        String resourceName = resourceUri.substring(resourceUri.lastIndexOf("/")+1);
+        if( session == null || session.getAttribute("userData") == null && !"onlineInvoices.xhtml".equals(resourceName) && !resourceUri.contains("javax")){
             request.setAttribute("errorMessage", "Tu sesi" + UnicodeCommonWords.OACUTE_LOWER + "n ha expirado por inactividad, favor de ingresar de nuevo");
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);

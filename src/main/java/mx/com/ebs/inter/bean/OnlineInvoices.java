@@ -71,9 +71,15 @@ public class OnlineInvoices extends AbstractBean implements Serializable {
             if ( cfd.equals(searchType)) {
                 mCfdList = new ArrayList<MCfd>();
                 invoiceList = invoiceService.getListUsingFilter(recInvoiceSearchBo,0,100,null,null);
+                if( invoiceList.isEmpty() ){
+                    FacesMessageUtil.showFacesMessage("Sin resultados","N"+UnicodeCommonWords.UACUTE_LOWER+"mero de p"+UnicodeCommonWords.OACUTE_LOWER+"liza y RFC incorrectos, favor de contactar a su AGENTE","error");
+                }
             } else {
                 invoiceList = new ArrayList<Invoice>();
                 mCfdList = mCfdService.getListUsingFilter(recInvoiceSearchBo, 0, 100, "FECHA", SortOrder.DESCENDING);
+                if(mCfdList.isEmpty() ){
+                    FacesMessageUtil.showFacesMessage("Sin resultados","N"+UnicodeCommonWords.UACUTE_LOWER+"mero de p"+UnicodeCommonWords.OACUTE_LOWER+"liza y RFC incorrectos, favor de contactar a su AGENTE","error");
+                }
             }
         }
     }
@@ -139,10 +145,4 @@ public class OnlineInvoices extends AbstractBean implements Serializable {
     public String getCfdi() {
         return cfdi;
     }
-
-
-
-
-
-
 }
