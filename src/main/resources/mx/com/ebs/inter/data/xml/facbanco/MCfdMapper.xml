@@ -207,7 +207,7 @@ mOtro.CFD_ID
         select * from (
         select ROWNUM rnum,
         <include refid="Base_Column_List" />
-        from FACCORP_APL.M_CFD cfd JOIN FACCORP_APL.M_OTRO mOtro ON cfd.ID=mOtro.CFD_ID
+        from M_INTERACCIONES.M_CFD cfd JOIN M_INTERACCIONES.M_OTRO mOtro ON cfd.ID=mOtro.CFD_ID
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
@@ -220,22 +220,22 @@ mOtro.CFD_ID
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
         select
         <include refid="Base_Column_List" />
-        from FACCORP_APL.M_CFD cfd JOIN M_OTRO ON cfd.ID=otro.CFD_ID
+        from M_INTERACCIONES.M_CFD cfd JOIN M_OTRO ON cfd.ID=otro.CFD_ID
         where ID = #{ID,jdbcType=DECIMAL}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-        delete from FACCORP_APL.M_CFD
+        delete from M_INTERACCIONES.M_CFD
         where ID = #{ID,jdbcType=DECIMAL}
     </delete>
     <delete id="deleteByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfdExample" >
-        delete from FACCORP_APL.M_CFD
+        delete from M_INTERACCIONES.M_CFD
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfd" >
-        insert into FACCORP_APL.M_CFD (ID, ANO_APROBACION, ESTADO_DOCUMENTO,
+        insert into M_INTERACCIONES.M_CFD (ID, ANO_APROBACION, ESTADO_DOCUMENTO,
         ESTATUS_DOC, ESTATUS_ENT, ESTATUS_FTP,
         ESTATUS_MAIL, ESTATUS_PRINT, FACTURA_ORIGEN,
         FECHA, FECHA_CANCELACION, FECHA_ORIGEN,
@@ -265,7 +265,7 @@ mOtro.CFD_ID
         #{PLANTILLA_ID,jdbcType=DECIMAL})
     </insert>
     <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfd" >
-        insert into FACCORP_APL.M_CFD
+        insert into M_INTERACCIONES.M_CFD
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="ID != null" >
                 ID,
@@ -518,13 +518,13 @@ mOtro.CFD_ID
         </trim>
     </insert>
     <select id="countByExample" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfdExample" resultType="java.lang.Integer" >
-        select count(*) from FACCORP_APL.M_CFD cfd JOIN FACCORP_APL.M_OTRO mOtro ON cfd.ID=mOtro.CFD_ID
+        select count(*) from M_INTERACCIONES.M_CFD cfd JOIN M_INTERACCIONES.M_OTRO mOtro ON cfd.ID=mOtro.CFD_ID
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map" >
-        update FACCORP_APL.M_CFD
+        update M_INTERACCIONES.M_CFD
         <set >
             <if test="record.ID != null" >
                 ID = #{record.ID,jdbcType=DECIMAL},
@@ -655,7 +655,7 @@ mOtro.CFD_ID
         </if>
     </update>
     <update id="updateByExample" parameterType="map" >
-        update FACCORP_APL.M_CFD
+        update M_INTERACCIONES.M_CFD
         set ID = #{record.ID,jdbcType=DECIMAL},
         ANO_APROBACION = #{record.ANO_APROBACION,jdbcType=DECIMAL},
         ESTADO_DOCUMENTO = #{record.ESTADO_DOCUMENTO,jdbcType=DECIMAL},
@@ -702,7 +702,7 @@ mOtro.CFD_ID
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfd" >
-        update FACCORP_APL.M_CFD
+        update M_INTERACCIONES.M_CFD
         <set >
             <if test="ANO_APROBACION != null" >
                 ANO_APROBACION = #{ANO_APROBACION,jdbcType=DECIMAL},
@@ -828,7 +828,7 @@ mOtro.CFD_ID
         where ID = #{ID,jdbcType=DECIMAL}
     </update>
     <update id="updateByPrimaryKey" parameterType="mx.com.ebs.inter.data.model.facbanco.MCfd" >
-        update FACCORP_APL.M_CFD
+        update M_INTERACCIONES.M_CFD
         set ANO_APROBACION = #{ANO_APROBACION,jdbcType=DECIMAL},
         ESTADO_DOCUMENTO = #{ESTADO_DOCUMENTO,jdbcType=DECIMAL},
         ESTATUS_DOC = #{ESTATUS_DOC,jdbcType=DECIMAL},

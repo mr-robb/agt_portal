@@ -59,7 +59,7 @@
     <result column="ORIGEN" property="ORIGEN" jdbcType="DECIMAL" />
     <result column="PLANTILLA" property="PLANTILLA" jdbcType="VARCHAR" />
     <result column="POLIZA" property="POLIZA" jdbcType="VARCHAR" />
-    <result column="ID_SISTEMA" property="ID_DOCUMENTO" jdbcType="VARCHAR" />
+    <result column="ID_DOCUMENTO" property="ID_DOCUMENTO" jdbcType="VARCHAR" />
     <result column="FECHA_CONSULTA" property="FECHA_CONSULTA" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -133,7 +133,7 @@
     STATUS_DOC, HORA, TASA_IMPUESTO, APROBACION, RFC, SERIE_ERP, FOLIO_ERP, TOTALML, 
     TIPO_DOCUMENTO, NUMERO_CLIENTE, MONEDA_DOC, FECHA_CANCELACION, STATUS, STATUS_ENVIOI, 
     STATUS_ENVIOM, STATUS_ENVIOF, DESCRIPCION_PRODUCTO, VTIPO_DOCUMENTO, NNUMERO_PEDIDO, 
-    TIPO_CAMBIO, STATUS_PRINT, ORIGEN, PLANTILLA, POLIZA, ID_SISTEMA, FECHA_CONSULTA
+    TIPO_CAMBIO, STATUS_PRINT, ORIGEN, PLANTILLA, POLIZA, ID_DOCUMENTO, FECHA_CONSULTA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.facbanco.InvoiceExample" >
     select * from (
@@ -174,7 +174,7 @@
       STATUS_ENVIOM, STATUS_ENVIOF, DESCRIPCION_PRODUCTO, 
       VTIPO_DOCUMENTO, NNUMERO_PEDIDO, TIPO_CAMBIO, 
       STATUS_PRINT, ORIGEN, PLANTILLA, 
-      POLIZA, ID_SISTEMA, FECHA_CONSULTA
+      POLIZA, ID_DOCUMENTO, FECHA_CONSULTA
       )
     values (#{NCLAVE_SUCURSAL,jdbcType=DECIMAL}, #{LUGAR_EXPEDICION,jdbcType=VARCHAR}, 
       #{FECHA_EMISION,jdbcType=TIMESTAMP}, #{HORA_EMISION,jdbcType=VARCHAR}, #{IMPORTE,jdbcType=FLOAT}, 
@@ -195,7 +195,7 @@
       #{STATUS_ENVIOM,jdbcType=DECIMAL}, #{STATUS_ENVIOF,jdbcType=DECIMAL}, #{DESCRIPCION_PRODUCTO,jdbcType=VARCHAR}, 
       #{VTIPO_DOCUMENTO,jdbcType=VARCHAR}, #{NNUMERO_PEDIDO,jdbcType=DECIMAL}, #{TIPO_CAMBIO,jdbcType=FLOAT}, 
       #{STATUS_PRINT,jdbcType=DECIMAL}, #{ORIGEN,jdbcType=DECIMAL}, #{PLANTILLA,jdbcType=VARCHAR}, 
-      #{POLIZA,jdbcType=VARCHAR}, #{ID_SISTEMA,jdbcType=VARCHAR}, #{FECHA_CONSULTA,jdbcType=TIMESTAMP}
+      #{POLIZA,jdbcType=VARCHAR}, #{ID_DOCUMENTO,jdbcType=VARCHAR}, #{FECHA_CONSULTA,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="mx.com.ebs.inter.data.model.facbanco.Invoice" >
@@ -370,7 +370,7 @@
         POLIZA,
       </if>
       <if test="ID_DOCUMENTO != null" >
-        ID_SISTEMA,
+        ID_DOCUMENTO,
       </if>
       <if test="FECHA_CONSULTA != null" >
         FECHA_CONSULTA,
@@ -731,7 +731,7 @@
         POLIZA = #{record.POLIZA,jdbcType=VARCHAR},
       </if>
       <if test="record.ID_DOCUMENTO != null" >
-        ID_SISTEMA = #{record.ID_DOCUMENTO,jdbcType=VARCHAR},
+        ID_DOCUMENTO = #{record.ID_DOCUMENTO,jdbcType=VARCHAR},
       </if>
       <if test="record.FECHA_CONSULTA != null" >
         FECHA_CONSULTA = #{record.FECHA_CONSULTA,jdbcType=TIMESTAMP},
@@ -799,7 +799,7 @@
       ORIGEN = #{record.ORIGEN,jdbcType=DECIMAL},
       PLANTILLA = #{record.PLANTILLA,jdbcType=VARCHAR},
       POLIZA = #{record.POLIZA,jdbcType=VARCHAR},
-      ID_SISTEMA = #{record.ID_DOCUMENTO,jdbcType=VARCHAR},
+      ID_DOCUMENTO = #{record.ID_DOCUMENTO,jdbcType=VARCHAR},
       FECHA_CONSULTA = #{record.FECHA_CONSULTA,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />

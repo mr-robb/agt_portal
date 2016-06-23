@@ -17,7 +17,7 @@
                                      maxlength="25"
                                      value="#{onlineInvoices.recInvoiceSearchBo.numPoliza}" required="false"
                                      title="debe conincidir exactamente con su póliza">
-                            <pe:keyFilter regEx="/[a-z0-9_\-]/i"/>
+                            <pe:keyFilter regEx="/[a-z0-9_\-\.]/i"/>
                         </p:inputText>
                         <p:tooltip id="ttipPoliza" for="numPoliza" showEvent="focus" hideEvent="blur" />
 
@@ -32,15 +32,15 @@
 
                         <h:outputLabel for="estatus" value="Tipo de documento:" />
                         <p:selectOneMenu id="estatus" value="#{onlineInvoices.searchType}">
-                            <f:selectItem itemLabel="CFD" itemValue="CFD" />
                             <f:selectItem itemLabel="CFDI" itemValue="CFDI" />
+                            <f:selectItem itemLabel="CFD" itemValue="CFD" />
                         </p:selectOneMenu>
 
                         <p:tooltip id="ttipEstatus" for="estatus" showEvent="focus" hideEvent="blur" />
                         <p:commandButton value="buscar"
                                          actionListener="#{onlineInvoices.executeSearch}"
                                          ajax="true"
-                                         update=":formCfdi">
+                                         update=":form">
                             <p:ajax global="false" event="click" onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
                                 </p:commandButton>
                         <p:commandButton
@@ -61,8 +61,8 @@
         </p:accordionPanel>
     </ui:define>
     <ui:define name="content">
-        <h:form id="formCfdi">
-            <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" autoUpdate="true" closable="true" sticky="false"/>
 
             <!-- Tabla de resultados para CFDI -->
             <p:dataTable tableStyleClass="table table-condensed"
@@ -215,7 +215,6 @@
                     </h:outputText>
                 </p:column>
             </p:dataTable>
-
         </h:form>
     </ui:define>
 </ui:composition>
