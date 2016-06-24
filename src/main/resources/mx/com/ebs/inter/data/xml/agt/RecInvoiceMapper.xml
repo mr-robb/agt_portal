@@ -139,18 +139,19 @@
     NUMERO_CLIENTE, IMPORTE_ISR, IMPORTE_RET, POLIZA, DIA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.com.ebs.inter.data.model.RecInvoiceExample" >
-  SELECT * from (
-    select
-    ROWNUM rnum,
-    <include refid="Base_Column_List" />
-    from FACTURADOR.REC_INVOICE
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-      ) a where a.rnum &gt; #{pageIndex} and ROWNUM &lt;=#{pageSize}
+      SELECT * from (
+      select
+      <include refid="Base_Column_List" />
+      ,ROW_NUMBER() over(
       <if test="orderByClause != null" >
           order by ${orderByClause}
       </if>
+      ) X
+      from FACTURADOR.REC_INVOICE
+      <if test="_parameter != null" >
+          <include refid="Example_Where_Clause" />
+      </if>
+      ) a where X between #{pageIndex} and #{pageSize}
   </select>
 
     <select id="selectAll" resultMap="BaseResultMap">

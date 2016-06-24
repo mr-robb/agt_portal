@@ -10,7 +10,7 @@ public abstract class PaginatedResult {
     private int pageIndex=1;
 
     public int getPageSize() {
-        return pageSize;
+        return pageIndex + pageSize;
     }
 
     public void setPageSize(int pageSize) {
@@ -18,7 +18,7 @@ public abstract class PaginatedResult {
     }
 
     public int getPageIndex() {
-        return pageIndex;
+        return pageIndex + 1;
     }
 
     public void setPageIndex(int pageIndex) {
