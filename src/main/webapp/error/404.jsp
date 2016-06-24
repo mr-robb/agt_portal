@@ -1,4 +1,3 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page  isErrorPage="true" %>
 <!DOCTYPE html>
@@ -20,7 +19,7 @@
         </td>
     </tr>
 </table>
-<img src="<c:url value="/resources/img/error_404.png"/>" width="579" height="309" alt="error_interno"/>
+<img src="resources/img/error_404.png" width="579" height="309" alt="error_interno"/>
 <p>
     Detalles del error: <b><i>el recurso solicitado no est&aacute; disponible</i></b>, contacta al administrador
 </p>
