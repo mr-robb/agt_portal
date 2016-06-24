@@ -129,6 +129,7 @@ public class LoginServiceImpl implements LoginService {
         RecAccesoExample example = new RecAccesoExample();
         RecAccesoExample.Criteria criteria = example.createCriteria();
         criteria.andNUMERO_CLIENTEEqualTo(agte);
+        example.setOrderByClause("EBS_USER_ID desc");
         List<RecAcceso>  result = recAccesoMapper.selectByExample( example );
 
         if( result != null && !result.isEmpty() ){

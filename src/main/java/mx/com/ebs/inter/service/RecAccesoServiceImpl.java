@@ -88,6 +88,7 @@ public class RecAccesoServiceImpl implements RecAccesoService {
         RecAccesoExample recAccesoExample = new RecAccesoExample();
         RecAccesoExample.Criteria criteria = recAccesoExample.createCriteria();
         criteria.andEBS_USER_IDEqualTo( ebsUserId );
+        recAccesoExample.setOrderByClause("EBS_USER_ID desc");
         recAccesoExample.setPageIndex(0);
         recAccesoExample.setPageSize(1);
         List<RecAcceso> resultList = getRecAccesoMapper().selectByExample(recAccesoExample);
@@ -134,6 +135,7 @@ public class RecAccesoServiceImpl implements RecAccesoService {
         RecAccesoExample.Criteria criteria = recAccesoExample.createCriteria();
         criteria.andEBS_USER_IDNotEqualTo(ebsUserId);
         criteria.andEBS_EMAILEqualTo( email );
+        recAccesoExample.setOrderByClause("EBS_USER_ID desc");
         recAccesoExample.setPageIndex(0);
         recAccesoExample.setPageSize(1);
         List<RecAcceso> resultList = getRecAccesoMapper().selectByExample(recAccesoExample);
