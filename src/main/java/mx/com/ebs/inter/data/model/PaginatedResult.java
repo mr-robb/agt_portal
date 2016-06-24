@@ -18,7 +18,7 @@ public abstract class PaginatedResult {
     }
 
     public int getPageIndex() {
-        return pageIndex;
+        return pageIndex + 1;
     }
 
     public void setPageIndex(int pageIndex) {
