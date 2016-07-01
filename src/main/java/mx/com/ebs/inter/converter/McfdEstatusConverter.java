@@ -29,9 +29,9 @@ public class McfdEstatusConverter implements Converter {
             return "";
         }
         Long value = (Long)o;
-        if( value.intValue() == 1 ){
+        if( value.intValue() == 0 ){
+            return Variables.SIT_COMPROBANTE_0;
+        } else
             return Variables.SIT_COMPROBANTE_1;
-        }
-        return Variables.SIT_COMPROBANTE_0;
     }
 }

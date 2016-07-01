@@ -38,7 +38,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         InvoiceExample invoiceExample = createExample(recInvoiceSearchBo);
         if( sortField == null ) {
-            invoiceExample.setOrderByClause("FECHA_EMISION desc");
+            invoiceExample.setOrderByClause("FECHA desc");
         }else{
             invoiceExample.setOrderByClause(sortField + (SortOrder.ASCENDING.equals(sortOrder) ? " asc" : " desc") );
         }

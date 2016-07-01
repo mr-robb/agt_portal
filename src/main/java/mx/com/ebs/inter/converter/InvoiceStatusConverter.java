@@ -26,16 +26,17 @@ public class InvoiceStatusConverter implements Converter {
         if( o != null && o instanceof String ){
             try{
                 int estatus= Integer.parseInt((String)o);
-                return estatus == 1 ? Variables.SIT_COMPROBANTE_1 : Variables.SIT_COMPROBANTE_0;
+                return estatus == 0 ? Variables.SIT_COMPROBANTE_0 : Variables.SIT_COMPROBANTE_1;
             }catch (NumberFormatException nfe){}
         }
         if( (null == o)||!(o instanceof BigDecimal) ){
             return "";
         }
+
         BigDecimal value = (BigDecimal)o;
-        if( value.intValue() == 1 ){
+        if( value.intValue() == 0 ){
+            return Variables.SIT_COMPROBANTE_0;
+        } else
             return Variables.SIT_COMPROBANTE_1;
-        }
-        return Variables.SIT_COMPROBANTE_0;
     }
 }

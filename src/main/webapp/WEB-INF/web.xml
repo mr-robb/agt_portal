@@ -81,10 +81,6 @@
             <param-name>domain-strict</param-name>
             <param-value>false</param-value>
         </init-param>
-        <init-param>
-            <param-name>referer-pattern</param-name>
-            <param-value>.*localhost.*</param-value>
-        </init-param>
     </servlet>
 
     <servlet-mapping>

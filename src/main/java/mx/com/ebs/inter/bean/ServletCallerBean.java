@@ -148,7 +148,8 @@ public class ServletCallerBean {
                 HashMap hm = new HashMap();
                 jrxmlds.setLocale(new Locale("sp", "MX"));
                 jrxmlds.setNumberPattern("##0.00");
-                hm.put("IMAGES", rutaAbsoluta +"/images/" );
+                hm.put("IMAGES", rutaAbsoluta + "/images/");
+                LOGGER.debug("Estado:documento: " + String.valueOf(invoiceRequestedBo.getEstadoDocumento()));
                 hm.put("STATUS", String.valueOf(invoiceRequestedBo.getEstadoDocumento()));
                 hm.put("MONEDA", invoiceRequestedBo.getMoneda());
 
@@ -276,9 +277,10 @@ public class ServletCallerBean {
             invoiceRequestedBo.setNumeroFactura( invoiceTmp.getNUMERO_FACTURA() );
             invoiceRequestedBo.setPoliza(invoiceTmp.getPOLIZA());
             invoiceRequestedBo.setMoneda( invoiceTmp.getMONEDA_DOC() );
-            if( "1".equals( invoiceTmp.getESTADO_DOCUMENTO() ) ){
+            if( invoiceTmp.getESTADO_DOCUMENTO() != null ){
+                invoiceRequestedBo.setEstadoDocumento( Integer.parseInt(invoiceTmp.getESTADO_DOCUMENTO()) );
+            } else
                 invoiceRequestedBo.setEstadoDocumento(1);
-            }
         }
         return invoiceRequestedBo;
     }

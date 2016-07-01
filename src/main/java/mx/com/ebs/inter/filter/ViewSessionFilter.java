@@ -29,11 +29,14 @@ public class ViewSessionFilter implements Filter {
         HttpSession session = request.getSession(false);
         String resourceUri = request.getRequestURI();
         String resourceName = resourceUri.substring(resourceUri.lastIndexOf("/")+1);
-        if( session == null || session.getAttribute("userData") == null && !"onlineInvoices.xhtml".equals(resourceName) && !resourceUri.contains("javax")){
+
+        if ( "onlineInvoices.xhtml".equals(resourceName) || resourceUri.contains("javax") ) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else if( session == null || session.getAttribute("userData") == null ){
             request.setAttribute("errorMessage", "Tu sesi" + UnicodeCommonWords.OACUTE_LOWER + "n ha expirado por inactividad, favor de ingresar de nuevo");
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);
-        }else{
+        } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }

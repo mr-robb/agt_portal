@@ -19,7 +19,7 @@
 
                         <h:outputLabel for="username" value="Nombre de usuario:"/>
                         <p:inputText id="username"
-                                     maxlength="#{recAccesoClientesBean.defaultInputMaxSizeUsuarioNombre}"
+                                     maxlength="128"
                                      value="#{recAccesoClientesBean.recAccesoSearchBo.username}"
                                      required="false"
                                      title="debe coincidir con el nombre del usuario, ej: Carlos"/>
@@ -154,7 +154,7 @@
                     <h:outputLabel for="rfc" value="RFC: *"/>
                     <p:inputText id="rfc"
                                  maxlength="13"
-                                 required="true" requiredMessage="El RFC es requerido" value="#{recAccesoClientesBean.recAcceso.EBS_RFC}">
+                                 required="false" requiredMessage="El RFC es requerido" value="#{recAccesoClientesBean.recAcceso.EBS_RFC}">
                         <f:validateRegex pattern="[A-Z,Ñ,&amp;]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?"/>
                         <p:watermark for="rfc" value="el RFC"/>
                     </p:inputText>
