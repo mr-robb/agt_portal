@@ -58,8 +58,8 @@ public class RecAccesoServiceImpl implements RecAccesoService {
         if( !Validator.isEmptyString(recAccesoSearchBo.getUsername()) ){
             criteria.andEBS_NOMBREEqualTo(recAccesoSearchBo.getUsername());
         }
-        if( !Validator.isEmptyString( recAccesoSearchBo.getTipoUser() ) ){
-            criteria.andEBS_TIPO_USEREqualTo( recAccesoSearchBo.getTipoUser() );
+        if( recAccesoSearchBo.getTipoUser() != null && !recAccesoSearchBo.getTipoUser().isEmpty() ){
+            criteria.andEBS_TIPO_USERIn( recAccesoSearchBo.getTipoUser() );
         }
         if( recAccesoSearchBo.getStatus() != null ){
             criteria.andSTATUSEqualTo(recAccesoSearchBo.getStatus());
@@ -72,9 +72,6 @@ public class RecAccesoServiceImpl implements RecAccesoService {
         }
         if( !Validator.isEmptyString(recAccesoSearchBo.getNoCte()) ){
             criteria.andNUMERO_CLIENTEEqualTo(recAccesoSearchBo.getNoCte());
-        }
-        if( recAccesoSearchBo.getTipoUserInList() != null && !recAccesoSearchBo.getTipoUserInList().isEmpty() ){
-            criteria.andEBS_TIPO_USERIn(recAccesoSearchBo.getTipoUserInList());
         }
         return recAccesoExample;
     }

@@ -43,6 +43,11 @@ public class RecAccesoBean extends AbstractBean<RecAcceso> implements Serializab
 
     private static final Logger LOGGER = Logger.getLogger(RecAccesoBean.class);
     private static final int DEFAULT_PASSWORD_SIZE=8;
+    private static final List<String> USUARIOS_INTERNOS = new ArrayList<String>();
+    static{
+        USUARIOS_INTERNOS.add("ADMINISTRADORGRAL");
+        USUARIOS_INTERNOS.add("ADMIN");
+    }
     @Autowired
     private RecAccesoService recAccesoService;
 
@@ -65,6 +70,7 @@ public class RecAccesoBean extends AbstractBean<RecAcceso> implements Serializab
         model = new LazyDataModel<RecAcceso>() {
             @Override
             public List<RecAcceso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                recAccesoSearchBo.setTipoUser(USUARIOS_INTERNOS);
                 model.setRowCount(recAccesoService.countRowsUsingFilter(recAccesoSearchBo));
                 return recAccesoService.getListUsingFilter(recAccesoSearchBo,first,pageSize,sortField,sortOrder);
             }

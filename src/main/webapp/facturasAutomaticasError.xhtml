@@ -44,7 +44,7 @@
                         <h:outputLabel for="msg" value="Mensaje error:"/>
                         <p:inputText id="msg"
                                      maxlength="500"
-                                     value="500"
+                                     value="#{recFeloggerAgtBean.recFeloggerSearchBo.msg}"
                                      required="false"
                                      title="se buscará el texto introducido en la descripción del error">
                             <pe:keyFilter regEx="/[a-z0-9_\- ]/i"/>

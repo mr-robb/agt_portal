@@ -34,7 +34,7 @@
                         <p:tooltip id="ttipNoCte" for="noCte" showEvent="focus" hideEvent="blur"/>
 
                         <h:outputLabel for="status" value="Status:" />
-                        <p:selectOneMenu id="status" value="#{recAccesoClientesBean.recAccesoSearchBo.status}" converter="mx.com.ebs.inter.converter.RecAccesoStatusConverter" >
+                        <p:selectOneMenu id="status" value="#{recAccesoClientesBean.recAccesoSearchBo.status}" >
                             <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
                             <f:selectItem itemLabel="ACTIVADO" itemValue="1" />
                             <f:selectItem itemLabel="DESACTIVADO" itemValue="0" />
@@ -54,7 +54,7 @@
             <p:growl id="messages" showDetail="true" autoUpdate="true" closable="true" sticky="false"/>
 
             <p:dataTable tableStyleClass="table table-condensed"
-                         editable="false"
+                         editable="true"
                          id="resultTable"
                          lazy="true"
                          widgetVar="resultTable"
@@ -66,6 +66,9 @@
                          paginatorAlwaysVisible="true"
                          paginatorPosition="bottom"
                          rows="#{recAccesoClientesBean.paginationSize}">
+                <p:ajax event="rowEdit" listener="#{recAccesoClientesBean.updateRecAcceso}" update=":form:resultTable,:form:messages"/>
+                <p:ajax event="rowEditCancel" update=":form:messages"/>
+
                 <f:facet name="header">
                     Listado de proveedores y agentes
                 </f:facet>
@@ -75,17 +78,69 @@
                 </p:column>
 
                 <p:column headerText="Nombre de usuario" sortBy="#{acceso.EBS_NOMBRE}">
-                    <h:outputText value="#{acceso.EBS_NOMBRE}"/>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{acceso.EBS_NOMBRE}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText
+                                    required="true"
+                                    requiredMessage="El nombre de usuario es requerido"
+                                    maxlength="128"
+                                    value="#{acceso.EBS_NOMBRE}"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="No. Cliente" sortBy="#{acceso.NUMERO_CLIENTE}">
-                    <h:outputText value="#{acceso.NUMERO_CLIENTE}"/>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{acceso.NUMERO_CLIENTE}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="numeroCliente"
+                                         maxlength="#{recAccesoClientesBean.defaultInputMaxSizeClienteNumero}"
+                                         required="true"
+                                         requiredMessage="Número de cliente es requerido"
+                                         value="#{acceso.NUMERO_CLIENTE}"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Estatus" sortBy="#{acceso.STATUS}">
-                    <h:outputText value="#{acceso.STATUS}" >
-                        <f:converter converterId="mx.com.ebs.inter.converter.RecAccesoStatusConverter"/>
-                    </h:outputText>
+                <p:column headerText="Email" sortBy="#{acceso.EBS_EMAIL}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{acceso.EBS_EMAIL}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText
+                                    required="true"
+                                    requiredMessage="El email es un campo requerido"
+                                    validatorMessage="El texto introducido no es un email válido"
+                                    value="#{acceso.EBS_EMAIL}">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+
+                <p:column headerText="Status" sortBy="#{acceso.STATUS}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{acceso.STATUS}" >
+                                <f:converter converterId="mx.com.ebs.inter.converter.RecAccesoStatusConverter"/>
+                            </h:outputText>
+                        </f:facet>
+
+                        <f:facet name="input">
+                            <p:selectOneMenu id="editedEstatus"
+                                             value="#{acceso.STATUS}">
+                                <f:selectItem itemLabel="ACTIVADO" itemValue="1" />
+                                <f:selectItem itemLabel="DESACTIVADO" itemValue="0" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="Tipo de usuario" sortBy="#{acceso.EBS_TIPO_USER}">
@@ -154,8 +209,7 @@
                     <h:outputLabel for="rfc" value="RFC: *"/>
                     <p:inputText id="rfc"
                                  maxlength="13"
-                                 required="false" requiredMessage="El RFC es requerido" value="#{recAccesoClientesBean.recAcceso.EBS_RFC}">
-                        <f:validateRegex pattern="[A-Z,Ñ,&amp;]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?"/>
+                                 required="false" value="#{recAccesoClientesBean.recAcceso.EBS_RFC}">
                         <p:watermark for="rfc" value="el RFC"/>
                     </p:inputText>
 

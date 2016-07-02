@@ -12,7 +12,7 @@ public class RecAccesoSearchBo {
     private String user;
     private String username;
     private BigDecimal status;
-    private String tipoUser;
+    private List<String> tipoUser;
     private Date fechaModificacion1;
     private Date fechaModificacion2;
     private String email;
@@ -43,11 +43,11 @@ public class RecAccesoSearchBo {
         this.status = status;
     }
 
-    public String getTipoUser() {
+    public List<String> getTipoUser() {
         return tipoUser;
     }
 
-    public void setTipoUser(String tipoUser) {
+    public void setTipoUser(List<String> tipoUser) {
         this.tipoUser = tipoUser;
     }
 

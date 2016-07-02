@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static mx.com.ebs.inter.util.Validator.isEmptyString;
@@ -72,7 +73,11 @@ public class InvoiceServiceImpl implements InvoiceService {
             criteria.andFECHABetween(recInvoiceSearchBo.getFecha1(), recInvoiceSearchBo.getFecha2());
         }
         if( recInvoiceSearchBo.getEstatus() != null ){
-            criteria.andESTADO_DOCUMENTOEqualTo(recInvoiceSearchBo.getEstatus().toString());
+            if(BigDecimal.ONE.equals(recInvoiceSearchBo.getEstatus())){
+                criteria.andESTADO_DOCUMENTOEqualTo(BigDecimal.ONE.toString());
+            }else{
+                criteria.andESTADO_DOCUMENTONotEqualTo(BigDecimal.ONE.toString());
+            }
         }
         return invoiceExample;
     }

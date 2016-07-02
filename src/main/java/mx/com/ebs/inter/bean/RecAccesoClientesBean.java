@@ -11,6 +11,7 @@ import mx.com.ebs.inter.util.mail.EmailSender;
 import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,12 @@ public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Se
 
     @Autowired
     private RecAccesoService recAccesoService;
-
+    private static final List<String> USUARIOS_EXTERNOS = new ArrayList<String>();
+    static{
+        USUARIOS_EXTERNOS.add(PERFIL_ADMINISTRACION_VENTAS);
+        USUARIOS_EXTERNOS.add("AGENTE");
+        USUARIOS_EXTERNOS.add("PROVEEDOR");
+    }
     private RecAcceso recAcceso;
     private RecAccesoSearchBo recAccesoSearchBo;
     private List<String> tipoUserInList;
@@ -53,12 +59,6 @@ public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Se
         recPerfilesList = new ArrayList<String>();
         loadProfileList();
 
-        if( tipoUserInList == null ){
-            tipoUserInList = new ArrayList<String>();
-            tipoUserInList.add("AGENTE");
-            tipoUserInList.add(PERFIL_PROVEEDOR);
-            //verifyUserInSession();
-        }
         recAccesoSearchBo.setTipoUserInList(tipoUserInList);
         createModel();
     }
@@ -67,13 +67,14 @@ public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Se
         model = new LazyDataModel<RecAcceso>() {
             @Override
             public List<RecAcceso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                recAccesoSearchBo.setTipoUser(USUARIOS_EXTERNOS);
                 model.setRowCount(recAccesoService.countRowsUsingFilter(recAccesoSearchBo));
                 return recAccesoService.getListUsingFilter(recAccesoSearchBo,first,pageSize,sortField,sortOrder);
             }
         };
     }
 
-    public void executeSearch(){
+    public void executeSearch(ActionEvent actionEvent){
         try {
             PropertiesCleaner.cleanObjectUsingCapitalizedMetods(recAccesoSearchBo);
         } catch (IllegalAccessException e) {
@@ -83,7 +84,6 @@ public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Se
         } catch (InvocationTargetException e) {
             LOGGER.error("At cleaning String fields from recAccesoSearchBo", e);
         }finally {
-            verifyUserInSession();
             createModel();
         }
     }
@@ -94,15 +94,41 @@ public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Se
         recPerfilesList.clear();
     }
 
-    private void verifyUserInSession() {
-        UserDataBo userDataBo = SessionReader.getUserDataBo();
-        if( userDataBo != null ){
-            if( !PERFIL_ADMINISTRACION_VENTAS.equals( userDataBo.getEbsTipoUser()) && !tipoUserInList.contains(PERFIL_PROVEEDOR)){
-                tipoUserInList.add(PERFIL_PROVEEDOR);
+    public void updateRecAcceso(RowEditEvent event ){
+        recAcceso= (RecAcceso)event.getObject();
+        try {
+            PropertiesCleaner.cleanObjectUsingUppercaseMethods(recAcceso);
+        } catch (IllegalAccessException e) {
+            LOGGER.error("IllegalAccessException while cleaning object recInvoiceAgtSearchBo");
+        } catch (NoSuchMethodException e) {
+            LOGGER.error("NoSuchMethodException while cleaning object recInvoiceAgtSearchBo");
+        } catch (InvocationTargetException e) {
+            LOGGER.error("InvocationTargetException while cleaning object recInvoiceAgtSearchBo");
+        }
+        try {
+            String msgValidation = validateRecAccesCliente();
+            if( msgValidation == null ) {
+                if ( !emailAvailableForUpdate(recAcceso.getEBS_USER_ID(), recAcceso.getEBS_EMAIL()) ) {
+                    showFacesMessage("El email proporcionado ya fue registrado, use uno diferente", "", "error");
+                    return;
+                }
+                if (recAccesoService.update(recAcceso)) {
+                    showFacesMessage("Registro actualizado exitosamente", "", null);
+                } else {
+                    showFacesMessage("No es posible actualizar el registro, intente más tarde", "", null);
+                }
+            }else{
+                System.out.println(msgValidation);
+                showFacesMessage("Faltan campos requeridos", "Al menos falta uno de los campos requeridos","error");
             }
-
+        }catch (ValidationException vaex){
+            showFacesMessage("Algún error al intentar actualizar el registro", "", "error");
+        }finally {
+            init();
         }
     }
+
+
 
     public RecAccesoService getRecAccesoService() {
         return recAccesoService;
@@ -180,9 +206,7 @@ public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Se
         if( Validator.isEmptyString( recAcceso.getEBS_NOMBRE() ) ){
             stringBuilder.append("Nombre de Usuario es requerido<br/>");
         }
-        if( Validator.isEmptyString( recAcceso.getEBS_RFC() ) ){
-            stringBuilder.append("RFC es requerido<br/>");
-        }
+
         if( Validator.isEmptyString( recAcceso.getEBS_EMAIL() ) ){
             stringBuilder.append("Email es requerido<br/>");
         }
@@ -218,6 +242,14 @@ public class RecAccesoClientesBean extends AbstractBean<RecAcceso> implements Se
             return true;
         }
         return false;
+    }
+
+    private boolean emailAvailableForUpdate( String userId,String email ){
+        try {
+            return recAccesoService.isEmailAvailableForUpdate(userId, email);
+        }catch (ValidationException ve){
+            return false;
+        }
     }
 
     public RecAcceso getRecAcceso() {
