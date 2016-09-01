@@ -73,10 +73,10 @@ public class InvoiceServiceImpl implements InvoiceService {
             criteria.andFECHABetween(recInvoiceSearchBo.getFecha1(), recInvoiceSearchBo.getFecha2());
         }
         if( recInvoiceSearchBo.getEstatus() != null ){
-            if(BigDecimal.ONE.equals(recInvoiceSearchBo.getEstatus())){
-                criteria.andESTADO_DOCUMENTOEqualTo(BigDecimal.ONE.toString());
+            if(BigDecimal.ZERO.equals(recInvoiceSearchBo.getEstatus())){
+                criteria.andESTADO_DOCUMENTOEqualTo(BigDecimal.ZERO.toString());
             }else{
-                criteria.andESTADO_DOCUMENTONotEqualTo(BigDecimal.ONE.toString());
+                criteria.andESTADO_DOCUMENTONotEqualTo(BigDecimal.ZERO.toString());
             }
         }
         return invoiceExample;
