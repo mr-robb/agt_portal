@@ -71,12 +71,10 @@ public class LoginServiceImpl implements LoginService {
                 }*/
             }else {
 
-                if(isValidUserToLogin(user)){
+
                 if (!passwd.equals(acceso.getEBS_PW_ACTUAL())) {
                     StringBuilder errorMessage = new StringBuilder();
-                    errorMessage.append("No es posible iniciar sesi&oacute;n, la contrase").
-                            append(UnicodeCommonWords.NTILDE_LOWER).
-                            append("a proporcionada no coincide.");
+                    errorMessage.append("No es posible iniciar sesi&oacute;n, revise sus credenciales");
                     if (!"admingral".equals(acceso.getEBS_USER_ID())) {
                         if (acceso.getNINTENTOS() == null) {
                             acceso.setNINTENTOS(BigDecimal.ONE);
@@ -100,20 +98,21 @@ public class LoginServiceImpl implements LoginService {
                     }
                     throw new LoginFailureException(errorMessage.toString());
                 } else {
-                    acceso.setNINTENTOS(BigDecimal.ZERO);
-                    acceso.setULTIMOACCESO(Calendar.getInstance().getTime());
-                    recAccesoMapper.updateIntentos(acceso);
-                    HttpSession session = request.getSession(true);
-                    session.setMaxInactiveInterval(60 * SESSION_DEFAULT_TIMEOUT);
-                    session.setAttribute("userData", map(acceso));
-                    session.setAttribute("userMainPage", "index.xhtml");
-                    Cookie cookie = new Cookie("JSESSIONID", session.getId());
-                    cookie.setMaxAge(60 * SESSION_DEFAULT_TIMEOUT);
-                    cookie.setSecure(true);
-                    response.addCookie(cookie);
-                }
-            }else{
-                    throw new UserAlreadyLoggedException();
+                    if(isValidUserToLogin(user)){
+                        acceso.setNINTENTOS(BigDecimal.ZERO);
+                        acceso.setULTIMOACCESO(Calendar.getInstance().getTime());
+                        recAccesoMapper.updateIntentos(acceso);
+                        HttpSession session = request.getSession(true);
+                        session.setMaxInactiveInterval(60 * SESSION_DEFAULT_TIMEOUT);
+                        session.setAttribute("userData", map(acceso));
+                        session.setAttribute("userMainPage", "index.xhtml");
+                        Cookie cookie = new Cookie("JSESSIONID", session.getId());
+                        cookie.setMaxAge(60 * SESSION_DEFAULT_TIMEOUT);
+                        cookie.setSecure(true);
+                        response.addCookie(cookie);
+                    }else{
+                        throw new UserAlreadyLoggedException();
+                    }
                 }
             }
 

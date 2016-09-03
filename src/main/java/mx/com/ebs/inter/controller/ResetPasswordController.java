@@ -30,7 +30,7 @@ import static mx.com.ebs.inter.util.mail.EmailProperties.EMAIL_PASSWORD_CONTENT;
 public class ResetPasswordController extends AbstractAutowirableServlet {
 
     private static final Logger LOGGER = Logger.getLogger(ResetPasswordController.class);
-    private static final int DEFAULT_PASSWORD_SIZE=8;
+    private static final int DEFAULT_PASSWORD_SIZE=12;
 
     @Autowired
     private RecAccesoService recAccesoService;

@@ -42,7 +42,7 @@ import static mx.com.ebs.inter.util.mail.EmailProperties.EMAIL_PASSWORD_CONTENT;
 public class RecAccesoBean extends AbstractBean<RecAcceso> implements Serializable{
 
     private static final Logger LOGGER = Logger.getLogger(RecAccesoBean.class);
-    private static final int DEFAULT_PASSWORD_SIZE=8;
+    private static final int DEFAULT_PASSWORD_SIZE=12;
     private static final List<String> USUARIOS_INTERNOS = new ArrayList<String>();
     static{
         USUARIOS_INTERNOS.add("ADMINISTRADORGRAL");
